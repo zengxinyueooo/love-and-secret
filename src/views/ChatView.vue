@@ -1,0 +1,198 @@
+<template>
+  <div class="h-[calc(100vh-64px)] flex flex-col relative overflow-hidden bg-white">
+    <!-- 用户自定义背景图片 -->
+    <div
+      v-if="settingsStore.settings.backgroundConfig.chatBackground"
+      class="absolute inset-0 bg-cover bg-center bg-no-repeat"
+      :style="{
+        backgroundImage: `url(${settingsStore.settings.backgroundConfig.chatBackground})`,
+        opacity: settingsStore.settings.backgroundConfig.chatBackgroundOpacity
+      }"
+    />
+
+    <!-- 内容区域 -->
+    <div class="relative z-10 h-full flex flex-col bg-transparent">
+      <!-- 消息列表区域 -->
+      <div ref="messagesContainer" class="flex-1 overflow-y-auto px-3 py-3 md:px-6 md:py-4">
+      <div v-if="chatStore.messages.length === 0" class="h-full flex items-center justify-center">
+        <div class="text-center">
+          <div class="text-6xl mb-4">❄️</div>
+          <h2 class="text-2xl font-bold text-gray-700 mb-2">与黎深的对话</h2>
+          <p class="text-gray-500">开始和黎深聊天吧~</p>
+        </div>
+      </div>
+
+      <div
+        v-for="message in chatStore.messages"
+        :key="message.id"
+        class="relative"
+      >
+        <MessageBubble :message="message" />
+        <MagicDust v-if="message.role === 'assistant'" :trigger="message.id === lastMessageId" />
+      </div>
+
+      <!-- 加载中指示器：仅在等待第一个chunk时显示 -->
+      <div v-if="isWaiting" class="flex justify-start mb-4">
+        <div class="flex-shrink-0 mr-3">
+          <img
+            v-if="settingsStore.settings.avatarConfig.assistantAvatar"
+            :src="settingsStore.settings.avatarConfig.assistantAvatar"
+            class="w-10 h-10 rounded-full object-cover"
+          />
+          <div v-else class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white text-xl">
+            ❄️
+          </div>
+        </div>
+        <div class="bg-white px-4 py-3 rounded-lg shadow-md border border-gray-200">
+          <div class="flex space-x-2">
+            <div class="w-2 h-2 bg-primary rounded-full animate-bounce"></div>
+            <div class="w-2 h-2 bg-primary rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
+            <div class="w-2 h-2 bg-primary rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+          </div>
+        </div>
+      </div>
+      </div>
+
+      <!-- 清空对话和更换背景按钮 -->
+      <div class="px-6 py-2 flex justify-between items-center">
+        <button
+          v-if="chatStore.messages.length > 0"
+          @click="handleClearChat"
+          class="text-sm text-gray-500 hover:text-red-500 transition-colors"
+        >
+          🗑️ 清空对话
+        </button>
+        <button
+          @click="showUploadModal = true"
+          class="text-sm text-gray-500 hover:text-primary transition-colors ml-auto"
+        >
+          🖼️ 更换背景
+        </button>
+      </div>
+
+      <!-- 输入区域 -->
+      <ChatInput :disabled="chatStore.isLoading" @send="handleSendMessage" />
+    </div>
+
+    <!-- 上传背景图片弹窗 -->
+    <UploadBackgroundModal
+      v-model="showUploadModal"
+      type="chat"
+      @upload="handleUploadBackground"
+    />
+  </div>
+</template>
+
+<script setup lang="ts">
+import { ref, onMounted, nextTick, watch, computed } from 'vue'
+import { useChatStore } from '../stores/chat'
+import { useSettingsStore } from '../stores/settings'
+import MessageBubble from '../components/Chat/MessageBubble.vue'
+import ChatInput from '../components/Chat/ChatInput.vue'
+import UploadBackgroundModal from '../components/Common/UploadBackgroundModal.vue'
+import MagicDust from '../components/Chat/MagicDust.vue'
+import { sendChatMessageStream } from '../utils/api'
+
+const chatStore = useChatStore()
+const settingsStore = useSettingsStore()
+const messagesContainer = ref<HTMLElement | null>(null)
+const showUploadModal = ref(false)
+// 仅在等待第一个chunk时为true，收到内容后立即变false
+const isWaiting = ref(false)
+
+// 获取最后一条消息的ID，用于触发特效
+const lastMessageId = computed(() => {
+  const messages = chatStore.messages
+  return messages.length > 0 ? messages[messages.length - 1].id : ''
+})
+
+onMounted(() => {
+  chatStore.loadMessages()
+  settingsStore.loadSettings()
+  scrollToBottom()
+})
+
+// 监听消息变化,自动滚动到底部
+watch(
+  () => chatStore.messages.length,
+  () => {
+    nextTick(() => {
+      scrollToBottom()
+    })
+  }
+)
+
+const scrollToBottom = () => {
+  if (messagesContainer.value) {
+    messagesContainer.value.scrollTop = messagesContainer.value.scrollHeight
+  }
+}
+
+const handleSendMessage = async (message: string) => {
+  // 添加用户消息
+  chatStore.addMessage(message, 'user')
+
+  // 检查API配置
+  if (!settingsStore.settings.apiConfig.apiKey) {
+    chatStore.addMessage('请先在设置页面配置API Key', 'assistant')
+    return
+  }
+
+  chatStore.isLoading = true
+  isWaiting.value = true
+
+  // 构建消息历史（发送前先取，避免包含占位消息）
+  const historyMessages = chatStore.messages.slice(-10).map((m) => ({
+    role: m.role as 'user' | 'assistant',
+    content: m.content
+  }))
+  const messages = [
+    { role: 'system' as const, content: settingsStore.settings.systemPrompt },
+    ...historyMessages
+  ]
+
+  // 添加空的助手消息占位，用于流式填充
+  chatStore.addMessage('', 'assistant')
+
+  try {
+    // 流式调用API，每个chunk追加到最后一条消息
+    await sendChatMessageStream(
+      settingsStore.settings.apiConfig.model,
+      settingsStore.settings.apiConfig.apiKey,
+      messages,
+      (text) => {
+        // 收到第一个chunk，隐藏等待动画
+        if (isWaiting.value) isWaiting.value = false
+        chatStore.appendToLastMessage(text)
+        nextTick(() => scrollToBottom())
+      },
+      settingsStore.settings.apiConfig.baseUrl
+    )
+  } catch (error: any) {
+    console.error('发送消息失败:', error)
+    const last = chatStore.messages[chatStore.messages.length - 1]
+    if (last?.role === 'assistant' && !last.content) {
+      last.content = `抱歉，发生了错误: ${error.message || '未知错误'}`
+    } else {
+      chatStore.addMessage(`抱歉，发生了错误: ${error.message || '未知错误'}`, 'assistant')
+    }
+  } finally {
+    chatStore.isLoading = false
+    isWaiting.value = false
+  }
+}
+
+const handleClearChat = () => {
+  if (confirm('确定要清空所有对话记录吗?')) {
+    chatStore.clearMessages()
+  }
+}
+
+const handleUploadBackground = (imageData: string, opacity?: number) => {
+  settingsStore.updateChatBackground(imageData || undefined)
+  if (opacity !== undefined) {
+    settingsStore.updateChatBackgroundOpacity(opacity)
+  }
+}
+</script>
+
