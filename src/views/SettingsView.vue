@@ -262,7 +262,10 @@ const testResult = ref<{ success: boolean; message: string } | null>(null)
 
 onMounted(() => {
   settingsStore.loadSettings()
-  apiConfig.value = { ...settingsStore.settings.apiConfig }
+  apiConfig.value = {
+    ...settingsStore.settings.apiConfig,
+    baseUrl: settingsStore.settings.apiConfig.baseUrl ?? ''
+  }
   systemPrompt.value = settingsStore.settings.systemPrompt
 })
 

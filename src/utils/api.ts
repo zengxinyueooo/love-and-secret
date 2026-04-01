@@ -64,7 +64,7 @@ function buildRequestBody(model: AIModel, messages: ChatMessage[], stream: boole
 /**
  * 构建请求头
  */
-function buildHeaders(model: AIModel, apiKey: string) {
+function buildHeaders(model: AIModel, apiKey: string): Record<string, string> {
   if (model === 'claude') {
     return {
       'Content-Type': 'application/json',
