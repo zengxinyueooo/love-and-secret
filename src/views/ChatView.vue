@@ -128,6 +128,7 @@ import ChatInput from '../components/Chat/ChatInput.vue'
 import UploadBackgroundModal from '../components/Common/UploadBackgroundModal.vue'
 import MagicDust from '../components/Chat/MagicDust.vue'
 import { sendChatMessageStream } from '../utils/api'
+import { streamChat, resolveLLMTarget } from '../utils/backend'
 
 const chatStore = useChatStore()
 const settingsStore = useSettingsStore()
@@ -165,17 +166,72 @@ const scrollToBottom = () => {
 }
 
 const handleSendMessage = async (message: string) => {
-  // 确保有活跃会话（懒创建，标题取首条消息）
-  await chatStore.ensureConversation(message)
-
-  // 添加用户消息
-  chatStore.addMessage(message, 'user')
-
   // 检查API配置
   if (!settingsStore.settings.apiConfig.apiKey) {
     chatStore.addMessage('请先在设置页面配置API Key', 'assistant')
     return
   }
+
+  // M2：后端在线 + 供应商兼容 OpenAI 协议 → 走服务端（七层 Context 装配 + 落库 + 流式返回）
+  const target = resolveLLMTarget(
+    settingsStore.settings.apiConfig.model,
+    settingsStore.settings.apiConfig.baseUrl,
+  )
+  if (chatStore.backendOnline && target) {
+    await sendViaBackend(message, target)
+    return
+  }
+
+  await sendViaDirect(message)
+}
+
+/** 服务端路径：Context 装配、LLM 调用、消息持久化全部在服务端完成 */
+const sendViaBackend = async (message: string, target: { baseUrl: string; model: string }) => {
+  await chatStore.ensureConversation(message, settingsStore.settings.systemPrompt)
+  if (!chatStore.activeConversationId) {
+    chatStore.addMessage('会话创建失败，请稍后重试', 'assistant')
+    return
+  }
+  // 用户消息本地展示（服务端 chat 端点会落库，前端不再重复持久化）
+  chatStore.addMessage(message, 'user', false)
+
+  chatStore.isLoading = true
+  isWaiting.value = true
+  chatStore.beginAssistantMessage()
+
+  try {
+    await streamChat(
+      chatStore.activeConversationId,
+      message,
+      { apiKey: settingsStore.settings.apiConfig.apiKey, target },
+      (text) => {
+        if (isWaiting.value) isWaiting.value = false
+        chatStore.appendToLastMessage(text)
+        nextTick(() => scrollToBottom())
+      },
+    )
+    // 服务端已持久化，前端无需 commit
+  } catch (error: any) {
+    console.error('服务端聊天失败:', error)
+    const last = chatStore.messages[chatStore.messages.length - 1]
+    if (last?.role === 'assistant') {
+      if (!last.content) last.content = `抱歉，发生了错误: ${error.message || '未知错误'}`
+      else last.content += `\n\n(发生错误: ${error.message || '未知错误'})`
+    } else {
+      chatStore.addMessage(`抱歉，发生了错误: ${error.message || '未知错误'}`, 'assistant', false)
+    }
+  } finally {
+    chatStore.isLoading = false
+    isWaiting.value = false
+  }
+}
+
+/** 直连降级路径：后端离线或供应商协议不兼容（claude/wenxin）时走浏览器直调 LLM */
+const sendViaDirect = async (message: string) => {
+  await chatStore.ensureConversation(message, settingsStore.settings.systemPrompt)
+
+  // 添加用户消息
+  chatStore.addMessage(message, 'user')
 
   chatStore.isLoading = true
   isWaiting.value = true

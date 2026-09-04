@@ -17,6 +17,8 @@ export const conversations = pgTable('conversations', {
   title: text('title').notNull().default('新的对话'),
   /** 关联的角色卡 id（前端 persona 定义） */
   personaId: text('persona_id'),
+  /** L0 人设层：服务端保存的本会话 system prompt（Context 装配的固定第一层） */
+  systemPrompt: text('system_prompt'),
   /** 累计对话轮数（user+assistant 各算 1 条 message，一轮 = 2 条） */
   turnCount: integer('turn_count').notNull().default(0),
   createdAt: timestamp('created_at', { withTimezone: true })

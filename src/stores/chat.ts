@@ -125,18 +125,29 @@ export const useChatStore = defineStore('chat', () => {
     }
   }
 
-  /** 发送前确保有活跃会话（懒创建，避免一堆空白会话） */
-  const ensureConversation = async (firstMessage: string) => {
+  /** 发送前确保有活跃会话（懒创建，避免一堆空白会话）。systemPrompt 为 M2 人设层，落到服务端 */
+  const ensureConversation = async (firstMessage: string, systemPrompt?: string) => {
     if (!backendOnline.value) return
     if (!activeConversationId.value) {
       const title = firstMessage.slice(0, 24) + (firstMessage.length > 24 ? '…' : '')
-      await createConversation(title || '新的对话')
+      const conv = await backend.createConversation({
+        title: title || '新的对话',
+        systemPrompt,
+      })
+      conversations.value.unshift(conv)
+      activeConversationId.value = conv.id
+      localStorage.setItem('active_conversation', conv.id)
     }
   }
 
   // ---------- 消息写入 ----------
   // 添加消息（本地即时 + 后端异步持久化），返回消息id
-  const addMessage = (content: string, role: 'user' | 'assistant'): string => {
+  // persist=false：后端 chat 端点模式下由服务端统一落库，前端只做本地展示
+  const addMessage = (
+    content: string,
+    role: 'user' | 'assistant',
+    persist = true,
+  ): string => {
     const message: Message = {
       id: `local-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
       content,
@@ -145,7 +156,7 @@ export const useChatStore = defineStore('chat', () => {
     }
     messages.value.push(message)
 
-    if (backendOnline.value && activeConversationId.value) {
+    if (persist && backendOnline.value && activeConversationId.value) {
       // 后端写入失败不阻断聊天，静默降级
       backend
         .createMessage(activeConversationId.value, { role, content })
@@ -188,11 +199,11 @@ export const useChatStore = defineStore('chat', () => {
     }, 500)
   }
 
-  /** 流式结束后持久化最后一条助手消息 */
-  const commitLastMessage = () => {
+  /** 流式结束后持久化最后一条助手消息（persist=false：服务端 chat 端点已落库） */
+  const commitLastMessage = (persist = true) => {
     const last = messages.value[messages.value.length - 1]
     if (!last || last.role !== 'assistant') return
-    if (backendOnline.value && activeConversationId.value) {
+    if (persist && backendOnline.value && activeConversationId.value) {
       backend
         .createMessage(activeConversationId.value, {
           role: 'assistant',

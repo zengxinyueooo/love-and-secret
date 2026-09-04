@@ -24,6 +24,7 @@ app.post(
     z.object({
       title: z.string().max(200).optional(),
       personaId: z.string().max(100).optional(),
+      systemPrompt: z.string().max(20000).optional(),
     }),
   ),
   async (c) => {
@@ -33,6 +34,7 @@ app.post(
       .values({
         title: body.title ?? '新的对话',
         personaId: body.personaId,
+        systemPrompt: body.systemPrompt,
       })
       .returning()
     return c.json(row, 201)
@@ -58,6 +60,7 @@ app.patch(
     z.object({
       title: z.string().min(1).max(200).optional(),
       personaId: z.string().max(100).optional(),
+      systemPrompt: z.string().max(20000).optional(),
     }),
   ),
   async (c) => {
