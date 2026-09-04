@@ -12,6 +12,42 @@
 
     <!-- 内容区域 -->
     <div class="relative z-10 h-full flex flex-col bg-transparent">
+      <!-- 会话切换栏（后端在线时显示） -->
+      <div
+        v-if="chatStore.backendOnline"
+        class="px-3 py-2 md:px-6 flex items-center gap-2 border-b border-gray-100/80 bg-white/60 backdrop-blur-sm"
+      >
+        <select
+          :value="chatStore.activeConversationId ?? ''"
+          @change="handleSwitchConversation"
+          class="flex-1 min-w-0 max-w-xs text-sm text-gray-700 bg-transparent border border-gray-200 rounded-lg px-2 py-1.5 focus:outline-none focus:border-primary truncate"
+        >
+          <option value="" disabled>选择对话…</option>
+          <option v-for="c in chatStore.conversations" :key="c.id" :value="c.id">
+            {{ c.title }}
+          </option>
+        </select>
+        <button
+          @click="handleNewConversation"
+          class="text-sm text-gray-500 hover:text-primary transition-colors whitespace-nowrap"
+          title="开始新对话"
+        >
+          ✚ 新对话
+        </button>
+        <span
+          v-if="!chatStore.activeConversationId"
+          class="text-xs text-gray-400"
+        >尚未创建对话，发送第一条消息即开始</span>
+      </div>
+
+      <!-- 后端离线提示 -->
+      <div
+        v-else
+        class="px-3 py-1.5 md:px-6 text-xs text-amber-600 bg-amber-50 border-b border-amber-100"
+      >
+        ⚠️ 后端服务未连接（localhost:8787），当前为本地存储模式，仅保留最近对话
+      </div>
+
       <!-- 消息列表区域 -->
       <div ref="messagesContainer" class="flex-1 overflow-y-auto px-3 py-3 md:px-6 md:py-4">
       <div v-if="chatStore.messages.length === 0" class="h-full flex items-center justify-center">
@@ -106,8 +142,8 @@ const lastMessageId = computed(() => {
   return messages.length > 0 ? messages[messages.length - 1].id : ''
 })
 
-onMounted(() => {
-  chatStore.loadMessages()
+onMounted(async () => {
+  await chatStore.init()
   settingsStore.loadSettings()
   scrollToBottom()
 })
@@ -129,6 +165,9 @@ const scrollToBottom = () => {
 }
 
 const handleSendMessage = async (message: string) => {
+  // 确保有活跃会话（懒创建，标题取首条消息）
+  await chatStore.ensureConversation(message)
+
   // 添加用户消息
   chatStore.addMessage(message, 'user')
 
@@ -152,7 +191,7 @@ const handleSendMessage = async (message: string) => {
   ]
 
   // 添加空的助手消息占位，用于流式填充
-  chatStore.addMessage('', 'assistant')
+  chatStore.beginAssistantMessage()
 
   try {
     // 流式调用API，每个chunk追加到最后一条消息
@@ -168,23 +207,54 @@ const handleSendMessage = async (message: string) => {
       },
       settingsStore.settings.apiConfig.baseUrl
     )
+    // 流结束，持久化完整的助手消息
+    chatStore.commitLastMessage()
   } catch (error: any) {
     console.error('发送消息失败:', error)
     const last = chatStore.messages[chatStore.messages.length - 1]
-    if (last?.role === 'assistant' && !last.content) {
-      last.content = `抱歉，发生了错误: ${error.message || '未知错误'}`
+    if (last?.role === 'assistant') {
+      if (!last.content) {
+        last.content = `抱歉，发生了错误: ${error.message || '未知错误'}`
+      } else {
+        last.content += `\n\n(发生错误: ${error.message || '未知错误'})`
+      }
     } else {
       chatStore.addMessage(`抱歉，发生了错误: ${error.message || '未知错误'}`, 'assistant')
     }
+    chatStore.commitLastMessage()
   } finally {
     chatStore.isLoading = false
     isWaiting.value = false
   }
 }
 
+const handleSwitchConversation = (e: Event) => {
+  const id = (e.target as HTMLSelectElement).value
+  if (id && id !== chatStore.activeConversationId) {
+    chatStore.switchConversation(id)
+  }
+}
+
+const handleNewConversation = async () => {
+  if (chatStore.isLoading) return
+  if (
+    chatStore.messages.length > 0 &&
+    !confirm('开始新对话？当前对话会保留在列表中')
+  ) {
+    return
+  }
+  await chatStore.createConversation('新的对话')
+}
+
 const handleClearChat = () => {
-  if (confirm('确定要清空所有对话记录吗?')) {
-    chatStore.clearMessages()
+  if (chatStore.backendOnline) {
+    if (confirm('确定要删除当前对话吗？删除后无法恢复。')) {
+      chatStore.clearMessages()
+    }
+  } else {
+    if (confirm('确定要清空所有对话记录吗?')) {
+      chatStore.clearMessages()
+    }
   }
 }
 
