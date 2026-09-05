@@ -61,6 +61,17 @@ export interface ContextTrace {
   elapsedMs: number
   /** 装配器版本（评测对比用） */
   version: string
+  /** L5 检索命中明细（M6：用于 Trace 面板可视化） */
+  retrievedItems?: Array<{
+    id: string
+    kind: 'fact' | 'episode' | 'emotion' | 'event'
+    content: string
+    importance: number
+    score: number
+    source: 'vector' | 'text' | 'both'
+  }>
+  /** L5 检索 trace（M6：用于显示通道命中数等可观测数据） */
+  retrievalStats?: { hits: number; durationMs: number; vectorEnabled: boolean }
 }
 
 export interface AssembledContext {
@@ -204,6 +215,14 @@ export async function assembleContext(
   //   - 失败时降级为空字符串（不阻塞对话流）
   //   - 检索不到任何东西时返回 null（不浪费 prompt 预算）
   let retrievedText: string | null = null
+  let retrievedItems: Array<{
+    id: string
+    kind: 'fact' | 'episode' | 'emotion' | 'event'
+    content: string
+    importance: number
+    score: number
+    source: 'vector' | 'text' | 'both'
+  }> = []
   let retrievalTrace: { hits: number; durationMs: number; vectorEnabled: boolean } | null = null
   try {
     const { items, trace } = await searchMemories(userMessage, conversationId)
@@ -216,6 +235,14 @@ export async function assembleContext(
       retrievedText = items
         .map((m) => `[${m.kind}] ${m.content}`)
         .join('\n')
+      retrievedItems = items.map((m) => ({
+        id: m.id,
+        kind: m.kind,
+        content: m.content,
+        importance: m.importance,
+        score: m.score,
+        source: m.source,
+      }))
     }
   } catch (err) {
     console.warn('[context-assembler] 检索失败（已降级为空）:', err instanceof Error ? err.message : err)
@@ -275,7 +302,9 @@ export async function assembleContext(
     recentMessageIds: windowMessages.length ? recent.slice(-windowMessages.length).map((m) => m.id) : [],
     totalChars: systemPrompt.length + recentChars + userMessage.length,
     elapsedMs: Date.now() - started,
-    version: 'ctx-assembler/0.4',
+    version: 'ctx-assembler/0.5',
+    retrievedItems: retrievedItems.length > 0 ? retrievedItems : undefined,
+    retrievalStats: retrievalTrace ?? undefined,
   }
 
   return {

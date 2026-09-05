@@ -68,6 +68,7 @@ const mobileMenuOpen = ref(false)
 const navItems = [
   { name: '主页', path: '/', icon: '🏠' },
   { name: '对话', path: '/chat', icon: '💬' },
+  { name: 'Trace', path: '/trace', icon: '🛰️' },
   { name: '卡面收藏', path: '/cards', icon: '🎴' },
   { name: '回忆时间线', path: '/timeline', icon: '📝' },
   { name: '元素图鉴', path: '/elements', icon: '✨' },

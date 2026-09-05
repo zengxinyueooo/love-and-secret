@@ -65,3 +65,41 @@ export interface Settings {
   backgroundConfig: BackgroundConfig
   avatarConfig: AvatarConfig
 }
+
+/** ============== Trace 面板（M6） ============== */
+
+export interface TraceLayer {
+  layer: string
+  chars: number
+  source: string
+  injected: boolean
+}
+
+export interface ContextTrace {
+  layers: TraceLayer[]
+  recentMessageIds: string[]
+  totalChars: number
+  elapsedMs: number
+  version: string
+  llm?: { model: string; retries: number; elapsedMs: number }
+  /** L5 检索到的记忆条目（来自 L5 injected 后的 query 上下文） */
+  retrievedItems?: RetrievedMemoryItem[]
+}
+
+export interface RetrievedMemoryItem {
+  id: string
+  kind: 'fact' | 'episode' | 'emotion' | 'event'
+  content: string
+  importance: number
+  score: number
+  source: 'vector' | 'text' | 'both'
+}
+
+export interface TraceMessage {
+  id: string
+  role: 'user' | 'assistant'
+  content: string
+  turnIndex: number
+  createdAt: string
+  meta?: { trace?: ContextTrace; extraction?: unknown; error?: unknown }
+}

@@ -1,0 +1,1386 @@
+{
+  "meta": {
+    "conversationId": "83534888-7350-4ec7-a150-ee363aecbf07",
+    "baseUrl": "http://localhost:8787",
+    "topK": 8,
+    "totalQueries": 28,
+    "totalDurationMs": 59514,
+    "timestamp": "2026-09-05T14:21:40.951Z"
+  },
+  "aggregate": {
+    "overall": {
+      "n": 28,
+      "recallAt5": 0.7738095238095238,
+      "recallAt8": 1,
+      "precisionAt5": 0.28571428571428586,
+      "precisionAt8": 0.2544642857142857,
+      "ndcgAt8": 0.8083019717811163,
+      "mrr": 0.8214285714285714,
+      "avgDurationMs": 2125.1071428571427
+    },
+    "byCategory": {
+      "keyword": {
+        "n": 6,
+        "recallAt5": 0.9444444444444443,
+        "recallAt8": 1,
+        "precisionAt5": 0.36666666666666664,
+        "precisionAt8": 0.25,
+        "ndcgAt8": 0.9858723473606958,
+        "mrr": 1
+      },
+      "semantic": {
+        "n": 7,
+        "recallAt5": 0.6190476190476192,
+        "recallAt8": 1,
+        "precisionAt5": 0.2571428571428571,
+        "precisionAt8": 0.26785714285714285,
+        "ndcgAt8": 0.7662031896140189,
+        "mrr": 0.8095238095238094
+      },
+      "emotion": {
+        "n": 6,
+        "recallAt5": 0.5555555555555555,
+        "recallAt8": 1,
+        "precisionAt5": 0.3,
+        "precisionAt8": 0.3541666666666667,
+        "ndcgAt8": 0.6797860131412564,
+        "mrr": 0.7222222222222223
+      },
+      "cross": {
+        "n": 5,
+        "recallAt5": 0.8666666666666666,
+        "recallAt8": 1,
+        "precisionAt5": 0.31999999999999995,
+        "precisionAt8": 0.25,
+        "ndcgAt8": 0.7263520622461554,
+        "mrr": 0.7
+      },
+      "negative": {
+        "n": 4,
+        "recallAt5": 1,
+        "recallAt8": 1,
+        "precisionAt5": 0.15000000000000002,
+        "precisionAt8": 0.09375,
+        "ndcgAt8": 0.9108306020826582,
+        "mrr": 0.875
+      }
+    }
+  },
+  "perQuery": [
+    {
+      "id": "kw-penguin",
+      "query": "企鹅",
+      "category": "keyword",
+      "expectedIds": [
+        "6169256a-278b-4814-a794-98d067d7c3bc",
+        "69d319d7-5d27-4b01-8dcf-22a046603206"
+      ],
+      "retrievedIds": [
+        "6169256a-278b-4814-a794-98d067d7c3bc",
+        "69d319d7-5d27-4b01-8dcf-22a046603206",
+        "4f61d97b-61b8-4d61-beec-ae985bb675c9",
+        "efa487bc-70b3-46a3-991c-aee7938f1b38",
+        "8b7f5779-5a49-41ac-bfc5-0ad7f853cda3",
+        "1003a13b-5590-4bb7-a320-6293b733b51a",
+        "445e123d-57dc-443b-a9c4-9e328d0c0b9c",
+        "5e80eadc-94d7-4c63-ab29-a4e2ef51c0c3"
+      ],
+      "hitMask": [
+        true,
+        true,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "trace": {
+        "query": "企鹅",
+        "vectorHits": 8,
+        "textHits": 2,
+        "rrfTopK": 8,
+        "durationMs": 6880,
+        "embeddingAvailable": true
+      },
+      "durationMs": 7084,
+      "metrics": {
+        "recallAt5": 1,
+        "recallAt8": 1,
+        "precisionAt5": 0.4,
+        "precisionAt8": 0.25,
+        "ndcgAt8": 1,
+        "mrr": 1
+      },
+      "note": "两条企鹅相关记忆；按内容丰富度，笑话在前"
+    },
+    {
+      "id": "kw-pastlife",
+      "query": "前世",
+      "category": "keyword",
+      "expectedIds": [
+        "1003a13b-5590-4bb7-a320-6293b733b51a",
+        "4f61d97b-61b8-4d61-beec-ae985bb675c9",
+        "5e80eadc-94d7-4c63-ab29-a4e2ef51c0c3"
+      ],
+      "retrievedIds": [
+        "1003a13b-5590-4bb7-a320-6293b733b51a",
+        "4f61d97b-61b8-4d61-beec-ae985bb675c9",
+        "efa487bc-70b3-46a3-991c-aee7938f1b38",
+        "69d319d7-5d27-4b01-8dcf-22a046603206",
+        "8b7f5779-5a49-41ac-bfc5-0ad7f853cda3",
+        "6169256a-278b-4814-a794-98d067d7c3bc",
+        "5e80eadc-94d7-4c63-ab29-a4e2ef51c0c3",
+        "445e123d-57dc-443b-a9c4-9e328d0c0b9c"
+      ],
+      "hitMask": [
+        true,
+        true,
+        false,
+        false,
+        false,
+        false,
+        true,
+        false
+      ],
+      "trace": {
+        "query": "前世",
+        "vectorHits": 8,
+        "textHits": 2,
+        "rrfTopK": 8,
+        "durationMs": 2000,
+        "embeddingAvailable": true
+      },
+      "durationMs": 2028,
+      "metrics": {
+        "recallAt5": 0.6666666666666666,
+        "recallAt8": 1,
+        "precisionAt5": 0.4,
+        "precisionAt8": 0.375,
+        "ndcgAt8": 0.9649996673743393,
+        "mrr": 1
+      },
+      "note": "前世相关：九黎司命(直接)→宿命观念(事实)→跨越很久(相关)"
+    },
+    {
+      "id": "kw-hospital",
+      "query": "医院",
+      "category": "keyword",
+      "expectedIds": [
+        "efa487bc-70b3-46a3-991c-aee7938f1b38"
+      ],
+      "retrievedIds": [
+        "efa487bc-70b3-46a3-991c-aee7938f1b38",
+        "4f61d97b-61b8-4d61-beec-ae985bb675c9",
+        "8b7f5779-5a49-41ac-bfc5-0ad7f853cda3",
+        "69d319d7-5d27-4b01-8dcf-22a046603206",
+        "6169256a-278b-4814-a794-98d067d7c3bc",
+        "1003a13b-5590-4bb7-a320-6293b733b51a",
+        "5e80eadc-94d7-4c63-ab29-a4e2ef51c0c3",
+        "445e123d-57dc-443b-a9c4-9e328d0c0b9c"
+      ],
+      "hitMask": [
+        true,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "trace": {
+        "query": "医院",
+        "vectorHits": 8,
+        "textHits": 1,
+        "rrfTopK": 8,
+        "durationMs": 1989,
+        "embeddingAvailable": true
+      },
+      "durationMs": 2004,
+      "metrics": {
+        "recallAt5": 1,
+        "recallAt8": 1,
+        "precisionAt5": 0.2,
+        "precisionAt8": 0.125,
+        "ndcgAt8": 1,
+        "mrr": 1
+      },
+      "note": "唯一直接提到医院的记忆"
+    },
+    {
+      "id": "kw-job",
+      "query": "找工作",
+      "category": "keyword",
+      "expectedIds": [
+        "8b7f5779-5a49-41ac-bfc5-0ad7f853cda3",
+        "6169256a-278b-4814-a794-98d067d7c3bc"
+      ],
+      "retrievedIds": [
+        "8b7f5779-5a49-41ac-bfc5-0ad7f853cda3",
+        "6169256a-278b-4814-a794-98d067d7c3bc",
+        "efa487bc-70b3-46a3-991c-aee7938f1b38",
+        "69d319d7-5d27-4b01-8dcf-22a046603206",
+        "4f61d97b-61b8-4d61-beec-ae985bb675c9",
+        "1003a13b-5590-4bb7-a320-6293b733b51a",
+        "5e80eadc-94d7-4c63-ab29-a4e2ef51c0c3",
+        "445e123d-57dc-443b-a9c4-9e328d0c0b9c"
+      ],
+      "hitMask": [
+        true,
+        true,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "trace": {
+        "query": "找工作",
+        "vectorHits": 8,
+        "textHits": 2,
+        "rrfTopK": 8,
+        "durationMs": 2280,
+        "embeddingAvailable": true
+      },
+      "durationMs": 2293,
+      "metrics": {
+        "recallAt5": 1,
+        "recallAt8": 1,
+        "precisionAt5": 0.4,
+        "precisionAt8": 0.25,
+        "ndcgAt8": 1,
+        "mrr": 1
+      },
+      "note": "两条都明确提到找工作"
+    },
+    {
+      "id": "kw-joke",
+      "query": "冷笑话",
+      "category": "keyword",
+      "expectedIds": [
+        "6169256a-278b-4814-a794-98d067d7c3bc",
+        "69d319d7-5d27-4b01-8dcf-22a046603206"
+      ],
+      "retrievedIds": [
+        "6169256a-278b-4814-a794-98d067d7c3bc",
+        "69d319d7-5d27-4b01-8dcf-22a046603206",
+        "8b7f5779-5a49-41ac-bfc5-0ad7f853cda3",
+        "efa487bc-70b3-46a3-991c-aee7938f1b38",
+        "4f61d97b-61b8-4d61-beec-ae985bb675c9",
+        "1003a13b-5590-4bb7-a320-6293b733b51a",
+        "445e123d-57dc-443b-a9c4-9e328d0c0b9c",
+        "5e80eadc-94d7-4c63-ab29-a4e2ef51c0c3"
+      ],
+      "hitMask": [
+        true,
+        true,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "trace": {
+        "query": "冷笑话",
+        "vectorHits": 8,
+        "textHits": 1,
+        "rrfTopK": 8,
+        "durationMs": 2309,
+        "embeddingAvailable": true
+      },
+      "durationMs": 2323,
+      "metrics": {
+        "recallAt5": 1,
+        "recallAt8": 1,
+        "precisionAt5": 0.4,
+        "precisionAt8": 0.25,
+        "ndcgAt8": 1,
+        "mrr": 1
+      },
+      "note": "\"笑话\"在 penguinJoke，\"南极\"在 penguinAntarctica 借喻关心"
+    },
+    {
+      "id": "sem-anxiety",
+      "query": "我最近压力好大怎么办",
+      "category": "semantic",
+      "expectedIds": [
+        "8b7f5779-5a49-41ac-bfc5-0ad7f853cda3",
+        "6169256a-278b-4814-a794-98d067d7c3bc"
+      ],
+      "retrievedIds": [
+        "8b7f5779-5a49-41ac-bfc5-0ad7f853cda3",
+        "6169256a-278b-4814-a794-98d067d7c3bc",
+        "efa487bc-70b3-46a3-991c-aee7938f1b38",
+        "69d319d7-5d27-4b01-8dcf-22a046603206",
+        "4f61d97b-61b8-4d61-beec-ae985bb675c9",
+        "1003a13b-5590-4bb7-a320-6293b733b51a",
+        "445e123d-57dc-443b-a9c4-9e328d0c0b9c",
+        "5e80eadc-94d7-4c63-ab29-a4e2ef51c0c3"
+      ],
+      "hitMask": [
+        true,
+        true,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "trace": {
+        "query": "我最近压力好大怎么办",
+        "vectorHits": 8,
+        "textHits": 0,
+        "rrfTopK": 8,
+        "durationMs": 2072,
+        "embeddingAvailable": true
+      },
+      "durationMs": 2083,
+      "metrics": {
+        "recallAt5": 1,
+        "recallAt8": 1,
+        "precisionAt5": 0.4,
+        "precisionAt8": 0.25,
+        "ndcgAt8": 1,
+        "mrr": 1
+      },
+      "note": "\"压力\"≈焦虑情绪；期望命中焦虑相关两条"
+    },
+    {
+      "id": "sem-job-fail",
+      "query": "投了很多简历都没回音",
+      "category": "semantic",
+      "expectedIds": [
+        "8b7f5779-5a49-41ac-bfc5-0ad7f853cda3",
+        "6169256a-278b-4814-a794-98d067d7c3bc"
+      ],
+      "retrievedIds": [
+        "6169256a-278b-4814-a794-98d067d7c3bc",
+        "efa487bc-70b3-46a3-991c-aee7938f1b38",
+        "8b7f5779-5a49-41ac-bfc5-0ad7f853cda3",
+        "69d319d7-5d27-4b01-8dcf-22a046603206",
+        "4f61d97b-61b8-4d61-beec-ae985bb675c9",
+        "1003a13b-5590-4bb7-a320-6293b733b51a",
+        "445e123d-57dc-443b-a9c4-9e328d0c0b9c",
+        "5e80eadc-94d7-4c63-ab29-a4e2ef51c0c3"
+      ],
+      "hitMask": [
+        true,
+        false,
+        true,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "trace": {
+        "query": "投了很多简历都没回音",
+        "vectorHits": 8,
+        "textHits": 0,
+        "rrfTopK": 8,
+        "durationMs": 1569,
+        "embeddingAvailable": true
+      },
+      "durationMs": 1585,
+      "metrics": {
+        "recallAt5": 1,
+        "recallAt8": 1,
+        "precisionAt5": 0.4,
+        "precisionAt8": 0.25,
+        "ndcgAt8": 0.7601875334318685,
+        "mrr": 1
+      },
+      "note": "求职受挫场景，期望语义命中焦虑记忆"
+    },
+    {
+      "id": "sem-care-about",
+      "query": "你为什么对我这么好",
+      "category": "semantic",
+      "expectedIds": [
+        "69d319d7-5d27-4b01-8dcf-22a046603206",
+        "445e123d-57dc-443b-a9c4-9e328d0c0b9c",
+        "5e80eadc-94d7-4c63-ab29-a4e2ef51c0c3"
+      ],
+      "retrievedIds": [
+        "69d319d7-5d27-4b01-8dcf-22a046603206",
+        "8b7f5779-5a49-41ac-bfc5-0ad7f853cda3",
+        "efa487bc-70b3-46a3-991c-aee7938f1b38",
+        "4f61d97b-61b8-4d61-beec-ae985bb675c9",
+        "6169256a-278b-4814-a794-98d067d7c3bc",
+        "1003a13b-5590-4bb7-a320-6293b733b51a",
+        "445e123d-57dc-443b-a9c4-9e328d0c0b9c",
+        "5e80eadc-94d7-4c63-ab29-a4e2ef51c0c3"
+      ],
+      "hitMask": [
+        true,
+        false,
+        false,
+        false,
+        false,
+        false,
+        true,
+        true
+      ],
+      "trace": {
+        "query": "你为什么对我这么好",
+        "vectorHits": 8,
+        "textHits": 0,
+        "rrfTopK": 8,
+        "durationMs": 1695,
+        "embeddingAvailable": true
+      },
+      "durationMs": 1706,
+      "metrics": {
+        "recallAt5": 0.3333333333333333,
+        "recallAt8": 1,
+        "precisionAt5": 0.2,
+        "precisionAt8": 0.375,
+        "ndcgAt8": 0.8362555714798163,
+        "mrr": 1
+      },
+      "note": "\"为什么对我好\"=关心来源；期望命中关心类记忆"
+    },
+    {
+      "id": "sem-belly",
+      "query": "我心里很乱",
+      "category": "semantic",
+      "expectedIds": [
+        "8b7f5779-5a49-41ac-bfc5-0ad7f853cda3",
+        "445e123d-57dc-443b-a9c4-9e328d0c0b9c"
+      ],
+      "retrievedIds": [
+        "8b7f5779-5a49-41ac-bfc5-0ad7f853cda3",
+        "efa487bc-70b3-46a3-991c-aee7938f1b38",
+        "6169256a-278b-4814-a794-98d067d7c3bc",
+        "69d319d7-5d27-4b01-8dcf-22a046603206",
+        "4f61d97b-61b8-4d61-beec-ae985bb675c9",
+        "1003a13b-5590-4bb7-a320-6293b733b51a",
+        "5e80eadc-94d7-4c63-ab29-a4e2ef51c0c3",
+        "445e123d-57dc-443b-a9c4-9e328d0c0b9c"
+      ],
+      "hitMask": [
+        true,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        true
+      ],
+      "trace": {
+        "query": "我心里很乱",
+        "vectorHits": 8,
+        "textHits": 0,
+        "rrfTopK": 8,
+        "durationMs": 1733,
+        "embeddingAvailable": true
+      },
+      "durationMs": 1751,
+      "metrics": {
+        "recallAt5": 0.5,
+        "recallAt8": 1,
+        "precisionAt5": 0.2,
+        "precisionAt8": 0.25,
+        "ndcgAt8": 0.8800937667159342,
+        "mrr": 1
+      },
+      "note": "心情乱 → 焦虑 + 温柔安抚"
+    },
+    {
+      "id": "sem-night",
+      "query": "睡不着 有点想哭",
+      "category": "semantic",
+      "expectedIds": [
+        "efa487bc-70b3-46a3-991c-aee7938f1b38",
+        "445e123d-57dc-443b-a9c4-9e328d0c0b9c"
+      ],
+      "retrievedIds": [
+        "6169256a-278b-4814-a794-98d067d7c3bc",
+        "8b7f5779-5a49-41ac-bfc5-0ad7f853cda3",
+        "efa487bc-70b3-46a3-991c-aee7938f1b38",
+        "69d319d7-5d27-4b01-8dcf-22a046603206",
+        "4f61d97b-61b8-4d61-beec-ae985bb675c9",
+        "1003a13b-5590-4bb7-a320-6293b733b51a",
+        "5e80eadc-94d7-4c63-ab29-a4e2ef51c0c3",
+        "445e123d-57dc-443b-a9c4-9e328d0c0b9c"
+      ],
+      "hitMask": [
+        false,
+        false,
+        true,
+        false,
+        false,
+        false,
+        false,
+        true
+      ],
+      "trace": {
+        "query": "睡不着 有点想哭",
+        "vectorHits": 8,
+        "textHits": 0,
+        "rrfTopK": 8,
+        "durationMs": 2056,
+        "embeddingAvailable": true
+      },
+      "durationMs": 2066,
+      "metrics": {
+        "recallAt5": 0.5,
+        "recallAt8": 1,
+        "precisionAt5": 0.2,
+        "precisionAt8": 0.25,
+        "ndcgAt8": 0.5,
+        "mrr": 0.3333333333333333
+      },
+      "note": "深夜情绪崩溃 → 深夜陪伴记忆 + 温柔眷恋"
+    },
+    {
+      "id": "emo-romance",
+      "query": "你觉得我们算什么",
+      "category": "emotion",
+      "expectedIds": [
+        "5e80eadc-94d7-4c63-ab29-a4e2ef51c0c3",
+        "1003a13b-5590-4bb7-a320-6293b733b51a",
+        "445e123d-57dc-443b-a9c4-9e328d0c0b9c"
+      ],
+      "retrievedIds": [
+        "1003a13b-5590-4bb7-a320-6293b733b51a",
+        "4f61d97b-61b8-4d61-beec-ae985bb675c9",
+        "69d319d7-5d27-4b01-8dcf-22a046603206",
+        "efa487bc-70b3-46a3-991c-aee7938f1b38",
+        "8b7f5779-5a49-41ac-bfc5-0ad7f853cda3",
+        "6169256a-278b-4814-a794-98d067d7c3bc",
+        "5e80eadc-94d7-4c63-ab29-a4e2ef51c0c3",
+        "445e123d-57dc-443b-a9c4-9e328d0c0b9c"
+      ],
+      "hitMask": [
+        true,
+        false,
+        false,
+        false,
+        false,
+        false,
+        true,
+        true
+      ],
+      "trace": {
+        "query": "你觉得我们算什么",
+        "vectorHits": 8,
+        "textHits": 0,
+        "rrfTopK": 8,
+        "durationMs": 2037,
+        "embeddingAvailable": true
+      },
+      "durationMs": 2045,
+      "metrics": {
+        "recallAt5": 0.3333333333333333,
+        "recallAt8": 1,
+        "precisionAt5": 0.2,
+        "precisionAt8": 0.375,
+        "ndcgAt8": 0.6962542409771737,
+        "mrr": 1
+      },
+      "note": "\"我们算什么\"=关系定义；期望命中关系类记忆"
+    },
+    {
+      "id": "emo-trust",
+      "query": "我好像只在你面前才放松",
+      "category": "emotion",
+      "expectedIds": [
+        "445e123d-57dc-443b-a9c4-9e328d0c0b9c",
+        "5e80eadc-94d7-4c63-ab29-a4e2ef51c0c3",
+        "69d319d7-5d27-4b01-8dcf-22a046603206"
+      ],
+      "retrievedIds": [
+        "8b7f5779-5a49-41ac-bfc5-0ad7f853cda3",
+        "69d319d7-5d27-4b01-8dcf-22a046603206",
+        "efa487bc-70b3-46a3-991c-aee7938f1b38",
+        "6169256a-278b-4814-a794-98d067d7c3bc",
+        "4f61d97b-61b8-4d61-beec-ae985bb675c9",
+        "1003a13b-5590-4bb7-a320-6293b733b51a",
+        "5e80eadc-94d7-4c63-ab29-a4e2ef51c0c3",
+        "445e123d-57dc-443b-a9c4-9e328d0c0b9c"
+      ],
+      "hitMask": [
+        false,
+        true,
+        false,
+        false,
+        false,
+        false,
+        true,
+        true
+      ],
+      "trace": {
+        "query": "我好像只在你面前才放松",
+        "vectorHits": 8,
+        "textHits": 0,
+        "rrfTopK": 8,
+        "durationMs": 1722,
+        "embeddingAvailable": true
+      },
+      "durationMs": 1729,
+      "metrics": {
+        "recallAt5": 0.3333333333333333,
+        "recallAt8": 1,
+        "precisionAt5": 0.2,
+        "precisionAt8": 0.375,
+        "ndcgAt8": 0.47124259907904975,
+        "mrr": 0.5
+      },
+      "note": "信任/放松场景 → 深厚情感 + 长期相识 + 超出职业的关心"
+    },
+    {
+      "id": "emo-fate",
+      "query": "我们是不是命中注定的",
+      "category": "emotion",
+      "expectedIds": [
+        "4f61d97b-61b8-4d61-beec-ae985bb675c9",
+        "1003a13b-5590-4bb7-a320-6293b733b51a"
+      ],
+      "retrievedIds": [
+        "4f61d97b-61b8-4d61-beec-ae985bb675c9",
+        "1003a13b-5590-4bb7-a320-6293b733b51a",
+        "efa487bc-70b3-46a3-991c-aee7938f1b38",
+        "8b7f5779-5a49-41ac-bfc5-0ad7f853cda3",
+        "69d319d7-5d27-4b01-8dcf-22a046603206",
+        "6169256a-278b-4814-a794-98d067d7c3bc",
+        "5e80eadc-94d7-4c63-ab29-a4e2ef51c0c3",
+        "445e123d-57dc-443b-a9c4-9e328d0c0b9c"
+      ],
+      "hitMask": [
+        true,
+        true,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "trace": {
+        "query": "我们是不是命中注定的",
+        "vectorHits": 8,
+        "textHits": 0,
+        "rrfTopK": 8,
+        "durationMs": 1624,
+        "embeddingAvailable": true
+      },
+      "durationMs": 1631,
+      "metrics": {
+        "recallAt5": 1,
+        "recallAt8": 1,
+        "precisionAt5": 0.4,
+        "precisionAt8": 0.25,
+        "ndcgAt8": 1,
+        "mrr": 1
+      },
+      "note": "\"命中注定\"=宿命观念 + 前世缘分"
+    },
+    {
+      "id": "emo-miss",
+      "query": "我想你了",
+      "category": "emotion",
+      "expectedIds": [
+        "445e123d-57dc-443b-a9c4-9e328d0c0b9c",
+        "69d319d7-5d27-4b01-8dcf-22a046603206",
+        "5e80eadc-94d7-4c63-ab29-a4e2ef51c0c3"
+      ],
+      "retrievedIds": [
+        "efa487bc-70b3-46a3-991c-aee7938f1b38",
+        "8b7f5779-5a49-41ac-bfc5-0ad7f853cda3",
+        "69d319d7-5d27-4b01-8dcf-22a046603206",
+        "6169256a-278b-4814-a794-98d067d7c3bc",
+        "4f61d97b-61b8-4d61-beec-ae985bb675c9",
+        "1003a13b-5590-4bb7-a320-6293b733b51a",
+        "5e80eadc-94d7-4c63-ab29-a4e2ef51c0c3",
+        "445e123d-57dc-443b-a9c4-9e328d0c0b9c"
+      ],
+      "hitMask": [
+        false,
+        false,
+        true,
+        false,
+        false,
+        false,
+        true,
+        true
+      ],
+      "trace": {
+        "query": "我想你了",
+        "vectorHits": 8,
+        "textHits": 0,
+        "rrfTopK": 8,
+        "durationMs": 1932,
+        "embeddingAvailable": true
+      },
+      "durationMs": 1941,
+      "metrics": {
+        "recallAt5": 0.3333333333333333,
+        "recallAt8": 1,
+        "precisionAt5": 0.2,
+        "precisionAt8": 0.375,
+        "ndcgAt8": 0.4787474221511297,
+        "mrr": 0.3333333333333333
+      },
+      "note": "\"想你了\"=依恋 → 温柔眷恋 + 关心 + 长期相识"
+    },
+    {
+      "id": "emo-tired",
+      "query": "今天真的好累",
+      "category": "emotion",
+      "expectedIds": [
+        "8b7f5779-5a49-41ac-bfc5-0ad7f853cda3",
+        "efa487bc-70b3-46a3-991c-aee7938f1b38",
+        "445e123d-57dc-443b-a9c4-9e328d0c0b9c"
+      ],
+      "retrievedIds": [
+        "efa487bc-70b3-46a3-991c-aee7938f1b38",
+        "8b7f5779-5a49-41ac-bfc5-0ad7f853cda3",
+        "69d319d7-5d27-4b01-8dcf-22a046603206",
+        "6169256a-278b-4814-a794-98d067d7c3bc",
+        "4f61d97b-61b8-4d61-beec-ae985bb675c9",
+        "1003a13b-5590-4bb7-a320-6293b733b51a",
+        "445e123d-57dc-443b-a9c4-9e328d0c0b9c",
+        "5e80eadc-94d7-4c63-ab29-a4e2ef51c0c3"
+      ],
+      "hitMask": [
+        true,
+        true,
+        false,
+        false,
+        false,
+        false,
+        true,
+        false
+      ],
+      "trace": {
+        "query": "今天真的好累",
+        "vectorHits": 8,
+        "textHits": 0,
+        "rrfTopK": 8,
+        "durationMs": 2237,
+        "embeddingAvailable": true
+      },
+      "durationMs": 2243,
+      "metrics": {
+        "recallAt5": 0.6666666666666666,
+        "recallAt8": 1,
+        "precisionAt5": 0.4,
+        "precisionAt8": 0.375,
+        "ndcgAt8": 0.8874941790509379,
+        "mrr": 1
+      },
+      "note": "累可能是工作焦虑、深夜疲惫、寻求安慰"
+    },
+    {
+      "id": "cross-career-state",
+      "query": "我现在的事业怎么样了",
+      "category": "cross",
+      "expectedIds": [
+        "8b7f5779-5a49-41ac-bfc5-0ad7f853cda3",
+        "6169256a-278b-4814-a794-98d067d7c3bc"
+      ],
+      "retrievedIds": [
+        "efa487bc-70b3-46a3-991c-aee7938f1b38",
+        "8b7f5779-5a49-41ac-bfc5-0ad7f853cda3",
+        "69d319d7-5d27-4b01-8dcf-22a046603206",
+        "6169256a-278b-4814-a794-98d067d7c3bc",
+        "4f61d97b-61b8-4d61-beec-ae985bb675c9",
+        "1003a13b-5590-4bb7-a320-6293b733b51a",
+        "445e123d-57dc-443b-a9c4-9e328d0c0b9c",
+        "5e80eadc-94d7-4c63-ab29-a4e2ef51c0c3"
+      ],
+      "hitMask": [
+        false,
+        true,
+        false,
+        true,
+        false,
+        false,
+        false,
+        false
+      ],
+      "trace": {
+        "query": "我现在的事业怎么样了",
+        "vectorHits": 8,
+        "textHits": 0,
+        "rrfTopK": 8,
+        "durationMs": 1678,
+        "embeddingAvailable": true
+      },
+      "durationMs": 1684,
+      "metrics": {
+        "recallAt5": 1,
+        "recallAt8": 1,
+        "precisionAt5": 0.4,
+        "precisionAt8": 0.25,
+        "ndcgAt8": 0.6433224083306327,
+        "mrr": 0.5
+      },
+      "note": "\"事业\"=求职相关；无直接\"事业\"记忆，靠语义推断"
+    },
+    {
+      "id": "cross-deep-night",
+      "query": "医院晚上能陪我聊天吗",
+      "category": "cross",
+      "expectedIds": [
+        "efa487bc-70b3-46a3-991c-aee7938f1b38"
+      ],
+      "retrievedIds": [
+        "efa487bc-70b3-46a3-991c-aee7938f1b38",
+        "8b7f5779-5a49-41ac-bfc5-0ad7f853cda3",
+        "69d319d7-5d27-4b01-8dcf-22a046603206",
+        "6169256a-278b-4814-a794-98d067d7c3bc",
+        "4f61d97b-61b8-4d61-beec-ae985bb675c9",
+        "1003a13b-5590-4bb7-a320-6293b733b51a",
+        "5e80eadc-94d7-4c63-ab29-a4e2ef51c0c3",
+        "445e123d-57dc-443b-a9c4-9e328d0c0b9c"
+      ],
+      "hitMask": [
+        true,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "trace": {
+        "query": "医院晚上能陪我聊天吗",
+        "vectorHits": 8,
+        "textHits": 0,
+        "rrfTopK": 8,
+        "durationMs": 1994,
+        "embeddingAvailable": true
+      },
+      "durationMs": 1999,
+      "metrics": {
+        "recallAt5": 1,
+        "recallAt8": 1,
+        "precisionAt5": 0.2,
+        "precisionAt8": 0.125,
+        "ndcgAt8": 1,
+        "mrr": 1
+      },
+      "note": "\"医院+晚上\"=深夜医院记忆的具体场景化改写"
+    },
+    {
+      "id": "cross-our-story",
+      "query": "我们认识多久了",
+      "category": "cross",
+      "expectedIds": [
+        "5e80eadc-94d7-4c63-ab29-a4e2ef51c0c3",
+        "1003a13b-5590-4bb7-a320-6293b733b51a",
+        "4f61d97b-61b8-4d61-beec-ae985bb675c9"
+      ],
+      "retrievedIds": [
+        "efa487bc-70b3-46a3-991c-aee7938f1b38",
+        "4f61d97b-61b8-4d61-beec-ae985bb675c9",
+        "1003a13b-5590-4bb7-a320-6293b733b51a",
+        "8b7f5779-5a49-41ac-bfc5-0ad7f853cda3",
+        "69d319d7-5d27-4b01-8dcf-22a046603206",
+        "6169256a-278b-4814-a794-98d067d7c3bc",
+        "5e80eadc-94d7-4c63-ab29-a4e2ef51c0c3",
+        "445e123d-57dc-443b-a9c4-9e328d0c0b9c"
+      ],
+      "hitMask": [
+        false,
+        true,
+        true,
+        false,
+        false,
+        false,
+        true,
+        false
+      ],
+      "trace": {
+        "query": "我们认识多久了",
+        "vectorHits": 8,
+        "textHits": 0,
+        "rrfTopK": 8,
+        "durationMs": 2854,
+        "embeddingAvailable": true
+      },
+      "durationMs": 2863,
+      "metrics": {
+        "recallAt5": 0.6666666666666666,
+        "recallAt8": 1,
+        "precisionAt5": 0.4,
+        "precisionAt8": 0.375,
+        "ndcgAt8": 0.5525004989384911,
+        "mrr": 0.5
+      },
+      "note": "\"认识多久\"=跨越很久+前世+宿命"
+    },
+    {
+      "id": "cross-warm-cold",
+      "query": "你工作之外会想念我吗",
+      "category": "cross",
+      "expectedIds": [
+        "69d319d7-5d27-4b01-8dcf-22a046603206",
+        "efa487bc-70b3-46a3-991c-aee7938f1b38",
+        "445e123d-57dc-443b-a9c4-9e328d0c0b9c"
+      ],
+      "retrievedIds": [
+        "efa487bc-70b3-46a3-991c-aee7938f1b38",
+        "8b7f5779-5a49-41ac-bfc5-0ad7f853cda3",
+        "69d319d7-5d27-4b01-8dcf-22a046603206",
+        "6169256a-278b-4814-a794-98d067d7c3bc",
+        "4f61d97b-61b8-4d61-beec-ae985bb675c9",
+        "1003a13b-5590-4bb7-a320-6293b733b51a",
+        "445e123d-57dc-443b-a9c4-9e328d0c0b9c",
+        "5e80eadc-94d7-4c63-ab29-a4e2ef51c0c3"
+      ],
+      "hitMask": [
+        true,
+        false,
+        true,
+        false,
+        false,
+        false,
+        true,
+        false
+      ],
+      "trace": {
+        "query": "你工作之外会想念我吗",
+        "vectorHits": 8,
+        "textHits": 0,
+        "rrfTopK": 8,
+        "durationMs": 2045,
+        "embeddingAvailable": true
+      },
+      "durationMs": 2054,
+      "metrics": {
+        "recallAt5": 0.6666666666666666,
+        "recallAt8": 1,
+        "precisionAt5": 0.4,
+        "precisionAt8": 0.375,
+        "ndcgAt8": 0.8050076503901956,
+        "mrr": 1
+      },
+      "note": "工作之外的想念 → 超出职业关心 + 深夜陪伴 + 深厚情感"
+    },
+    {
+      "id": "cross-metaphor",
+      "query": "你说过南极冰融化是什么意思",
+      "category": "cross",
+      "expectedIds": [
+        "69d319d7-5d27-4b01-8dcf-22a046603206"
+      ],
+      "retrievedIds": [
+        "efa487bc-70b3-46a3-991c-aee7938f1b38",
+        "69d319d7-5d27-4b01-8dcf-22a046603206",
+        "8b7f5779-5a49-41ac-bfc5-0ad7f853cda3",
+        "6169256a-278b-4814-a794-98d067d7c3bc",
+        "4f61d97b-61b8-4d61-beec-ae985bb675c9",
+        "1003a13b-5590-4bb7-a320-6293b733b51a",
+        "445e123d-57dc-443b-a9c4-9e328d0c0b9c",
+        "5e80eadc-94d7-4c63-ab29-a4e2ef51c0c3"
+      ],
+      "hitMask": [
+        false,
+        true,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "trace": {
+        "query": "你说过南极冰融化是什么意思",
+        "vectorHits": 8,
+        "textHits": 0,
+        "rrfTopK": 8,
+        "durationMs": 1938,
+        "embeddingAvailable": true
+      },
+      "durationMs": 1945,
+      "metrics": {
+        "recallAt5": 1,
+        "recallAt8": 1,
+        "precisionAt5": 0.2,
+        "precisionAt8": 0.125,
+        "ndcgAt8": 0.6309297535714575,
+        "mrr": 0.5
+      },
+      "note": "精确召回比喻所在记忆（冷数据场景）"
+    },
+    {
+      "id": "neg-weather",
+      "query": "今天天气怎么样",
+      "category": "negative",
+      "expectedIds": [],
+      "retrievedIds": [
+        "1003a13b-5590-4bb7-a320-6293b733b51a",
+        "efa487bc-70b3-46a3-991c-aee7938f1b38",
+        "8b7f5779-5a49-41ac-bfc5-0ad7f853cda3",
+        "69d319d7-5d27-4b01-8dcf-22a046603206",
+        "6169256a-278b-4814-a794-98d067d7c3bc",
+        "4f61d97b-61b8-4d61-beec-ae985bb675c9",
+        "5e80eadc-94d7-4c63-ab29-a4e2ef51c0c3",
+        "445e123d-57dc-443b-a9c4-9e328d0c0b9c"
+      ],
+      "hitMask": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "trace": {
+        "query": "今天天气怎么样",
+        "vectorHits": 8,
+        "textHits": 0,
+        "rrfTopK": 8,
+        "durationMs": 1677,
+        "embeddingAvailable": true
+      },
+      "durationMs": 1683,
+      "metrics": {
+        "recallAt5": 1,
+        "recallAt8": 1,
+        "precisionAt5": 0,
+        "precisionAt8": 0,
+        "ndcgAt8": 1,
+        "mrr": 1
+      },
+      "note": "无相关记忆；期望 Top-K 都是 false positive"
+    },
+    {
+      "id": "neg-random",
+      "query": "你觉得程序员这个职业怎么样",
+      "category": "negative",
+      "expectedIds": [
+        "8b7f5779-5a49-41ac-bfc5-0ad7f853cda3"
+      ],
+      "retrievedIds": [
+        "8b7f5779-5a49-41ac-bfc5-0ad7f853cda3",
+        "69d319d7-5d27-4b01-8dcf-22a046603206",
+        "efa487bc-70b3-46a3-991c-aee7938f1b38",
+        "6169256a-278b-4814-a794-98d067d7c3bc",
+        "4f61d97b-61b8-4d61-beec-ae985bb675c9",
+        "1003a13b-5590-4bb7-a320-6293b733b51a",
+        "445e123d-57dc-443b-a9c4-9e328d0c0b9c",
+        "5e80eadc-94d7-4c63-ab29-a4e2ef51c0c3"
+      ],
+      "hitMask": [
+        true,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "trace": {
+        "query": "你觉得程序员这个职业怎么样",
+        "vectorHits": 8,
+        "textHits": 0,
+        "rrfTopK": 8,
+        "durationMs": 1555,
+        "embeddingAvailable": true
+      },
+      "durationMs": 1562,
+      "metrics": {
+        "recallAt5": 1,
+        "recallAt8": 1,
+        "precisionAt5": 0.2,
+        "precisionAt8": 0.125,
+        "ndcgAt8": 1,
+        "mrr": 1
+      },
+      "note": "\"职业\"在焦虑记忆里出现一次；期望召回 1 条就 OK，多了是噪音"
+    },
+    {
+      "id": "neg-cat",
+      "query": "我家猫生病了",
+      "category": "negative",
+      "expectedIds": [],
+      "retrievedIds": [
+        "efa487bc-70b3-46a3-991c-aee7938f1b38",
+        "8b7f5779-5a49-41ac-bfc5-0ad7f853cda3",
+        "69d319d7-5d27-4b01-8dcf-22a046603206",
+        "6169256a-278b-4814-a794-98d067d7c3bc",
+        "1003a13b-5590-4bb7-a320-6293b733b51a",
+        "4f61d97b-61b8-4d61-beec-ae985bb675c9",
+        "445e123d-57dc-443b-a9c4-9e328d0c0b9c",
+        "5e80eadc-94d7-4c63-ab29-a4e2ef51c0c3"
+      ],
+      "hitMask": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "trace": {
+        "query": "我家猫生病了",
+        "vectorHits": 8,
+        "textHits": 0,
+        "rrfTopK": 8,
+        "durationMs": 1881,
+        "embeddingAvailable": true
+      },
+      "durationMs": 1889,
+      "metrics": {
+        "recallAt5": 1,
+        "recallAt8": 1,
+        "precisionAt5": 0,
+        "precisionAt8": 0,
+        "ndcgAt8": 1,
+        "mrr": 1
+      },
+      "note": "无相关记忆；期望 0 命中"
+    },
+    {
+      "id": "neg-doctor",
+      "query": "你是医生对吧",
+      "category": "negative",
+      "expectedIds": [
+        "efa487bc-70b3-46a3-991c-aee7938f1b38",
+        "69d319d7-5d27-4b01-8dcf-22a046603206"
+      ],
+      "retrievedIds": [
+        "8b7f5779-5a49-41ac-bfc5-0ad7f853cda3",
+        "efa487bc-70b3-46a3-991c-aee7938f1b38",
+        "1003a13b-5590-4bb7-a320-6293b733b51a",
+        "69d319d7-5d27-4b01-8dcf-22a046603206",
+        "4f61d97b-61b8-4d61-beec-ae985bb675c9",
+        "6169256a-278b-4814-a794-98d067d7c3bc",
+        "445e123d-57dc-443b-a9c4-9e328d0c0b9c",
+        "5e80eadc-94d7-4c63-ab29-a4e2ef51c0c3"
+      ],
+      "hitMask": [
+        false,
+        true,
+        false,
+        true,
+        false,
+        false,
+        false,
+        false
+      ],
+      "trace": {
+        "query": "你是医生对吧",
+        "vectorHits": 8,
+        "textHits": 0,
+        "rrfTopK": 8,
+        "durationMs": 1711,
+        "embeddingAvailable": true
+      },
+      "durationMs": 1718,
+      "metrics": {
+        "recallAt5": 1,
+        "recallAt8": 1,
+        "precisionAt5": 0.4,
+        "precisionAt8": 0.25,
+        "ndcgAt8": 0.6433224083306327,
+        "mrr": 0.5
+      },
+      "note": "\"医生\"是个间接词；期望有限命中，不该召出 5+ 条"
+    },
+    {
+      "id": "edge-self-reflect",
+      "query": "我觉得我最近变了很多",
+      "category": "semantic",
+      "expectedIds": [
+        "8b7f5779-5a49-41ac-bfc5-0ad7f853cda3",
+        "445e123d-57dc-443b-a9c4-9e328d0c0b9c"
+      ],
+      "retrievedIds": [
+        "69d319d7-5d27-4b01-8dcf-22a046603206",
+        "efa487bc-70b3-46a3-991c-aee7938f1b38",
+        "8b7f5779-5a49-41ac-bfc5-0ad7f853cda3",
+        "6169256a-278b-4814-a794-98d067d7c3bc",
+        "4f61d97b-61b8-4d61-beec-ae985bb675c9",
+        "1003a13b-5590-4bb7-a320-6293b733b51a",
+        "5e80eadc-94d7-4c63-ab29-a4e2ef51c0c3",
+        "445e123d-57dc-443b-a9c4-9e328d0c0b9c"
+      ],
+      "hitMask": [
+        false,
+        false,
+        true,
+        false,
+        false,
+        false,
+        false,
+        true
+      ],
+      "trace": {
+        "query": "我觉得我最近变了很多",
+        "vectorHits": 8,
+        "textHits": 0,
+        "rrfTopK": 8,
+        "durationMs": 2102,
+        "embeddingAvailable": true
+      },
+      "durationMs": 2109,
+      "metrics": {
+        "recallAt5": 0.5,
+        "recallAt8": 1,
+        "precisionAt5": 0.2,
+        "precisionAt8": 0.25,
+        "ndcgAt8": 0.5,
+        "mrr": 0.3333333333333333
+      },
+      "note": "\"变化\"=情绪变化 → 焦虑缓解 + 情感深化"
+    },
+    {
+      "id": "edge-anchor",
+      "query": "你还记得那只企鹅吗",
+      "category": "keyword",
+      "expectedIds": [
+        "6169256a-278b-4814-a794-98d067d7c3bc",
+        "69d319d7-5d27-4b01-8dcf-22a046603206"
+      ],
+      "retrievedIds": [
+        "6169256a-278b-4814-a794-98d067d7c3bc",
+        "8b7f5779-5a49-41ac-bfc5-0ad7f853cda3",
+        "69d319d7-5d27-4b01-8dcf-22a046603206",
+        "4f61d97b-61b8-4d61-beec-ae985bb675c9",
+        "efa487bc-70b3-46a3-991c-aee7938f1b38",
+        "1003a13b-5590-4bb7-a320-6293b733b51a",
+        "445e123d-57dc-443b-a9c4-9e328d0c0b9c",
+        "5e80eadc-94d7-4c63-ab29-a4e2ef51c0c3"
+      ],
+      "hitMask": [
+        true,
+        false,
+        true,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "trace": {
+        "query": "你还记得那只企鹅吗",
+        "vectorHits": 8,
+        "textHits": 0,
+        "rrfTopK": 8,
+        "durationMs": 1812,
+        "embeddingAvailable": true
+      },
+      "durationMs": 1818,
+      "metrics": {
+        "recallAt5": 1,
+        "recallAt8": 1,
+        "precisionAt5": 0.4,
+        "precisionAt8": 0.25,
+        "ndcgAt8": 0.9502344167898356,
+        "mrr": 1
+      },
+      "note": "\"企鹅\"在两条记忆里都是角色说过的内容"
+    },
+    {
+      "id": "edge-journey",
+      "query": "我能去看你吗",
+      "category": "semantic",
+      "expectedIds": [
+        "efa487bc-70b3-46a3-991c-aee7938f1b38",
+        "445e123d-57dc-443b-a9c4-9e328d0c0b9c"
+      ],
+      "retrievedIds": [
+        "efa487bc-70b3-46a3-991c-aee7938f1b38",
+        "8b7f5779-5a49-41ac-bfc5-0ad7f853cda3",
+        "69d319d7-5d27-4b01-8dcf-22a046603206",
+        "4f61d97b-61b8-4d61-beec-ae985bb675c9",
+        "1003a13b-5590-4bb7-a320-6293b733b51a",
+        "6169256a-278b-4814-a794-98d067d7c3bc",
+        "445e123d-57dc-443b-a9c4-9e328d0c0b9c",
+        "5e80eadc-94d7-4c63-ab29-a4e2ef51c0c3"
+      ],
+      "hitMask": [
+        true,
+        false,
+        false,
+        false,
+        false,
+        false,
+        true,
+        false
+      ],
+      "trace": {
+        "query": "我能去看你吗",
+        "vectorHits": 8,
+        "textHits": 0,
+        "rrfTopK": 8,
+        "durationMs": 1857,
+        "embeddingAvailable": true
+      },
+      "durationMs": 1864,
+      "metrics": {
+        "recallAt5": 0.5,
+        "recallAt8": 1,
+        "precisionAt5": 0.2,
+        "precisionAt8": 0.25,
+        "ndcgAt8": 0.8868854556705132,
+        "mrr": 1
+      },
+      "note": "\"去看你\"=探望 → 邀请来医院 + 深厚情感"
+    },
+    {
+      "id": "edge-time-future",
+      "query": "我们以后会一直在一起吗",
+      "category": "emotion",
+      "expectedIds": [
+        "5e80eadc-94d7-4c63-ab29-a4e2ef51c0c3",
+        "4f61d97b-61b8-4d61-beec-ae985bb675c9",
+        "1003a13b-5590-4bb7-a320-6293b733b51a"
+      ],
+      "retrievedIds": [
+        "efa487bc-70b3-46a3-991c-aee7938f1b38",
+        "4f61d97b-61b8-4d61-beec-ae985bb675c9",
+        "8b7f5779-5a49-41ac-bfc5-0ad7f853cda3",
+        "69d319d7-5d27-4b01-8dcf-22a046603206",
+        "1003a13b-5590-4bb7-a320-6293b733b51a",
+        "6169256a-278b-4814-a794-98d067d7c3bc",
+        "445e123d-57dc-443b-a9c4-9e328d0c0b9c",
+        "5e80eadc-94d7-4c63-ab29-a4e2ef51c0c3"
+      ],
+      "hitMask": [
+        false,
+        true,
+        false,
+        false,
+        true,
+        false,
+        false,
+        true
+      ],
+      "trace": {
+        "query": "我们以后会一直在一起吗",
+        "vectorHits": 8,
+        "textHits": 0,
+        "rrfTopK": 8,
+        "durationMs": 1797,
+        "embeddingAvailable": true
+      },
+      "durationMs": 1803,
+      "metrics": {
+        "recallAt5": 0.6666666666666666,
+        "recallAt8": 1,
+        "precisionAt5": 0.4,
+        "precisionAt8": 0.375,
+        "ndcgAt8": 0.5449776375892471,
+        "mrr": 0.5
+      },
+      "note": "\"一直在一起\"=长久的缘分 → 跨越很久+宿命+前世"
+    }
+  ]
+}

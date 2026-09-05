@@ -5,6 +5,7 @@ import CardGalleryView from '../views/CardGalleryView.vue'
 import TimelineView from '../views/TimelineView.vue'
 import ElementsView from '../views/ElementsView.vue'
 import SettingsView from '../views/SettingsView.vue'
+import TraceView from '../views/TraceView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -38,6 +39,11 @@ const router = createRouter({
       path: '/settings',
       name: 'settings',
       component: SettingsView
+    },
+    {
+      path: '/trace/:id?',
+      name: 'trace',
+      component: TraceView
     }
   ]
 })
