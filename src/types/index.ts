@@ -60,6 +60,8 @@ export interface AvatarConfig {
 export interface Settings {
   apiConfig: APIConfig
   systemPrompt: string
+  /** 用户自由维护的补充设定（场景前置剧情、昵称、补充世界观等），拼到 systemPrompt 末尾 */
+  userSupplement: string
   snowflakeEnabled: boolean
   backgroundMusicEnabled: boolean
   backgroundConfig: BackgroundConfig

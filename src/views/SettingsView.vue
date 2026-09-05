@@ -73,9 +73,10 @@
 
       <!-- 系统提示词 -->
       <div class="card p-6 mb-6">
-        <h2 class="text-xl font-bold text-gray-800 mb-4">系统提示词</h2>
+        <h2 class="text-xl font-bold text-gray-800 mb-4">系统提示词（黎深人设）</h2>
         <p class="text-sm text-gray-600 mb-4">
-          自定义黎深的人设和对话风格
+          默认已包含完整的官方人设（性格/语录/行为/关系），普通用户无需修改。
+          如需深度自定义（更换角色/完全重写），可在下方编辑。
         </p>
 
         <textarea
@@ -90,6 +91,43 @@
           </button>
           <button @click="handleResetPrompt" class="btn-secondary">
             恢复默认
+          </button>
+        </div>
+      </div>
+
+      <!-- 我的补充设定（与基础人设分离） -->
+      <div class="card p-6 mb-6">
+        <h2 class="text-xl font-bold text-gray-800 mb-4">
+          🌸 我的补充设定
+          <span class="text-xs text-gray-500 font-normal ml-2">推荐</span>
+        </h2>
+        <p class="text-sm text-gray-600 mb-3">
+          在这里写你想加入的剧情前置：已经一起做过的事、私下约定、小细节。
+          不会覆盖上方的基础人设，只会在每轮对话的 systemPrompt 末尾追加。
+        </p>
+        <details class="mb-3 text-xs text-gray-500">
+          <summary class="cursor-pointer hover:text-primary">参考写法</summary>
+          <div class="mt-2 p-3 bg-gray-50 rounded font-mono whitespace-pre-wrap">
+- 我们已经去过极地雪绒镇同乘雪橇
+- 我喜欢你叫我"小麻雀"
+- 我们已经发生过那场爆炸，奶奶把盒子交给了我
+- 古代线我希望从九黎司命时期切入
+          </div>
+        </details>
+
+        <textarea
+          v-model="userSupplement"
+          rows="8"
+          class="input-field resize-none font-mono text-sm"
+          placeholder="# 在这里写你想补充的剧情/场景/约定..."
+        />
+
+        <div class="mt-4 flex space-x-3">
+          <button @click="handleSaveSupplement" class="btn-primary">
+            保存补充
+          </button>
+          <button @click="handleResetSupplement" class="btn-secondary">
+            清空
           </button>
         </div>
       </div>
@@ -257,6 +295,7 @@ const apiConfig = ref({
 })
 
 const systemPrompt = ref('')
+const userSupplement = ref('')
 const testing = ref(false)
 const testResult = ref<{ success: boolean; message: string } | null>(null)
 
@@ -267,6 +306,7 @@ onMounted(() => {
     baseUrl: settingsStore.settings.apiConfig.baseUrl ?? ''
   }
   systemPrompt.value = settingsStore.settings.systemPrompt
+  userSupplement.value = settingsStore.settings.userSupplement ?? ''
 })
 
 const handleSaveAPI = () => {
@@ -317,6 +357,19 @@ const handleResetPrompt = () => {
   if (confirm('确定要恢复默认提示词吗?')) {
     settingsStore.loadSettings()
     systemPrompt.value = settingsStore.settings.systemPrompt
+    alert('已恢复默认')
+  }
+}
+
+const handleSaveSupplement = () => {
+  settingsStore.updateUserSupplement(userSupplement.value)
+  alert('补充设定已保存（下次开新对话生效）')
+}
+
+const handleResetSupplement = () => {
+  if (confirm('确定要清空补充设定吗?')) {
+    userSupplement.value = ''
+    settingsStore.updateUserSupplement('')
   }
 }
 

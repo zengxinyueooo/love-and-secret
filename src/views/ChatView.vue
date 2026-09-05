@@ -187,7 +187,7 @@ const handleSendMessage = async (message: string) => {
 
 /** 服务端路径：Context 装配、LLM 调用、消息持久化全部在服务端完成 */
 const sendViaBackend = async (message: string, target: { baseUrl: string; model: string }) => {
-  await chatStore.ensureConversation(message, settingsStore.settings.systemPrompt)
+  await chatStore.ensureConversation(message, settingsStore.buildSystemPrompt())
   if (!chatStore.activeConversationId) {
     chatStore.addMessage('会话创建失败，请稍后重试', 'assistant')
     return
@@ -228,7 +228,7 @@ const sendViaBackend = async (message: string, target: { baseUrl: string; model:
 
 /** 直连降级路径：后端离线或供应商协议不兼容（claude/wenxin）时走浏览器直调 LLM */
 const sendViaDirect = async (message: string) => {
-  await chatStore.ensureConversation(message, settingsStore.settings.systemPrompt)
+  await chatStore.ensureConversation(message, settingsStore.buildSystemPrompt())
 
   // 添加用户消息
   chatStore.addMessage(message, 'user')
@@ -241,8 +241,9 @@ const sendViaDirect = async (message: string) => {
     role: m.role as 'user' | 'assistant',
     content: m.content
   }))
+  const systemPrompt = settingsStore.buildSystemPrompt()
   const messages = [
-    { role: 'system' as const, content: settingsStore.settings.systemPrompt },
+    { role: 'system' as const, content: systemPrompt },
     ...historyMessages
   ]
 
