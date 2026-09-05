@@ -27,6 +27,22 @@ app.use(
 
 app.get('/health', (c) => c.json({ ok: true, service: 'love-and-secret-server' }))
 
+/** 根路径说明页：浏览器直接访问 8787 时不再 404，一眼看清可用端点 */
+app.get('/', (c) =>
+  c.json({
+    service: 'love-and-secret-server',
+    status: 'ok',
+    endpoints: {
+      health: 'GET /health',
+      conversations: 'GET/POST /api/conversations',
+      messages: 'GET/POST /api/conversations/:id/messages',
+      chat: 'POST /api/conversations/:id/chat (SSE)',
+      memories: 'GET /api/memories?status=pending_review',
+      retrieval: 'GET /api/retrieval/search?conversationId=<uuid>&q=<query>',
+    },
+  }),
+)
+
 app.route('/api/conversations', conversations)
 app.route('/api/conversations', messages)
 app.route('/api/conversations', chat)
