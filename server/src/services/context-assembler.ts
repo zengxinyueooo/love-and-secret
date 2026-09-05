@@ -17,7 +17,7 @@
 
 import { desc, eq } from 'drizzle-orm'
 import { db } from '../db/client.js'
-import { conversations, messages } from '../db/schema.js'
+import { chapters, conversations, messages } from '../db/schema.js'
 
 /** 各层字符预算（粗算 1 token ≈ 1.5 汉字，预算即软上限，超出截断） */
 export const LAYER_BUDGET = {
@@ -32,6 +32,9 @@ export const LAYER_BUDGET = {
 
 /** 近期窗口条数（user+assistant 合计） */
 const RECENT_WINDOW = 24
+
+/** L4 摘要层注入的章节数（最新的在后） */
+const SUMMARY_CHAPTER_COUNT = 3
 
 export interface ContextLayer {
   /** 层标识 */
@@ -107,8 +110,25 @@ export async function assembleContext(
     .orderBy(desc(messages.turnIndex))
     .limit(RECENT_WINDOW)
 
-  // L4 Summary / L5 Retrieved / L6 Lore：占位接口（M3/M4/M6 实现后接入）
-  layers.push({ layer: 'summary', content: null, source: 'chapter_summaries[M3]' })
+  // L4 Summary：最近 N 章章节摘要（Chapter Distillation 产出，M3）
+  const chapterRows = await db
+    .select()
+    .from(chapters)
+    .where(eq(chapters.conversationId, conversationId))
+    .orderBy(desc(chapters.chapterIndex))
+    .limit(SUMMARY_CHAPTER_COUNT)
+  const chapterSummary = chapterRows
+    .slice()
+    .reverse()
+    .map((ch) => ch.summary)
+    .join('\n')
+
+  // L5 Retrieved / L6 Lore：占位接口（M4/M6 实现后接入）
+  layers.push({
+    layer: 'summary',
+    content: chapterSummary ? clip(compact(chapterSummary), LAYER_BUDGET.summary) : null,
+    source: `chapter_summaries[M3,${chapterRows.length}ch]`,
+  })
   layers.push({ layer: 'retrieved', content: null, source: 'hybrid_retrieval[M4]' })
   layers.push({ layer: 'lore', content: null, source: 'world_info[M6]' })
 

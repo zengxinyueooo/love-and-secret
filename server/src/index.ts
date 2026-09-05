@@ -7,6 +7,7 @@ import 'dotenv/config'
 import conversations from './routes/conversations.js'
 import messages from './routes/messages.js'
 import chat from './routes/chat.js'
+import memoriesRoute from './routes/memories.js'
 
 const app = new Hono()
 
@@ -28,6 +29,7 @@ app.get('/health', (c) => c.json({ ok: true, service: 'love-and-secret-server' }
 app.route('/api/conversations', conversations)
 app.route('/api/conversations', messages)
 app.route('/api/conversations', chat)
+app.route('/api/memories', memoriesRoute)
 
 /** 统一错误兜底：数据库未配置、连接失败等 */
 app.onError((err, c) => {

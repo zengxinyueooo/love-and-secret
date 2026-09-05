@@ -22,6 +22,7 @@ import { db } from '../db/client.js'
 import { conversations, messages } from '../db/schema.js'
 import { assembleContext } from '../services/context-assembler.js'
 import { chatStream } from '../services/llm-gateway.js'
+import { runExtraction } from '../services/extraction.js'
 
 const chat = new Hono()
 
@@ -93,6 +94,17 @@ chat.post('/:id/chat', async (c) => {
         assistantMessageId: assistantMsg.id,
         trace: trace.layers.filter((l) => l.injected).map((l) => l.layer),
       })
+
+      // 5. M3：Turn 级记忆提取（异步不阻塞聊天流；失败记入 meta，不静默丢失）
+      //    聊天流已结束，这里沿用本次请求的 LLM 凭证做后台提取
+      void runExtraction(
+        id,
+        userMsg.id,
+        body.content,
+        assistantMsg.id,
+        result.text,
+        { baseUrl, apiKey },
+      ).catch((e) => console.error('[chat] 记忆提取任务异常:', e))
     } catch (err) {
       console.error('[chat] 聊天失败:', err)
       await send('error', { message: err instanceof Error ? err.message : '未知错误' })
