@@ -6,6 +6,7 @@ import TimelineView from '../views/TimelineView.vue'
 import ElementsView from '../views/ElementsView.vue'
 import SettingsView from '../views/SettingsView.vue'
 import TraceView from '../views/TraceView.vue'
+import MemoryPanelView from '../views/MemoryPanelView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -44,6 +45,11 @@ const router = createRouter({
       path: '/trace/:id?',
       name: 'trace',
       component: TraceView
+    },
+    {
+      path: '/memories',
+      name: 'memories',
+      component: MemoryPanelView
     }
   ]
 })

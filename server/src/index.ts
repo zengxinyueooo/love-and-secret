@@ -9,6 +9,7 @@ import messages from './routes/messages.js'
 import chat from './routes/chat.js'
 import memoriesRoute from './routes/memories.js'
 import retrieval from './routes/retrieval.js'
+import exportRoute from './routes/export.js'
 
 const app = new Hono()
 
@@ -39,6 +40,7 @@ app.get('/', (c) =>
       chat: 'POST /api/conversations/:id/chat (SSE)',
       memories: 'GET /api/memories?status=pending_review',
       retrieval: 'GET /api/retrieval/search?conversationId=<uuid>&q=<query>',
+      export: 'GET /api/conversations/:id/export?format=json|markdown',
     },
   }),
 )
@@ -46,6 +48,7 @@ app.get('/', (c) =>
 app.route('/api/conversations', conversations)
 app.route('/api/conversations', messages)
 app.route('/api/conversations', chat)
+app.route('/api/conversations', exportRoute)
 app.route('/api/memories', memoriesRoute)
 app.route('/api/retrieval', retrieval)
 

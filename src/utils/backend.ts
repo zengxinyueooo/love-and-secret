@@ -25,6 +25,54 @@ export interface MessageDTO {
   createdAt: string
 }
 
+/** M3-M5 记忆 DTO（与后端 memories 表字段对齐；embedding 不返回避免大 payload） */
+export interface MemoryDTO {
+  id: string
+  conversationId: string | null
+  kind: 'fact' | 'episode' | 'emotion' | 'event'
+  content: string
+  summary: string | null
+  sourceMessageIds: string[]
+  importance: number
+  confidence: number
+  gate: 'auto' | 'review'
+  status: 'active' | 'pending_review' | 'rejected' | 'superseded'
+  validFrom: string
+  validTo: string | null
+  supersededBy: string | null
+  accessCount: number
+  lastAccessedAt: string | null
+  // M5
+  valence: number | null
+  arousal: number | null
+  emotionalIntensity: number
+  emotionalDimension: 'intimacy' | 'trust' | 'conflict' | 'arousal' | null
+  createdAt: string
+  updatedAt: string
+}
+
+export interface ChapterDTO {
+  id: string
+  conversationId: string
+  chapterIndex: number
+  startTurn: number
+  endTurn: number
+  summary: string
+  messageIds: string[]
+  createdAt: string
+}
+
+export interface RelationshipStateDTO {
+  conversationId: string
+  intimacy: number
+  trust: number
+  conflict: number
+  phase: 'initial' | 'warming' | 'intimate' | 'conflicted' | 'distant'
+  version: number
+  lastEventAt: string | null
+  updatedAt: string
+}
+
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
   const res = await fetch(`${BASE_URL}${path}`, {
     headers: { 'Content-Type': 'application/json' },
@@ -69,6 +117,59 @@ export const backend = {
       method: 'POST',
       body: JSON.stringify(body),
     }),
+
+  // -------------------------------------------------------------------------
+  // M7：记忆面板 + 数据导出
+  // -------------------------------------------------------------------------
+
+  /** 列出记忆（可按 conversationId / status / kind 过滤） */
+  listMemories: (params?: {
+    conversationId?: string
+    status?: MemoryDTO['status']
+    kind?: MemoryDTO['kind']
+  }) => {
+    const q = new URLSearchParams()
+    if (params?.conversationId) q.set('conversationId', params.conversationId)
+    if (params?.status) q.set('status', params.status)
+    if (params?.kind) q.set('kind', params.kind)
+    const qs = q.toString()
+    return request<MemoryDTO[]>(`/memories${qs ? `?${qs}` : ''}`)
+  },
+
+  /** Write Gate：approve / reject / edit */
+  updateMemory: (
+    id: string,
+    body: { action: 'approve' | 'reject' | 'edit'; content?: string },
+  ) =>
+    request<MemoryDTO>(`/memories/${id}`, {
+      method: 'PATCH',
+      body: JSON.stringify(body),
+    }),
+
+  deleteMemory: (id: string) =>
+    request<{ ok: boolean }>(`/memories/${id}`, { method: 'DELETE' }),
+
+  /** 数据导出：JSON / Markdown */
+  exportConversation: async (
+    conversationId: string,
+    format: 'json' | 'markdown',
+  ): Promise<{ filename: string; blob: Blob }> => {
+    const res = await fetch(`${BASE_URL}/conversations/${conversationId}/export?format=${format}`, {
+      headers: { 'Content-Type': 'application/json' },
+      signal: AbortSignal.timeout(15000),
+    })
+    if (!res.ok) {
+      const body = await res.text().catch(() => '')
+      throw new Error(`导出失败 ${res.status}: ${body.slice(0, 200)}`)
+    }
+    const disposition = res.headers.get('content-disposition') || ''
+    const filenameMatch = disposition.match(/filename\*?=(?:UTF-8'')?"?([^";]+)"?/i)
+    const filename = filenameMatch
+      ? decodeURIComponent(filenameMatch[1])
+      : `conversation-${conversationId}.${format === 'markdown' ? 'md' : 'json'}`
+    const blob = await res.blob()
+    return { filename, blob }
+  },
 }
 
 // ---------------------------------------------------------------------------
