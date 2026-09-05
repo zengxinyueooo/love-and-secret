@@ -140,37 +140,81 @@ async function vectorSearch(
 ): Promise<Array<{ id: string; rank: number }>> {
   const vecLiteral = `[${queryVec.join(',')}]`
   const rows = await db.execute<{ id: string; distance: number }>(sql`
-      SELECT id, embedding <=> ${vecLiteral}::vector(${EMBEDDING_DIM}) AS distance
+      SELECT id, embedding <=> ${vecLiteral}::vector AS distance
       FROM memories
       WHERE conversation_id = ${conversationId}
         AND status = 'active'
         AND embedding IS NOT NULL
-      ORDER BY embedding <=> ${vecLiteral}::vector(${EMBEDDING_DIM})
+      ORDER BY embedding <=> ${vecLiteral}::vector
       LIMIT ${CHANNEL_TOP_K}
     `)
   return rows.map((r, idx) => ({ id: (r as { id: string }).id, rank: idx + 1 }))
 }
 
 /**
- * 通道 B：全文召回 —— tsvector + websearch_to_tsquery
- * websearch_to_tsquery 接受自然语言，自动转成 tsquery（处理引号、AND/OR 等）
- * 用 ts_rank_cd 打分（同条记忆命中多次的位置分散度）
+ * 通道 B：全文召回 —— 两个子通道取并集
+ *
+ * B1. tsvector + websearch_to_tsquery：标准 PG 全文（对英文/数字有效）
+ * B2. 子串匹配（ILIKE）：中文必需 —— PG 的 simple/english 分词器不做中文分词，
+ *     整句会被当成单个 token，查询词永远对不上；而中文没有空格分隔，
+ *     "找工作" 这类关键词用子串匹配反而最精确（对日期、人名等专有名词同样有效）
+ *
+ * 两个子通道的结果合并后统一按"命中词数"排名。
  */
 async function textSearch(
   query: string,
   conversationId: string,
 ): Promise<Array<{ id: string; rank: number }>> {
   if (!query) return []
-  const rows = await db.execute<{ id: string; rank: number }>(sql`
-      SELECT id, ts_rank_cd(content_tsv, websearch_to_tsquery('simple', ${query})) AS rank
+
+  // B1：tsquery（英文/数字）
+  const tsRows = (await db.execute<{ id: string }>(sql`
+      SELECT id
       FROM memories
       WHERE conversation_id = ${conversationId}
         AND status = 'active'
         AND content_tsv @@ websearch_to_tsquery('simple', ${query})
-      ORDER BY rank DESC
+      ORDER BY ts_rank_cd(content_tsv, websearch_to_tsquery('simple', ${query})) DESC
       LIMIT ${CHANNEL_TOP_K}
-    `)
-  return rows.map((r, idx) => ({ id: (r as { id: string }).id, rank: idx + 1 }))
+    `)) as Array<{ id: string }>
+
+  // B2：子串匹配（中文/专有名词）。查询切成词，整句也作为一个候选词
+  const terms = Array.from(
+    new Set(
+      [query, ...query.split(/[\s,，。!！?？、；;：:.]+/)]
+        .map((t) => t.trim())
+        .filter((t) => t.length >= 2),
+    ),
+  )
+  let subRows: Array<{ id: string; hits: number }> = []
+  if (terms.length > 0) {
+    // 每个 term 一个 ILIKE 条件，hits = 命中的 term 数（越多越相关）
+    const likeExpr = terms.map(
+      (t) => sql`(CASE WHEN content ILIKE ${'%' + t + '%'} THEN 1 ELSE 0 END)`,
+    )
+    const hitsSum = sql.join(likeExpr, sql` + `)
+    const whereParts = terms.map((t) => sql`content ILIKE ${'%' + t + '%'}`)
+    const whereClause = sql.join(whereParts, sql` OR `)
+    subRows = (await db.execute<{ id: string; hits: number }>(sql`
+        SELECT id, ${hitsSum} AS hits
+        FROM memories
+        WHERE conversation_id = ${conversationId}
+          AND status = 'active'
+          AND (${whereClause})
+        ORDER BY hits DESC, created_at DESC
+        LIMIT ${CHANNEL_TOP_K}
+      `)) as Array<{ id: string; hits: number }>
+  }
+
+  // 合并：子串命中的按 hits 排前面，tsquery 命中的接后面（去重）
+  const seen = new Set<string>()
+  const merged: Array<{ id: string; rank: number }> = []
+  for (const r of [...subRows, ...tsRows]) {
+    if (seen.has(r.id)) continue
+    seen.add(r.id)
+    merged.push({ id: r.id, rank: merged.length + 1 })
+  }
+  return merged
 }
 
 /** RRF 融合：把两路召回按排名融合成单一排序 */

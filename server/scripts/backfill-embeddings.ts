@@ -11,7 +11,7 @@
  *   - 进度日志打到控制台
  */
 import 'dotenv/config'
-import { isNull } from 'drizzle-orm'
+import { eq, isNull } from 'drizzle-orm'
 import { db } from '../src/db/client.js'
 import { memories } from '../src/db/schema.js'
 import { embedBatch } from '../src/services/embeddings.js'
@@ -31,17 +31,17 @@ for (let i = 0; i < rows.length; i += BATCH) {
   const chunk = rows.slice(i, i + BATCH)
   const texts = chunk.map((r) => r.content)
   try {
-    const vectors = await embedBatch(texts)
+    const { vectors } = await embedBatch(texts)
     for (let j = 0; j < chunk.length; j++) {
       if (!vectors[j]) continue
       await db
         .update(memories)
         .set({ embedding: vectors[j], updatedAt: new Date() })
-        .where((m) => m.id.eq(chunk[j].id) as never)
-        // drizzle update set with where: 用 SQL 子句绕过条件构造的复杂性
+        .where(eq(memories.id, chunk[j].id))
         .execute()
     }
-    done += chunk.length
+    // 只统计真实写库的条数，跳过的不算成功
+    done += chunk.filter((_, j) => !!vectors[j]).length
     console.log(`[backfill] 进度: ${done}/${rows.length}`)
   } catch (err) {
     console.warn(`[backfill] 批次 ${i}-${i + chunk.length} 失败，跳过:`, err instanceof Error ? err.message : err)
