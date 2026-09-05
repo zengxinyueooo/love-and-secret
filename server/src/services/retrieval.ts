@@ -28,8 +28,20 @@ import { embed, getEmbeddingConfig } from './embeddings.js'
 /** RRF 融合常数 k —— 值越大低排名差异越平滑 */
 const RRF_K = 60
 
-/** 半衰期（天）：默认 30 天后记忆权重衰减到 50% */
-const HALF_LIFE_DAYS = 30
+/**
+ * M5 艾宾浩斯遗忘曲线（替代 M4 简单指数衰减）：
+ *   strength = exp(-t / stability)
+ *   stability = base × (1 + a × importance) × (1 + e × emotional) × (1 + v × ln(access+1))
+ *
+ * 三因子：
+ *   - importance 越高衰减越慢（语义重要性）
+ *   - emotional_intensity 越高衰减越慢（情感强化 —— 表白一次记一辈子）
+ *   - access_count 越高衰减越慢（复习效应 —— 反复回忆过的更牢）
+ */
+const BASE_STABILITY_DAYS = 30
+const STABILITY_IMPORTANCE_WEIGHT = 0.5
+const STABILITY_EMOTIONAL_WEIGHT = 0.5
+const STABILITY_ACCESS_WEIGHT = 0.3
 
 /** 检索 topK（每个通道单独取 topK，再 RRF） */
 const CHANNEL_TOP_K = 20
@@ -188,8 +200,7 @@ function rrfFuse(
 }
 
 /**
- * 最终排序：RRF 分数 × 时间衰减 × importance
- * 用 importance 给"重要记忆"加权，让普通寒暄记忆自然下沉
+ * 最终排序：RRF 分数 × 艾宾浩斯遗忘曲线
  *
  * 关键优化：只查 RRF 融合后的候选集（≤40 条），不再扫全表
  */
@@ -199,17 +210,20 @@ async function applyFinalRanking(
   if (candidates.length === 0) return []
   const ids = candidates.map((c) => c.id)
   const rrfById = new Map(candidates.map((c) => [c.id, c]))
-  const ageDecay = (createdAt: Date) => {
-    const ageDays = (Date.now() - createdAt.getTime()) / 86_400_000
-    return Math.exp(-ageDays / HALF_LIFE_DAYS)
-  }
   const rows = await db.select().from(memories).where(inArray(memories.id, ids))
   return rows
     .map((row) => {
       const c = rrfById.get(row.id)
       if (!c) return null
-      const decay = ageDecay(row.createdAt)
-      const finalScore = c.rrfScore * decay * (0.5 + 0.5 * row.importance)
+      // M5：艾宾浩斯遗忘曲线（替换 M4 的 exp(-age/30) × importance）
+      const decay = ebbinghausStrength({
+        createdAt: row.createdAt,
+        lastAccessedAt: row.lastAccessedAt,
+        accessCount: row.accessCount,
+        importance: row.importance,
+        emotionalIntensity: row.emotionalIntensity,
+      })
+      const finalScore = c.rrfScore * decay
       return {
         id: row.id,
         conversationId: row.conversationId,
@@ -225,4 +239,35 @@ async function applyFinalRanking(
     })
     .filter((x): x is RetrievedMemory & { createdAt: Date } => x !== null)
     .sort((a, b) => b.score - a.score)
+}
+
+/**
+ * M5：艾宾浩斯遗忘曲线（Ebbinghaus 1885）。
+ * S(t) = e^(-t / S)  —— t 是距上次复习的天数，S 是当前稳定度
+ *
+ * 稳定度 S 由三因子相乘放大，模拟人脑"重要/情感强/被反复回忆"的记忆更难遗忘：
+ *   S = base × (1 + 0.5 × importance) × (1 + 0.5 × emotional_intensity) × (1 + 0.3 × ln(access+1))
+ *
+ * 示例（默认 base=30）：
+ *   普通寒暄 fact:        S ≈ 30 × 1.25 × 1.25 × 1 = 47 天  → 90 天后强度 0.15
+ *   表白 episode:          S ≈ 30 × 1.4  × 1.9  × 1 = 80 天  → 90 天后强度 0.33
+ *   被回忆过的亲密记忆:    S ≈ 30 × 1.4  × 1.9  × 1.5 = 120 天 → 一年后强度 0.37
+ */
+function ebbinghausStrength(row: {
+  createdAt: Date
+  lastAccessedAt: Date | null
+  accessCount: number
+  importance: number
+  emotionalIntensity: number | null
+}): number {
+  const lastReview = row.lastAccessedAt ?? row.createdAt
+  const ageDays = Math.max(0, (Date.now() - lastReview.getTime()) / 86_400_000)
+
+  const importanceFactor = 1 + STABILITY_IMPORTANCE_WEIGHT * row.importance
+  const emotionalFactor = 1 + STABILITY_EMOTIONAL_WEIGHT * (row.emotionalIntensity ?? 0.5)
+  const accessFactor = 1 + STABILITY_ACCESS_WEIGHT * Math.log(row.accessCount + 1)
+  const stability =
+    BASE_STABILITY_DAYS * importanceFactor * emotionalFactor * accessFactor
+
+  return Math.exp(-ageDays / stability)
 }

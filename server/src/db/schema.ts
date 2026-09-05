@@ -130,6 +130,16 @@ export const memories = pgTable(
     lastAccessedAt: timestamp('last_accessed_at', { withTimezone: true }),
     /** M4：embedding 向量（用于混合检索的语义匹配） */
     embedding: embedding1536('embedding'),
+    /** M5：情绪效价 -1~1（这条记忆的情感色彩，正/负/中性） */
+    valence: doublePrecision('valence'),
+    /** M5：情绪唤醒度 0-1（这条记忆引发的激动程度，0 平静、1 强烈） */
+    arousal: doublePrecision('arousal'),
+    /** M5：情感强度 0-1（影响遗忘曲线 —— 高情感记忆更难被遗忘） */
+    emotionalIntensity: doublePrecision('emotional_intensity').notNull().default(0.5),
+    /** M5：情感维度（intimacy/trust/conflict/arousal） */
+    emotionalDimension: text('emotional_dimension', {
+      enum: ['intimacy', 'trust', 'conflict', 'arousal'],
+    }),
     createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
     updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
   },
@@ -166,3 +176,83 @@ export type Memory = typeof memories.$inferSelect
 export type NewMemory = typeof memories.$inferInsert
 export type Chapter = typeof chapters.$inferSelect
 export type NewChapter = typeof chapters.$inferInsert
+
+/**
+ * 关系状态表 —— M5 情感特化层
+ *
+ * 每个会话维护一份关系快照，三维坐标 + 阶段判断：
+ *   intimacy  亲密度  0-1（你们多亲密）
+ *   trust     信任度  0-1（你信不信任 ta）
+ *   conflict  冲突度  0-1（最近有多少摩擦）
+ *   phase     当前关系阶段，由三维自动判断（initial/warming/intimate/conflicted/distant）
+ *   version   乐观锁/节流标记
+ *
+ * 不放事件流（emotional_events 单独存），这里是「当前快照」。
+ */
+export const relationshipStates = pgTable('relationship_states', {
+  conversationId: uuid('conversation_id')
+    .primaryKey()
+    .references(() => conversations.id, { onDelete: 'cascade' }),
+  intimacy: doublePrecision('intimacy').notNull().default(0.5),
+  trust: doublePrecision('trust').notNull().default(0.5),
+  conflict: doublePrecision('conflict').notNull().default(0.0),
+  phase: text('phase', {
+    enum: ['initial', 'warming', 'intimate', 'conflicted', 'distant'],
+  })
+    .notNull()
+    .default('initial'),
+  version: integer('version').notNull().default(0),
+  lastEventAt: timestamp('last_event_at', { withTimezone: true }),
+  updatedAt: timestamp('updated_at', { withTimezone: true })
+    .notNull()
+    .defaultNow(),
+})
+
+/**
+ * 情感事件流 —— M5
+ *
+ * 一条记忆可能被分类为「情感事件」（如表白/吵架/和好/承诺/亲密时刻），
+ * 同时记录它对 intimacy/trust/conflict 的影响量 delta（可正可负）。
+ *
+ * 状态机只需读「最近 N 个事件累计 delta」即可推进关系；
+ * 全量事件保留用于「关系发展史」可视化（M7）。
+ */
+export const emotionalEvents = pgTable(
+  'emotional_events',
+  {
+    id: uuid('id').defaultRandom().primaryKey(),
+    conversationId: uuid('conversation_id')
+      .notNull()
+      .references(() => conversations.id, { onDelete: 'cascade' }),
+    memoryId: uuid('memory_id').references(() => memories.id, {
+      onDelete: 'set null',
+    }),
+    /** 哪个维度：intimacy 亲密度 / trust 信任度 / conflict 冲突度 / arousal 唤醒度 */
+    dimension: text('dimension', {
+      enum: ['intimacy', 'trust', 'conflict', 'arousal'],
+    }).notNull(),
+    /** 情绪效价 -1~1（-1 极度负面、0 中性、1 极度正面） */
+    valence: doublePrecision('valence'),
+    /** 情绪唤醒度 0-1（0 平静、1 强烈激动） */
+    arousal: doublePrecision('arousal'),
+    /** 事件强度 0-1（影响多深） */
+    intensity: doublePrecision('intensity').notNull().default(0.5),
+    /** 触发类型：confess 表白 / argument 吵架 / reconcile 和好 / promise 承诺 / milestone 纪念日 / intimate 亲密时刻 / casual 日常 */
+    triggerKind: text('trigger_kind').notNull(),
+    /** 对三维的影响（json: { intimacy?: +0.1, trust?: -0.05, conflict?: +0.2 }） */
+    delta: jsonb('delta').$type<Record<string, number>>().notNull().default({}),
+    /** 检测置信度（与记忆 confidence 区分：这是「事件确实是关系事件」的置信度） */
+    confidence: doublePrecision('confidence').notNull().default(0.7),
+    createdAt: timestamp('created_at', { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+  },
+  (t) => [
+    index('emotional_events_conv_idx').on(t.conversationId, t.createdAt),
+  ],
+)
+
+export type RelationshipState = typeof relationshipStates.$inferSelect
+export type NewRelationshipState = typeof relationshipStates.$inferInsert
+export type EmotionalEvent = typeof emotionalEvents.$inferSelect
+export type NewEmotionalEvent = typeof emotionalEvents.$inferInsert

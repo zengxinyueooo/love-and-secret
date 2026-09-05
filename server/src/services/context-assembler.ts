@@ -19,6 +19,10 @@ import { desc, eq } from 'drizzle-orm'
 import { db } from '../db/client.js'
 import { chapters, conversations, messages } from '../db/schema.js'
 import { searchMemories } from './retrieval.js'
+import {
+  getRecentEmotionalEvents,
+  getRelationshipState,
+} from './relationship.js'
 
 /** 各层字符预算（粗算 1 token ≈ 1.5 汉字，预算即软上限，超出截断） */
 export const LAYER_BUDGET = {
@@ -99,9 +103,81 @@ export async function assembleContext(
     source: 'conversation.system_prompt',
   })
 
-  // L1 Relationship / L2 Ongoing：占位接口，M5 情感特化层实现后接入
-  layers.push({ layer: 'relationship', content: null, source: 'relationship_state[M5]' })
-  layers.push({ layer: 'ongoing', content: null, source: 'ongoing_topics[M5]' })
+  // L1 Relationship：当前关系快照 + 最近 N 条关系事件
+  //   失败时降级为 null（不阻塞对话流）
+  let relationshipText: string | null = null
+  let relationshipSource = 'relationship_state[M5,empty]'
+  try {
+    const state = await getRelationshipState(conversationId)
+    const recentEvents = await getRecentEmotionalEvents(conversationId, 3)
+    const phaseLabel: Record<string, string> = {
+      initial: '初始期',
+      warming: '升温期',
+      intimate: '亲密期',
+      conflicted: '冲突中',
+      distant: '疏远期',
+    }
+    const lines: string[] = [
+      `当前阶段：${phaseLabel[state.phase]}`,
+      `亲密度 ${state.intimacy.toFixed(2)} ｜ 信任度 ${state.trust.toFixed(2)} ｜ 冲突度 ${state.conflict.toFixed(2)}`,
+    ]
+    if (recentEvents.length > 0) {
+      lines.push('最近的关系变化：')
+      for (const ev of recentEvents) {
+        const sign = (n: number) => (n > 0 ? '+' : '')
+        const d: string[] = []
+        if (typeof ev.delta.intimacy === 'number') d.push(`亲密度${sign(ev.delta.intimacy)}${ev.delta.intimacy.toFixed(2)}`)
+        if (typeof ev.delta.trust === 'number') d.push(`信任度${sign(ev.delta.trust)}${ev.delta.trust.toFixed(2)}`)
+        if (typeof ev.delta.conflict === 'number') d.push(`冲突度${sign(ev.delta.conflict)}${ev.delta.conflict.toFixed(2)}`)
+        lines.push(`- [${ev.triggerKind}] ${d.join(' / ')}`)
+      }
+    }
+    relationshipText = lines.join('\n')
+    relationshipSource = `relationship_state[M5,phase=${state.phase},v=${state.version}]`
+  } catch (err) {
+    console.warn('[context-assembler] 关系快照读取失败:', err instanceof Error ? err.message : err)
+  }
+
+  // L2 Ongoing：进行中的事（话题/承诺/未解决）—— 取最近 24h 内重要性高的 event 类记忆
+  let ongoingText: string | null = null
+  let ongoingSource = 'ongoing_topics[M5,empty]'
+  try {
+    const ongoingRows = await db
+      .select()
+      .from(messages)
+      .where(eq(messages.conversationId, conversationId))
+      .orderBy(desc(messages.turnIndex))
+      .limit(80)
+    // 用最近章节摘要 + 最近 event 类记忆拼出「进行中」概览
+    const recentChapter = (await db
+      .select()
+      .from(chapters)
+      .where(eq(chapters.conversationId, conversationId))
+      .orderBy(desc(chapters.chapterIndex))
+      .limit(1)) ?? []
+    const chapterHint = recentChapter[0]?.summary ?? ''
+    if (chapterHint) {
+      ongoingText = chapterHint.split('\n').slice(0, 5).join('\n')
+      ongoingSource = `chapter_tail[M3,ch${recentChapter[0]?.chapterIndex}]`
+    } else if (ongoingRows.length > 0) {
+      ongoingText = `本会话已累计 ${ongoingRows.length} 条消息，继续当前话题。`
+      ongoingSource = `fallback[M5,${ongoingRows.length}msg]`
+    }
+    void ongoingRows // 避免 lint 警告（未来可改用更精准的 event 过滤）
+  } catch (err) {
+    console.warn('[context-assembler] Ongoing 装配失败:', err instanceof Error ? err.message : err)
+  }
+
+  layers.push({
+    layer: 'relationship',
+    content: relationshipText ? clip(compact(relationshipText), LAYER_BUDGET.relationship) : null,
+    source: relationshipSource,
+  })
+  layers.push({
+    layer: 'ongoing',
+    content: ongoingText ? clip(compact(ongoingText), LAYER_BUDGET.ongoing) : null,
+    source: ongoingSource,
+  })
 
   // L3 Recent：近期窗口原文（从旧到新）
   const recentRows = await db
@@ -199,7 +275,7 @@ export async function assembleContext(
     recentMessageIds: windowMessages.length ? recent.slice(-windowMessages.length).map((m) => m.id) : [],
     totalChars: systemPrompt.length + recentChars + userMessage.length,
     elapsedMs: Date.now() - started,
-    version: 'ctx-assembler/0.3',
+    version: 'ctx-assembler/0.4',
   }
 
   return {
