@@ -20,6 +20,12 @@ export interface EmbeddingConfig {
   baseUrl: string
   apiKey: string
   model: string
+  /**
+   * 输出向量维度（MRL 模型支持指定，如 Qwen3 系列）。
+   * 必须与 schema 的 EMBEDDING_DIM 一致，否则写库报维度不匹配。
+   * Qwen3-Embedding 默认输出 4096 维 —— 忘传 dimensions 是最典型的坑。
+   */
+  dimensions?: number
   /** 单条超时（毫秒）；embedding 任务比 chat 快得多，30s 已足够 */
   timeoutMs?: number
   /** 重试次数（不计首次） */
@@ -43,10 +49,20 @@ const DEFAULT_MODEL = 'text-embedding-3-small'
 export function getEmbeddingConfig(): EmbeddingConfig | null {
   const apiKey = process.env.EMBEDDING_API_KEY
   if (!apiKey) return null // 不强制要求：缺则降级到纯全文检索
+  const model = process.env.EMBEDDING_MODEL || DEFAULT_MODEL
+  // 维度解析优先级：显式 env > Qwen3 系列默认补 1536（该系列默认 4096，必须显式压到表结构维度）> 不传
+  const dimEnv = Number(process.env.EMBEDDING_DIMENSIONS)
+  const dimensions =
+    Number.isFinite(dimEnv) && dimEnv > 0
+      ? dimEnv
+      : /^Qwen\//.test(model)
+        ? 1536
+        : undefined
   return {
     baseUrl: (process.env.EMBEDDING_BASE_URL || DEFAULT_BASE).replace(/\/$/, ''),
     apiKey,
-    model: process.env.EMBEDDING_MODEL || DEFAULT_MODEL,
+    model,
+    dimensions,
     timeoutMs: Number(process.env.EMBEDDING_TIMEOUT_MS) || 30_000,
     retries: Number(process.env.EMBEDDING_RETRIES) || 1,
   }
@@ -82,6 +98,8 @@ export async function embedBatch(texts: string[], cfg?: EmbeddingConfig): Promis
         body: JSON.stringify({
           model: config.model,
           input: texts,
+          // dimensions 仅 Qwen3 系列（MRL 训练）支持；OpenAI 3-small 不接受该参数，bge-m3 会报错
+          ...(config.dimensions ? { dimensions: config.dimensions } : {}),
         }),
         signal: controller.signal,
       })
@@ -101,6 +119,12 @@ export async function embedBatch(texts: string[], cfg?: EmbeddingConfig): Promis
       }
       if (vectors.some((v) => !v || v.length === 0)) {
         throw new Error('embedding 产出包含空向量')
+      }
+      if (config.dimensions && vectors.some((v) => v && v.length !== config.dimensions)) {
+        const got = vectors.find((v) => v && v.length !== config.dimensions)?.length
+        throw new Error(
+          `embedding 维度不匹配：期望 ${config.dimensions}，实际 ${got}（检查 EMBEDDING_MODEL 与 EMBEDDING_DIMENSIONS 是否一致）`,
+        )
       }
       return {
         vectors,
