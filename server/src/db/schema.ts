@@ -7,7 +7,26 @@ import {
   jsonb,
   index,
   doublePrecision,
+  customType,
 } from 'drizzle-orm/pg-core'
+
+/** pgvector 适配 —— M4 引入，让 Drizzle 能读写 vector(N) 列 */
+const vector = (dim: number) =>
+  customType<{ data: number[]; driverData: string }>({
+    dataType() {
+      return `vector(${dim})`
+    },
+    toDriver(value: number[]): string {
+      return `[${value.join(',')}]`
+    },
+    fromDriver(value: string): number[] {
+      return value.slice(1, -1).split(',').map((n) => Number(n))
+    },
+  })
+
+/** OpenAI text-embedding-3-small 默认维度；换模型时同步改 MIGRATION + 此处 */
+export const EMBEDDING_DIM = 1536
+export const embedding1536 = vector(EMBEDDING_DIM)
 
 /**
  * 会话表 —— M1
@@ -109,6 +128,8 @@ export const memories = pgTable(
     supersededBy: uuid('superseded_by'),
     accessCount: integer('access_count').notNull().default(0),
     lastAccessedAt: timestamp('last_accessed_at', { withTimezone: true }),
+    /** M4：embedding 向量（用于混合检索的语义匹配） */
+    embedding: embedding1536('embedding'),
     createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
     updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
   },

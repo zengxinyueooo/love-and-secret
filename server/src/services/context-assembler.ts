@@ -18,6 +18,7 @@
 import { desc, eq } from 'drizzle-orm'
 import { db } from '../db/client.js'
 import { chapters, conversations, messages } from '../db/schema.js'
+import { searchMemories } from './retrieval.js'
 
 /** 各层字符预算（粗算 1 token ≈ 1.5 汉字，预算即软上限，超出截断） */
 export const LAYER_BUDGET = {
@@ -123,13 +124,39 @@ export async function assembleContext(
     .map((ch) => ch.summary)
     .join('\n')
 
-  // L5 Retrieved / L6 Lore：占位接口（M4/M6 实现后接入）
+  // L5 Retrieved：M4 混合检索（向量 + 全文 + 时间衰减 + RRF 融合 + importance 加权）
+  //   - 失败时降级为空字符串（不阻塞对话流）
+  //   - 检索不到任何东西时返回 null（不浪费 prompt 预算）
+  let retrievedText: string | null = null
+  let retrievalTrace: { hits: number; durationMs: number; vectorEnabled: boolean } | null = null
+  try {
+    const { items, trace } = await searchMemories(userMessage, conversationId)
+    retrievalTrace = {
+      hits: items.length,
+      durationMs: trace.durationMs,
+      vectorEnabled: trace.embeddingAvailable,
+    }
+    if (items.length > 0) {
+      retrievedText = items
+        .map((m) => `[${m.kind}] ${m.content}`)
+        .join('\n')
+    }
+  } catch (err) {
+    console.warn('[context-assembler] 检索失败（已降级为空）:', err instanceof Error ? err.message : err)
+  }
+
   layers.push({
     layer: 'summary',
     content: chapterSummary ? clip(compact(chapterSummary), LAYER_BUDGET.summary) : null,
     source: `chapter_summaries[M3,${chapterRows.length}ch]`,
   })
-  layers.push({ layer: 'retrieved', content: null, source: 'hybrid_retrieval[M4]' })
+  layers.push({
+    layer: 'retrieved',
+    content: retrievedText ? clip(compact(retrievedText), LAYER_BUDGET.retrieved) : null,
+    source: retrievalTrace
+      ? `hybrid_retrieval[M4,${retrievalTrace.hits}hit/${retrievalTrace.durationMs}ms,vec=${retrievalTrace.vectorEnabled}]`
+      : 'hybrid_retrieval[M4,unavailable]',
+  })
   layers.push({ layer: 'lore', content: null, source: 'world_info[M6]' })
 
   // ---- 组装 system prompt：固定顺序、固定区块标题 ----
@@ -172,7 +199,7 @@ export async function assembleContext(
     recentMessageIds: windowMessages.length ? recent.slice(-windowMessages.length).map((m) => m.id) : [],
     totalChars: systemPrompt.length + recentChars + userMessage.length,
     elapsedMs: Date.now() - started,
-    version: 'ctx-assembler/0.2',
+    version: 'ctx-assembler/0.3',
   }
 
   return {

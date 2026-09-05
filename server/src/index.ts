@@ -8,6 +8,7 @@ import conversations from './routes/conversations.js'
 import messages from './routes/messages.js'
 import chat from './routes/chat.js'
 import memoriesRoute from './routes/memories.js'
+import retrieval from './routes/retrieval.js'
 
 const app = new Hono()
 
@@ -30,6 +31,7 @@ app.route('/api/conversations', conversations)
 app.route('/api/conversations', messages)
 app.route('/api/conversations', chat)
 app.route('/api/memories', memoriesRoute)
+app.route('/api/retrieval', retrieval)
 
 /** 统一错误兜底：数据库未配置、连接失败等 */
 app.onError((err, c) => {

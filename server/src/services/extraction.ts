@@ -22,6 +22,7 @@ import { db } from '../db/client.js'
 import { memories, messages, conversations } from '../db/schema.js'
 import { chatComplete, type GatewayRequest } from './llm-gateway.js'
 import { maybeDistillChapter } from './distillation.js'
+import { embed } from './embeddings.js'
 
 /** 记忆正文字数下限（低于视为过度压缩/噪声） */
 const MIN_LENGTH: Record<string, number> = {
@@ -74,6 +75,8 @@ export interface ExtractionOutcome {
   superseded: number
   rejected: string[]
   chapterDistilled: boolean
+  /** M4：本次成功生成 embedding 的记忆条数 */
+  embedded?: number
 }
 
 /**
@@ -185,10 +188,49 @@ async function extractOnce(
     else outcome.pendingReview++
   }
 
+  // M4：回填 embedding —— 失败不阻塞提取（留 null，backfill 脚本可补）
+  outcome.embedded = await embedInsertedMemories(conversationId, llm)
+
   // 章节蒸馏检查（独立于提取，提取失败不影响蒸馏判断）
   outcome.chapterDistilled = await maybeDistillChapter(conversationId, llm)
 
   return outcome
+}
+
+/**
+ * M4：给本轮刚写入的记忆生成 embedding。
+ * 设计：best-effort + 单调重试 + 失败留 null；
+ *   后续用 scripts/backfill-embeddings.ts 回填。
+ */
+async function embedInsertedMemories(
+  conversationId: string,
+  llm: { baseUrl: string; apiKey: string },
+): Promise<number> {
+  // 找到本轮刚写入但 embedding=null 的记忆（按时间倒序拿最近 N 条避免误伤旧的）
+  const recent = await db
+    .select({ id: memories.id, content: memories.content })
+    .from(memories)
+    .where(and(eq(memories.conversationId, conversationId)))
+    .orderBy(desc(memories.createdAt))
+    .limit(10)
+
+  let ok = 0
+  for (const m of recent) {
+    try {
+      const vec = await embed(m.content)
+      if (vec) {
+        await db
+          .update(memories)
+          .set({ embedding: vec, updatedAt: new Date() })
+          .where(eq(memories.id, m.id))
+        ok++
+      }
+    } catch (err) {
+      // embedding 失败 = 后续会被回填脚本接住；不抛、不影响记忆可用性
+      console.warn('[extraction] embedding 失败（已记入 null，将由 backfill 脚本回填）:', err instanceof Error ? err.message : err)
+    }
+  }
+  return ok
 }
 
 /** 去掉 ```json 包裹等常见污染后解析 */
