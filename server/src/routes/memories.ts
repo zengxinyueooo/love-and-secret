@@ -15,7 +15,7 @@ const memoriesRoute = new Hono()
 
 memoriesRoute.get('/', async (c) => {
   const conversationId = z.string().uuid().optional().parse(c.req.query('conversationId') || undefined)
-  const status = z.enum(['active', 'pending_review', 'rejected', 'superseded']).optional().parse(c.req.query('status') || undefined)
+  const status = z.enum(['active', 'pending_review', 'rejected', 'superseded', 'unverified']).optional().parse(c.req.query('status') || undefined)
   const kind = z.enum(['fact', 'episode', 'emotion', 'event']).optional().parse(c.req.query('kind') || undefined)
 
   const conds: SQL[] = []

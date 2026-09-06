@@ -46,6 +46,12 @@ const ExtractedMemory = z.object({
   summary: z.string().optional(),
   importance: z.number().min(0).max(1),
   confidence: z.number().min(0).max(1),
+  /**
+   * M12 反幻觉固化：这条记忆的事实由谁原创。
+   * - user：用户亲口说出/确认过 → 可信
+   * - assistant：角色的即兴发挥/比喻/编造细节（如把"司康"说成"肉桂卷"）→ 不可自动入库为事实
+   */
+  origin: z.enum(['user', 'assistant']).optional(),
   /** M5 情感字段 */
   valence: z.number().min(-1).max(1).optional(),
   arousal: z.number().min(0).max(1).optional(),
@@ -75,6 +81,12 @@ const EXTRACT_SYSTEM = `你是记忆提取引擎，为长期记忆系统服务�
 2. episode 必须保留细节，禁止过度压缩——一个晚上的经历不能用一句话概括
 3. 每条记忆给 importance（对这段关系的情感权重 0-1）和 confidence（提取置信度 0-1）
 4. 单轮提取最多 6 条，宁缺毋滥
+5. 【最重要】每条记忆标注 origin 字段：
+   - origin="user"：信息由用户亲口说出或明确确认（用户说"我烤了司康"→司康是 user 事实）
+   - origin="assistant"：角色（assistant）的即兴发挥、比喻、虚构场景细节——哪怕剧情再合理，
+     只要用户没有亲口证实过，一律标 assistant。角色编造的细节（如把用户的"司康"说成
+     "肉桂卷"、虚构"民宿老板养雪豹"）绝不能当作用户事实，否则系统会永久记住假信息。
+   - 判断标准：这句话的事实内容若去掉 assistant 回复，仅从用户消息能否还原？能→user，不能→assistant
 
 【M5 情感字段】每条记忆额外输出（用于关系状态机和遗忘曲线）：
 - valence: -1~1 情绪效价（-1 极度负面 / 0 中性 / 1 极度正面），无情感色彩则填 0
@@ -84,7 +96,7 @@ const EXTRACT_SYSTEM = `你是记忆提取引擎，为长期记忆系统服务�
   → 只在记忆触动关系维度时填（如表白→intimacy、吵架→conflict、被背叛→trust）
   → 日常 fact/episode/emotion 填 null
 
-输出格式：[{"kind":"episode","content":"...","importance":0.8,"confidence":0.9,"valence":0.7,"arousal":0.6,"emotional_intensity":0.85,"emotional_dimension":"intimacy"}, ...]`
+输出格式：[{"kind":"episode","content":"...","origin":"user","importance":0.8,"confidence":0.9,"valence":0.7,"arousal":0.6,"emotional_intensity":0.85,"emotional_dimension":"intimacy"}, ...]`
 
 export interface ExtractionOutcome {
   written: number
@@ -92,6 +104,8 @@ export interface ExtractionOutcome {
   superseded: number
   rejected: string[]
   chapterDistilled: boolean
+  /** M12：本轮被拦下的 assistant 原创记忆数（反幻觉固化观测） */
+  assistantOriginBlocked?: number
   /** M4：本次成功生成 embedding 的记忆条数 */
   embedded?: number
   /** M5：投影到 emotional_events 表的关系事件数 */
@@ -114,7 +128,7 @@ export async function runExtraction(
     const outcome = await extractOnce(conversationId, userMessageId, userContent, assistantMessageId, assistantContent, llm)
     await writeOutcomeToMeta(assistantMessageId, outcome)
   } catch (err) {
-    console.error('[extraction] 提取失败（已记录，不静默丢失）:', err instanceof Error ? err.message : err)
+    console.error('[extraction] 提取失败（已记录，不静默丢失）:', err instanceof Error ? (err.stack ?? err.message) : err)
     await writeOutcomeToMeta(assistantMessageId, {
       written: 0,
       pendingReview: 0,
@@ -124,6 +138,25 @@ export async function runExtraction(
       error: err instanceof Error ? err.message : String(err),
     })
   }
+}
+
+/**
+ * M12 Write Gate 判定（纯函数，可单测）：
+ * - 用户亲口说的 + 高置信高重要 → active（auto）
+ * - 用户说的低置信 → pending_review（原有逻辑）
+ * - assistant 原创的（幻觉源）→ 一律 unverified：不进检索、不投影关系事件、
+ *   不触发 supersession，等用户在记忆面板批准后才转为 active
+ */
+export function resolveWriteGate(m: {
+  origin?: 'user' | 'assistant'
+  importance: number
+  confidence: number
+}): { auto: boolean; status: 'active' | 'pending_review' | 'unverified'; fromAssistant: boolean } {
+  const fromAssistant = m.origin === 'assistant'
+  const auto =
+    !fromAssistant && m.importance >= AUTO_WRITE_IMPORTANCE && m.confidence >= AUTO_WRITE_CONFIDENCE
+  const status = auto ? 'active' : fromAssistant ? 'unverified' : 'pending_review'
+  return { auto, status, fromAssistant }
 }
 
 async function extractOnce(
@@ -185,10 +218,13 @@ async function extractOnce(
 
   // Write Gate 分级写入 + Temporal Supersession
   const insertedIds: string[] = [] // M5：用于关系事件投影回链 memoryId
+  let assistantOriginCount = 0 // M12：本轮 assistant 原创记忆数（观测指标）
   for (const m of valid) {
-    const auto = m.importance >= AUTO_WRITE_IMPORTANCE && m.confidence >= AUTO_WRITE_CONFIDENCE
-    const status = auto ? 'active' : 'pending_review'
+    const gateDecision = resolveWriteGate(m)
+    if (gateDecision.fromAssistant) assistantOriginCount++
+    const { auto, status } = gateDecision
 
+    // supersession 只由用户亲口说的事实触发：assistant 的幻觉无权覆盖真实记忆
     if (m.kind === 'fact' && auto) {
       outcome.superseded += await supersedeConflictingFacts(conversationId, m.content)
     }
@@ -217,6 +253,9 @@ async function extractOnce(
     if (auto) outcome.written++
     else outcome.pendingReview++
   }
+
+  // M12：被拦下的 assistant 原创记忆数（含 unverified，观测定期看有没有误伤）
+  outcome.assistantOriginBlocked = assistantOriginCount
 
   // M4：回填 embedding —— 失败不阻塞提取（留 null，backfill 脚本可补）
   outcome.embedded = await embedInsertedMemories(conversationId, llm)
@@ -255,6 +294,8 @@ async function projectToEmotionalEvents(
   const events: EmotionalEventInput[] = []
   for (let i = 0; i < valid.length; i++) {
     const m = valid[i]
+    // M12：assistant 原创内容不投影关系事件——幻觉不该改变亲密度/信任度
+    if (m.origin === 'assistant') continue
     if (!m.emotionalDimension || (m.emotionalIntensity ?? 0) < 0.5) continue
     const intensity = m.emotionalIntensity ?? 0.5
     const valence = m.valence ?? 0

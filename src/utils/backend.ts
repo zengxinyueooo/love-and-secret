@@ -36,7 +36,7 @@ export interface MemoryDTO {
   importance: number
   confidence: number
   gate: 'auto' | 'review'
-  status: 'active' | 'pending_review' | 'rejected' | 'superseded'
+  status: 'active' | 'pending_review' | 'rejected' | 'superseded' | 'unverified'
   validFrom: string
   validTo: string | null
   supersededBy: string | null

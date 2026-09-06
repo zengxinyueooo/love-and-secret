@@ -116,9 +116,14 @@ export const memories = pgTable(
     confidence: doublePrecision('confidence').notNull().default(0.5),
     /** write gate 判定：auto | review */
     gate: text('gate', { enum: ['auto', 'review'] }).notNull().default('auto'),
-    /** active | pending_review | rejected | superseded */
+    /**
+     * active | pending_review | rejected | superseded | unverified
+     *
+     * M12 unverified：角色（assistant）原创内容的专属状态——LLM 的即兴发挥
+     * 未经用户证实时不能进检索（防止幻觉固化回路），但保留在库里等用户批准。
+     */
     status: text('status', {
-      enum: ['active', 'pending_review', 'rejected', 'superseded'],
+      enum: ['active', 'pending_review', 'rejected', 'superseded', 'unverified'],
     })
       .notNull()
       .default('active'),

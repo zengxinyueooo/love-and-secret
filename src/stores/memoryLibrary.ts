@@ -69,6 +69,8 @@ export const useMemoryLibraryStore = defineStore('memoryLibrary', () => {
   const active = computed(() => memories.value.filter((m) => m.status === 'active'))
   const superseded = computed(() => memories.value.filter((m) => m.status === 'superseded'))
   const rejected = computed(() => memories.value.filter((m) => m.status === 'rejected'))
+  /** M12：角色原创、未经用户证实的记忆（反幻觉固化拦截区） */
+  const unverified = computed(() => memories.value.filter((m) => m.status === 'unverified'))
 
   /** 按会话分组（用于会话内浏览记忆） */
   const byConversation = computed(() => {
@@ -91,6 +93,7 @@ export const useMemoryLibraryStore = defineStore('memoryLibrary', () => {
     active,
     superseded,
     rejected,
+    unverified,
     byConversation,
     loadAll,
     approve,

@@ -128,14 +128,14 @@
           <!-- 操作 -->
           <div class="flex flex-wrap gap-2 pt-3 border-t border-gray-100">
             <button
-              v-if="m.status === 'pending_review'"
+              v-if="m.status === 'pending_review' || m.status === 'unverified'"
               @click="handleApprove(m.id)"
               class="btn-primary text-xs"
             >
               ✓ 批准
             </button>
             <button
-              v-if="m.status === 'pending_review'"
+              v-if="m.status === 'pending_review' || m.status === 'unverified'"
               @click="handleReject(m.id)"
               class="btn-secondary text-xs"
             >
@@ -194,7 +194,7 @@ const library = useMemoryLibraryStore()
 const conversationFilter = ref('')
 const kindFilter = ref<'' | MemoryKind>('')
 const sortBy = ref<'createdAt' | 'importance' | 'emotionalIntensity'>('createdAt')
-const activeTab = ref<'pending' | 'active' | 'superseded' | 'rejected'>('pending')
+const activeTab = ref<'pending' | 'active' | 'unverified' | 'superseded' | 'rejected'>('pending')
 
 const conversations = ref<ConversationDTO[]>([])
 const editingMemory = ref<{ id: string } | null>(null)
@@ -214,6 +214,7 @@ async function reload() {
 const tabs = computed(() => [
   { key: 'pending' as const, label: '待审', count: library.pending.length },
   { key: 'active' as const, label: '已激活', count: library.active.length },
+  { key: 'unverified' as const, label: '角色原创', count: library.unverified.length },
   { key: 'superseded' as const, label: '已取代', count: library.superseded.length },
   { key: 'rejected' as const, label: '已拒绝', count: library.rejected.length },
 ])
@@ -222,6 +223,7 @@ const filteredList = computed(() => {
   let list = library.memories
   if (activeTab.value === 'pending') list = library.pending
   else if (activeTab.value === 'active') list = library.active
+  else if (activeTab.value === 'unverified') list = library.unverified
   else if (activeTab.value === 'superseded') list = library.superseded
   else if (activeTab.value === 'rejected') list = library.rejected
 
@@ -245,7 +247,13 @@ function kindLabel(kind: MemoryKind): string {
   return { fact: '事实', episode: '情景', emotion: '情感', event: '事件' }[kind]
 }
 function statusLabel(status: MemoryStatus): string {
-  return { active: '已激活', pending_review: '待审', rejected: '已拒绝', superseded: '已取代' }[status]
+  return {
+    active: '已激活',
+    pending_review: '待审',
+    rejected: '已拒绝',
+    superseded: '已取代',
+    unverified: '角色原创',
+  }[status]
 }
 function statusBadgeClass(status: MemoryStatus): string {
   return {
@@ -253,6 +261,7 @@ function statusBadgeClass(status: MemoryStatus): string {
     pending_review: 'bg-yellow-100 text-yellow-700',
     rejected: 'bg-gray-200 text-gray-600',
     superseded: 'bg-orange-100 text-orange-700',
+    unverified: 'bg-purple-100 text-purple-700',
   }[status]
 }
 function statusBorderClass(status: MemoryStatus): string {
@@ -261,6 +270,7 @@ function statusBorderClass(status: MemoryStatus): string {
     pending_review: 'border-l-4 border-yellow-400',
     rejected: 'border-l-4 border-gray-300',
     superseded: 'border-l-4 border-orange-300 opacity-70',
+    unverified: 'border-l-4 border-purple-300',
   }[status]
 }
 function dimensionLabel(d: string): string {
