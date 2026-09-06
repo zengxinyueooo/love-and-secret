@@ -1,6 +1,8 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import type { Settings, AIModel } from '../types'
+import homeBgDefault from '../assets/backgrounds/home.jpg'
+import chatBgDefault from '../assets/backgrounds/chat.jpg'
 
 // ===== 默认系统提示词（M7 重写版）=====
 // 来源：用户提供的《黎深prompt.docx》官方人设 + 二次结构化整理
@@ -103,8 +105,8 @@ export const useSettingsStore = defineStore('settings', () => {
     snowflakeEnabled: true,
     backgroundMusicEnabled: false,
     backgroundConfig: {
-      homeBackground: undefined,
-      chatBackground: undefined,
+      homeBackground: homeBgDefault,
+      chatBackground: chatBgDefault,
       chatBackgroundOpacity: 0.3
     },
     avatarConfig: {
@@ -123,8 +125,8 @@ export const useSettingsStore = defineStore('settings', () => {
         ...settings.value,
         ...loadedSettings,
         backgroundConfig: {
-          homeBackground: loadedSettings.backgroundConfig?.homeBackground,
-          chatBackground: loadedSettings.backgroundConfig?.chatBackground,
+          homeBackground: loadedSettings.backgroundConfig?.homeBackground || homeBgDefault,
+          chatBackground: loadedSettings.backgroundConfig?.chatBackground || chatBgDefault,
           chatBackgroundOpacity: loadedSettings.backgroundConfig?.chatBackgroundOpacity ?? 0.3
         },
         avatarConfig: {
@@ -186,15 +188,15 @@ export const useSettingsStore = defineStore('settings', () => {
     saveSettings()
   }
 
-  // 更新主页背景
+  // 更新主页背景（清空则回落默认图）
   const updateHomeBackground = (imageData: string | undefined) => {
-    settings.value.backgroundConfig.homeBackground = imageData
+    settings.value.backgroundConfig.homeBackground = imageData || homeBgDefault
     saveSettings()
   }
 
-  // 更新聊天背景
+  // 更新聊天背景（清空则回落默认图）
   const updateChatBackground = (imageData: string | undefined) => {
-    settings.value.backgroundConfig.chatBackground = imageData
+    settings.value.backgroundConfig.chatBackground = imageData || chatBgDefault
     saveSettings()
   }
 

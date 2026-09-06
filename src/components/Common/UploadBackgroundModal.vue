@@ -112,7 +112,7 @@
               @click="handleClear"
               class="btn-secondary"
             >
-              清除背景
+              恢复默认背景
             </button>
             <button @click="close" class="btn-secondary">
               取消
