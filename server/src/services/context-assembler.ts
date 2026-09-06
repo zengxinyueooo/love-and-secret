@@ -19,6 +19,7 @@ import { desc, eq } from 'drizzle-orm'
 import { db } from '../db/client.js'
 import { chapters, conversations, messages } from '../db/schema.js'
 import { searchMemories } from './retrieval.js'
+import { reconsolidateMemories } from './reconsolidation.js'
 import {
   getRecentEmotionalEvents,
   getRelationshipState,
@@ -243,6 +244,15 @@ export async function assembleContext(
         score: m.score,
         source: m.source,
       }))
+
+      // M10 记忆再巩固：被想起的记忆会被「重写」一次
+      //   fire-and-forget —— 绝不能因为强化失败而拖慢或中断对话
+      void reconsolidateMemories(items.map((m) => m.id)).catch((e) => {
+        console.warn(
+          '[context-assembler] 记忆再巩固失败（已忽略）:',
+          e instanceof Error ? e.message : e,
+        )
+      })
     }
   } catch (err) {
     console.warn('[context-assembler] 检索失败（已降级为空）:', err instanceof Error ? err.message : err)

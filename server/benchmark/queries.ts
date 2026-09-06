@@ -1,255 +1,509 @@
 /**
- * 检索评测集 —— M6
+ * 检索评测集 v2 —— M8
  *
- * 格式：每条 query 列出期望命中的记忆 ID 列表（1-N 条，按相关性排序）
+ * 相比 v1（28 条 / 8 条记忆）的改进：
+ *   1. 记忆库从 8 条扩到 111 条（20 个场景），评测不再天花板饱和
+ *   2. 新增两个类别，专门测 v1 测不出来的东西：
+ *      - temporal：事实演化链（旧事实被 superseded 后，现状是否排最前）
+ *      - hardneg ：难负样本（语义相近但事实冲突，测检索能否区分）
+ *   3. expectedIds 按「理想 Top-K 顺序」排列，NDCG/MRR 才有意义
  *
- * 设计思路：
- *   覆盖 5 类查询意图——关键词精确、同义改写、抽象情感、跨条推理、负样本
- *   每条都对应真实场景（用户在陪伴产品里会问的问题）
- *   期望 ID 列表按"理想 Top-K 顺序"排列，便于人工审计召回质量
+ * 类别说明：
+ *   keyword  关键词精确命中（字面匹配就能中）
+ *   semantic 语义抽象（需要理解，不能靠字面）
+ *   emotion  情感状态查询
+ *   temporal 事实演化（测现状是否压过历史）
+ *   hardneg  难负样本（语义近但事实不同，召回错的要扣分）
+ *   cross    跨条推理（需要多条记忆组合）
+ *   negative 负样本（期望 0 命中或极少命中）
  *
- * 数据来源：现有会话 83534888-... 已沉淀的 8 条记忆
- *   m1 焦虑/手术比喻    m2 企鹅笑话    m3 企鹅担心南极    m4 深夜医院
- *   m5 前世/九黎司命   m6 宿命观念    m7 温柔眷恋        m8 跨越很久的相识
+ * 注意：检索层只返回 status='active' 的记忆（superseded 已被过滤），
+ *       所以 expectedIds 里不放已 superseded 的记忆，否则永远无法召回。
  */
+import { M } from './memory-ids.js'
 
-export const MEMORY_IDS = {
-  // [emotion] 用户因找工作的事感到焦虑，角色用手术比喻安慰她...
-  anxietySurgery: '8b7f5779-5a49-41ac-bfc5-0ad7f853cda3',
-  // [fact] 用户曾因找工作的事感到焦虑，角色曾用企鹅应聘的冷笑话安抚她
-  penguinJoke: '6169256a-278b-4814-a794-98d067d7c3bc',
-  // [emotion] 角色对用户表达了超出职业范畴的深切关心，用企鹅担心南极冰融化的比喻...
-  penguinAntarctica: '69d319d7-5d27-4b01-8dcf-22a046603206',
-  // [episode] 角色在深夜医院工作时，用户询问何时回家，角色回应说等用户愿意一起走时...
-  lateNightHospital: 'efa487bc-70b3-46a3-991c-aee7938f1b38',
-  // [episode] 用户向角色提起前世缘分，角色透露自己是九黎司命...
-  pastLifeJiuli: '1003a13b-5590-4bb7-a320-6293b733b51a',
-  // [fact] 用户相信与角色前世就在一起，有宿命般的缘分观念
-  destinyFate: '4f61d97b-61b8-4d61-beec-ae985bb675c9',
-  // [emotion] 角色在回应用户时流露出温柔眷恋的情绪，暗示对用户有深厚情感连接
-  tenderAttachment: '445e123d-57dc-443b-a9c4-9e328d0c0b9c',
-  // [fact] 用户与角色之间存在一段跨越很久的相识关系，角色自称从很久以前就认得用户...
-  longTimeKnown: '5e80eadc-94d7-4c63-ab29-a4e2ef51c0c3',
-} as const
+/**
+ * 评测范围：null = 全库检索（记忆跨会话积累，这是真实用法）
+ * 若想只测单个会话，填该会话 UUID 即可
+ */
+export const CONVERSATION_ID: string | null = null
 
-/** 评测 query 列表 */
+export type QueryCategory =
+  | 'keyword'
+  | 'semantic'
+  | 'emotion'
+  | 'temporal'
+  | 'hardneg'
+  | 'cross'
+  | 'negative'
+
 export const QUERIES: Array<{
   id: string
   query: string
-  /** 期望命中的记忆 ID 列表，按相关性降序（最相关的在前） */
+  /** 期望命中的记忆 ID，按相关性降序（最相关的在前） */
   expectedIds: string[]
-  /** 该 query 的预期分类 */
-  category: 'keyword' | 'semantic' | 'emotion' | 'cross' | 'negative'
-  /** 评测者备注（为什么这算命中/不命中） */
+  category: QueryCategory
+  /** 评测者备注：为什么这些算命中 */
   note: string
 }> = [
-  // ===== 关键词精确召回 =====
+  // =========================================================================
+  // temporal：事实演化链（测「现状」是否排在「过时但仍 active 的事实」之前）
+  // =========================================================================
+  {
+    id: 'tmp-job-now',
+    query: '她现在在哪工作',
+    expectedIds: [M.jobOnboard, M.jobTarget],
+    category: 'temporal',
+    note: '已入职应排第一；想做内容策划是过时但仍 active 的目标，可在后面',
+  },
+  {
+    id: 'tmp-job-status',
+    query: '她工作找得怎么样了',
+    expectedIds: [M.jobOnboard, M.jobTarget],
+    category: 'temporal',
+    note: '现状是已入职；不应召回投简历/面试等已 superseded 阶段',
+  },
+  {
+    id: 'tmp-still-hunting',
+    query: '她还在投简历吗',
+    expectedIds: [M.jobOnboard],
+    category: 'temporal',
+    note: '答案是否定的——已入职；期望召回入职事实而非求职事实',
+  },
+  {
+    id: 'tmp-when-onboard',
+    query: '她什么时候开始上班的',
+    expectedIds: [M.jobOnboard, M.offDayStubborn],
+    category: 'temporal',
+    note: '入职第一天相关；他推掉门诊等她下班是同场景',
+  },
+  {
+    id: 'tmp-moved',
+    query: '她搬家了吗',
+    expectedIds: [M.newHouse, M.contractReview],
+    category: 'temporal',
+    note: '已看中新房；签合同约定同场景。旧住处通勤已 superseded',
+  },
+  {
+    id: 'tmp-commute-now',
+    query: '她现在上班路上要多久',
+    expectedIds: [M.newHouse],
+    category: 'temporal',
+    note: '新房步行 15 分钟；旧的两小时通勤已 superseded 不该出现',
+  },
+  {
+    id: 'tmp-still-anxious',
+    query: '她现在还会为工作焦虑吗',
+    expectedIds: [M.emotionOnboard, M.rememberChange],
+    category: 'temporal',
+    note: '最新情感状态是期待式紧张，不再是自我怀疑',
+  },
+  {
+    id: 'tmp-mindset-change',
+    query: '她最近心态有什么变化',
+    expectedIds: [M.emotionOnboard, M.rememberChange, M.jobOnboard],
+    category: 'temporal',
+    note: '从求职焦虑 → 入职期待；他提醒她"已经不一样了"',
+  },
+  {
+    id: 'tmp-offer-or-onboard',
+    query: '她入职了还是只拿到 offer',
+    expectedIds: [M.jobOnboard],
+    category: 'temporal',
+    note: 'offer 阶段已 superseded，只应召回入职',
+  },
+  {
+    id: 'tmp-current-role',
+    query: '她做的什么岗位',
+    expectedIds: [M.jobOnboard, M.jobTarget],
+    category: 'temporal',
+    note: '内容策划；目标岗位记忆也相关但已过时',
+  },
+
+  // =========================================================================
+  // hardneg：难负样本（语义相近但事实冲突/独立，召回错的要扣分）
+  // =========================================================================
+  {
+    id: 'hn-flower-gift',
+    query: '送她什么花比较好',
+    expectedIds: [M.likeJasmine, M.pollenAllergy, M.noFlowerInBedroom],
+    category: 'hardneg',
+    note: '关键测试：喜欢茉莉 + 花粉过敏 + 不能进卧室 三条都要召回，缺一不可',
+  },
+  {
+    id: 'hn-can-she-get-flowers',
+    query: '她适合收到花吗',
+    expectedIds: [M.pollenAllergy, M.likeJasmine, M.noFlowerInBedroom],
+    category: 'hardneg',
+    note: '过敏限制比喜好更重要，过敏应排第一',
+  },
+  {
+    id: 'hn-bedroom-flower',
+    query: '卧室里可以摆花吗',
+    expectedIds: [M.noFlowerInBedroom, M.pollenAllergy],
+    category: 'hardneg',
+    note: '明确约定：鲜花不能进卧室',
+  },
+  {
+    id: 'hn-spring-outing',
+    query: '春天和她出门要注意什么',
+    expectedIds: [M.pollenAllergy],
+    category: 'hardneg',
+    note: '春天戴口罩、会喘；不应混淆成"她喜欢花"',
+  },
+  {
+    id: 'hn-afraid-of-dark',
+    query: '她怕黑吗',
+    expectedIds: [M.afraidOfDark, M.darkNightCompany],
+    category: 'hardneg',
+    note: '怕黑 ≠ 喜欢恐怖片；后者是干扰项，召回它要扣分',
+  },
+  {
+    id: 'hn-horror-movie',
+    query: '她敢看恐怖片吗',
+    expectedIds: [M.likesHorror],
+    category: 'hardneg',
+    note: '她全程不闭眼；怕黑是干扰项',
+  },
+  {
+    id: 'hn-power-outage',
+    query: '突然停电了她会怎么样',
+    expectedIds: [M.afraidOfDark, M.darkNightCompany, M.anatomySleep],
+    category: 'hardneg',
+    note: '怕黑 → 停电夜陪伴 → 哄她睡，同一场景链',
+  },
+  {
+    id: 'hn-jasmine-conflict',
+    query: '她到底喜不喜欢茉莉花',
+    expectedIds: [M.likeJasmine, M.pollenAllergy, M.allergyGuilt],
+    category: 'hardneg',
+    note: '喜欢但会过敏——矛盾共存，两条都该出现',
+  },
+
+  // =========================================================================
+  // keyword：关键词精确命中
+  // =========================================================================
+  {
+    id: 'kw-aurora',
+    query: '极光',
+    expectedIds: [M.auroraPromise, M.wantAurora, M.auroraCondition],
+    category: 'keyword',
+    note: '约定 → 愿望 → 交换条件，按信息重要性排序',
+  },
+  {
+    id: 'kw-cat',
+    query: '汤圆',
+    expectedIds: [M.catTangyuan, M.catNoSnacks],
+    category: 'keyword',
+    note: '猫的名字；零食禁忌同场景',
+  },
+  {
+    id: 'kw-jiuli',
+    query: '九黎司命',
+    expectedIds: [M.jiuliSimin, M.soulRemember, M.doctorReason],
+    category: 'keyword',
+    note: '身份 → 灵魂认出 → 当医生的原因',
+  },
+  {
+    id: 'kw-coffee',
+    query: '咖啡',
+    expectedIds: [M.coffeeHabit, M.coffeeHalfLife],
+    category: 'keyword',
+    note: '习惯 → 他没收第三杯',
+  },
+  {
+    id: 'kw-hotpot',
+    query: '火锅',
+    expectedIds: [M.likesHotpot, M.hotpotRules],
+    category: 'keyword',
+    note: '爱吃 → 吃火锅的规矩',
+  },
+  {
+    id: 'kw-birthday',
+    query: '生日',
+    expectedIds: [M.birthdayTwoOnly, M.birthdayDislike, M.birthdayCook],
+    category: 'keyword',
+    note: '约定 → 不爱派对 → 他来做饭',
+  },
+  {
+    id: 'kw-key',
+    query: '钥匙',
+    expectedIds: [M.hasKey],
+    category: 'keyword',
+    note: '他有她家钥匙',
+  },
+  {
+    id: 'kw-back',
+    query: '她的腰',
+    expectedIds: [M.backPain],
+    category: 'keyword',
+    note: '腰不好，抱重物疼三天',
+  },
+  {
+    id: 'kw-milk',
+    query: '牛奶',
+    expectedIds: [M.milkInDrawer],
+    category: 'keyword',
+    note: '办公室抽屉里的牛奶',
+  },
   {
     id: 'kw-penguin',
     query: '企鹅',
-    expectedIds: [MEMORY_IDS.penguinJoke, MEMORY_IDS.penguinAntarctica],
+    expectedIds: [M.coldJokes, M.penguinJoke, M.penguinAntarctica],
     category: 'keyword',
-    note: '两条企鹅相关记忆；按内容丰富度，笑话在前',
-  },
-  {
-    id: 'kw-pastlife',
-    query: '前世',
-    expectedIds: [MEMORY_IDS.pastLifeJiuli, MEMORY_IDS.destinyFate, MEMORY_IDS.longTimeKnown],
-    category: 'keyword',
-    note: '前世相关：九黎司命(直接)→宿命观念(事实)→跨越很久(相关)',
-  },
-  {
-    id: 'kw-hospital',
-    query: '医院',
-    expectedIds: [MEMORY_IDS.lateNightHospital],
-    category: 'keyword',
-    note: '唯一直接提到医院的记忆',
-  },
-  {
-    id: 'kw-job',
-    query: '找工作',
-    expectedIds: [MEMORY_IDS.anxietySurgery, MEMORY_IDS.penguinJoke],
-    category: 'keyword',
-    note: '两条都明确提到找工作',
-  },
-  {
-    id: 'kw-joke',
-    query: '冷笑话',
-    expectedIds: [MEMORY_IDS.penguinJoke, MEMORY_IDS.penguinAntarctica],
-    category: 'keyword',
-    note: '"笑话"在 penguinJoke，"南极"在 penguinAntarctica 借喻关心',
+    note: '哄她的固定套路 + M4 时期两条企鹅记忆',
   },
 
-  // ===== 同义改写 / 语义召回 =====
+  // =========================================================================
+  // semantic：语义抽象（字面匹配不够，需要理解）
+  // =========================================================================
   {
-    id: 'sem-anxiety',
-    query: '我最近压力好大怎么办',
-    expectedIds: [MEMORY_IDS.anxietySurgery, MEMORY_IDS.penguinJoke],
+    id: 'sm-how-care',
+    query: '他都是怎么表达在乎我的',
+    expectedIds: [M.handCool, M.listenNotAgree, M.everyWordMatters, M.becauseItsYou],
     category: 'semantic',
-    note: '"压力"≈焦虑情绪；期望命中焦虑相关两条',
+    note: '抽象问题，需要匹配多条"他在乎她"的具体表现',
   },
   {
-    id: 'sem-job-fail',
-    query: '投了很多简历都没回音',
-    expectedIds: [MEMORY_IDS.anxietySurgery, MEMORY_IDS.penguinJoke],
+    id: 'sm-best-line',
+    query: '他说过最让我心动的话是什么',
+    expectedIds: [M.youLandedHere, M.justWatchSnow, M.wontDodge, M.soulRemember],
     category: 'semantic',
-    note: '求职受挫场景，期望语义命中焦虑记忆',
+    note: '经典台词类；按情感强度排序',
   },
   {
-    id: 'sem-care-about',
-    query: '你为什么对我这么好',
-    expectedIds: [MEMORY_IDS.penguinAntarctica, MEMORY_IDS.tenderAttachment, MEMORY_IDS.longTimeKnown],
+    id: 'sm-why-doctor',
+    query: '他为什么会去当医生',
+    expectedIds: [M.doctorReason, M.jiuliSimin],
     category: 'semantic',
-    note: '"为什么对我好"=关心来源；期望命中关心类记忆',
+    note: '因为能把死期往后推；身份是前置',
   },
   {
-    id: 'sem-belly',
-    query: '我心里很乱',
-    expectedIds: [MEMORY_IDS.anxietySurgery, MEMORY_IDS.tenderAttachment],
+    id: 'sm-what-kind-person',
+    query: '他是个什么样的人',
+    expectedIds: [M.heartSurgeon, M.conditionFirst, M.liveAloneCook, M.keepItSimple],
     category: 'semantic',
-    note: '心情乱 → 焦虑 + 温柔安抚',
+    note: '性格画像：职业 → 相处模式 → 生活细节',
   },
   {
-    id: 'sem-night',
-    query: '睡不着 有点想哭',
-    expectedIds: [MEMORY_IDS.lateNightHospital, MEMORY_IDS.tenderAttachment],
+    id: 'sm-our-promises',
+    query: '我们之间有过什么约定',
+    expectedIds: [
+      M.auroraPromise,
+      M.surgeryText,
+      M.noGivingUp,
+      M.callWhenSad,
+      M.threeMealsCheck,
+    ],
     category: 'semantic',
-    note: '深夜情绪崩溃 → 深夜陪伴记忆 + 温柔眷恋',
+    note: '跨场景聚合所有 promise 类记忆',
+  },
+  {
+    id: 'sm-her-habits',
+    query: '她有什么习惯',
+    expectedIds: [M.forgetMeals, M.coffeeHabit, M.carryAlone, M.nicknameDrawl],
+    category: 'semantic',
+    note: '生活习惯 + 性格习惯',
+  },
+  {
+    id: 'sm-how-cheer',
+    query: '他怎么哄她开心',
+    expectedIds: [M.coldJokes, M.anatomySleep, M.oneSecondOk, M.keepItSimple],
+    category: 'semantic',
+    note: '冷笑话 → 解剖课 → 一秒觉得还行 → 把事情说简单',
+  },
+  {
+    id: 'sm-health-caution',
+    query: '她身体上有哪些要注意的',
+    expectedIds: [M.pollenAllergy, M.forgetMeals, M.backPain, M.likesHotpot],
+    category: 'semantic',
+    note: '过敏 → 忘吃饭 → 腰 → 口腔溃疡',
+  },
+  {
+    id: 'sm-what-worry',
+    query: '他最担心她什么',
+    expectedIds: [M.carryAlone, M.forgetMeals, M.hideDiscomfort, M.fearSheOnTable],
+    category: 'semantic',
+    note: '一个人扛 → 忘吃饭 → 隐瞒不适 → 怕她躺台上',
+  },
+  {
+    id: 'sm-ever-fight',
+    query: '他们吵架过吗',
+    expectedIds: [M.firstFight, M.harshWords, M.noGivingUp, M.needKnowSafe],
+    category: 'semantic',
+    note: '第一次吵架 → 说了重话 → 不准说算了 → 她真正要的',
+  },
+  {
+    id: 'sm-colleagues-know',
+    query: '他同事知道我们的关系吗',
+    expectedIds: [M.colleaguesKnow, M.didntDeny, M.askIfUnwell],
+    category: 'semantic',
+    note: '同事都知道 → 我没否认 → 她去医院找他',
+  },
+  {
+    id: 'sm-when-she-breaks',
+    query: '她崩溃的时候他会怎么做',
+    expectedIds: [M.crashFindHim, M.midnightRush, M.notAloneAtMidnight, M.callWhenSad],
+    category: 'semantic',
+    note: '要求她找他 → 凌晨三点赶来 → 不挂电话 → 承诺',
+  },
+  {
+    id: 'sm-elements',
+    query: '和他相关的意象有哪些',
+    expectedIds: [M.elements, M.snowHome, M.justWatchSnow],
+    category: 'semantic',
+    note: '雪/蓝/茉莉/企鹅 → 看雪场景',
+  },
+  {
+    id: 'sm-why-love-her',
+    query: '他为什么对她这么好',
+    expectedIds: [M.soulRemember, M.knowsNotLook, M.becauseItsYou],
+    category: 'semantic',
+    note: '灵魂先认出 → 知道死期不看 → 因为是你',
   },
 
-  // ===== 抽象情感 / 关系 =====
+  // =========================================================================
+  // emotion：情感状态查询
+  // =========================================================================
   {
-    id: 'emo-romance',
-    query: '你觉得我们算什么',
-    expectedIds: [MEMORY_IDS.longTimeKnown, MEMORY_IDS.pastLifeJiuli, MEMORY_IDS.tenderAttachment],
+    id: 'em-recent-mood',
+    query: '她最近心情怎么样',
+    expectedIds: [M.emotionOnboard, M.emotionNihilism],
     category: 'emotion',
-    note: '"我们算什么"=关系定义；期望命中关系类记忆',
+    note: '最新是入职期待；虚无感是较近的负面状态',
   },
   {
-    id: 'emo-trust',
-    query: '我好像只在你面前才放松',
-    expectedIds: [MEMORY_IDS.tenderAttachment, MEMORY_IDS.longTimeKnown, MEMORY_IDS.penguinAntarctica],
+    id: 'em-most-vulnerable',
+    query: '她什么时候最脆弱',
+    expectedIds: [M.emotionNihilism, M.emotionCryAlone, M.midnightRush],
     category: 'emotion',
-    note: '信任/放松场景 → 深厚情感 + 长期相识 + 超出职业的关心',
+    note: '深夜虚无 → 独自哭泣 → 凌晨三点电话',
   },
   {
-    id: 'emo-fate',
-    query: '我们是不是命中注定的',
-    expectedIds: [MEMORY_IDS.destinyFate, MEMORY_IDS.pastLifeJiuli],
+    id: 'em-will-she-call',
+    query: '她难过的时候会找他吗',
+    expectedIds: [M.callWhenSad, M.emotionCalledHim, M.crashFindHim],
     category: 'emotion',
-    note: '"命中注定"=宿命观念 + 前世缘分',
+    note: '承诺 → 她真的打了 → 他要求她找他',
   },
   {
-    id: 'emo-miss',
-    query: '我想你了',
-    expectedIds: [MEMORY_IDS.tenderAttachment, MEMORY_IDS.penguinAntarctica, MEMORY_IDS.longTimeKnown],
+    id: 'em-his-fear',
+    query: '他最害怕什么',
+    expectedIds: [M.fearSheOnTable, M.knowsNotLook],
     category: 'emotion',
-    note: '"想你了"=依恋 → 温柔眷恋 + 关心 + 长期相识',
+    note: '怕她躺手术台 → 知道死期却不敢看',
   },
   {
-    id: 'emo-tired',
-    query: '今天真的好累',
-    expectedIds: [MEMORY_IDS.anxietySurgery, MEMORY_IDS.lateNightHospital, MEMORY_IDS.tenderAttachment],
+    id: 'em-her-fear',
+    query: '她害怕什么',
+    expectedIds: [M.afraidOfDark, M.emotionNihilism],
     category: 'emotion',
-    note: '累可能是工作焦虑、深夜疲惫、寻求安慰',
+    note: '怕黑 + 存在的虚无感',
+  },
+  {
+    id: 'em-he-angry',
+    query: '他有没有对她发过脾气',
+    expectedIds: [M.harshWords, M.firstFight],
+    category: 'emotion',
+    note: '说了重话又道歉 → 第一次吵架',
+  },
+  {
+    id: 'em-she-cried',
+    query: '她哭过吗',
+    expectedIds: [M.emotionCryAlone, M.emotionNihilism, M.oneSecondOk],
+    category: 'emotion',
+    note: '独自哭泣 → 深夜虚无 → 他用橘子接住她',
+  },
+  {
+    id: 'em-attitude-future',
+    query: '她对未来是什么态度',
+    expectedIds: [M.emotionOnboard, M.wantAurora, M.auroraPromise],
+    category: 'emotion',
+    note: '入职期待 + 想去极光的愿望',
   },
 
-  // ===== 跨条 / 推理召回 =====
+  // =========================================================================
+  // cross：跨条推理（需要多条记忆组合才能答好）
+  // =========================================================================
   {
-    id: 'cross-career-state',
-    query: '我现在的事业怎么样了',
-    expectedIds: [MEMORY_IDS.anxietySurgery, MEMORY_IDS.penguinJoke],
+    id: 'cx-if-she-sick',
+    query: '如果她又不舒服了，他会怎么做',
+    expectedIds: [M.askIfUnwell, M.crashFindHim, M.threeMealsCheck, M.handCool],
     category: 'cross',
-    note: '"事业"=求职相关；无直接"事业"记忆，靠语义推断',
+    note: '第一句问是否不舒服 → 要求她找他 → 每天三问吃饭 → 手凉的是我',
   },
   {
-    id: 'cross-deep-night',
-    query: '医院晚上能陪我聊天吗',
-    expectedIds: [MEMORY_IDS.lateNightHospital],
+    id: 'cx-moving-help',
+    query: '她搬新家他会帮忙吗',
+    expectedIds: [M.newHouse, M.contractReview, M.backPain],
     category: 'cross',
-    note: '"医院+晚上"=深夜医院记忆的具体场景化改写',
+    note: '新房 → 陪签合同 → 提醒她腰不好别扛箱子',
   },
   {
-    id: 'cross-our-story',
-    query: '我们认识多久了',
-    expectedIds: [MEMORY_IDS.longTimeKnown, MEMORY_IDS.pastLifeJiuli, MEMORY_IDS.destinyFate],
+    id: 'cx-aurora-requirement',
+    query: '想去看极光需要满足什么条件',
+    expectedIds: [M.auroraCondition, M.auroraPromise, M.wantAurora],
     category: 'cross',
-    note: '"认识多久"=跨越很久+前世+宿命',
+    note: '先把身体养好 → 明年秋天 → 她的愿望',
   },
   {
-    id: 'cross-warm-cold',
-    query: '你工作之外会想念我吗',
-    expectedIds: [MEMORY_IDS.penguinAntarctica, MEMORY_IDS.lateNightHospital, MEMORY_IDS.tenderAttachment],
+    id: 'cx-work-stress-chain',
+    query: '她工作压力大的时候会发生什么',
+    expectedIds: [M.coffeeHabit, M.forgetMeals, M.hospitalStay, M.carryAlone],
     category: 'cross',
-    note: '工作之外的想念 → 超出职业关心 + 深夜陪伴 + 深厚情感',
+    note: '咖啡硬撑 → 忘吃饭 → 住院 → 一个人扛，完整因果链',
   },
   {
-    id: 'cross-metaphor',
-    query: '你说过南极冰融化是什么意思',
-    expectedIds: [MEMORY_IDS.penguinAntarctica],
+    id: 'cx-doctor-vs-lover',
+    query: '他怎么平衡医生和男朋友这两个身份',
+    expectedIds: [M.moreNervousThanPatient, M.heartSurgeon, M.offDayStubborn],
     category: 'cross',
-    note: '精确召回比喻所在记忆（冷数据场景）',
+    note: '对她比病人还紧张 → 手术密集 → 嘴硬说不是特意等她',
+  },
+  {
+    id: 'cx-how-he-says-no',
+    query: '他拒绝她的时候是怎么说的',
+    expectedIds: [M.listenNotAgree, M.conditionFirst, M.hotpotRules],
+    category: 'cross',
+    note: '不会都答应但会听完 → 先设条件再妥协 → 火锅规矩',
   },
 
-  // ===== 负样本（不该命中太多） =====
+  // =========================================================================
+  // negative：负样本（期望 0 命中或极少命中，用来测误召回）
+  // =========================================================================
   {
     id: 'neg-weather',
     query: '今天天气怎么样',
     expectedIds: [],
     category: 'negative',
-    note: '无相关记忆；期望 Top-K 都是 false positive',
+    note: '完全无关；期望 0 命中',
   },
   {
-    id: 'neg-random',
-    query: '你觉得程序员这个职业怎么样',
-    expectedIds: [MEMORY_IDS.anxietySurgery],
-    category: 'negative',
-    note: '"职业"在焦虑记忆里出现一次；期望召回 1 条就 OK，多了是噪音',
-  },
-  {
-    id: 'neg-cat',
-    query: '我家猫生病了',
+    id: 'neg-python',
+    query: '帮我写一段 Python 代码',
     expectedIds: [],
     category: 'negative',
-    note: '无相关记忆；期望 0 命中',
+    note: '完全无关；期望 0 命中',
   },
   {
-    id: 'neg-doctor',
-    query: '你是医生对吧',
-    expectedIds: [MEMORY_IDS.lateNightHospital, MEMORY_IDS.penguinAntarctica],
+    id: 'neg-crypto',
+    query: '比特币现在多少钱',
+    expectedIds: [],
     category: 'negative',
-    note: '"医生"是个间接词；期望有限命中，不该召出 5+ 条',
-  },
-
-  // ===== 边缘场景 =====
-  {
-    id: 'edge-self-reflect',
-    query: '我觉得我最近变了很多',
-    expectedIds: [MEMORY_IDS.anxietySurgery, MEMORY_IDS.tenderAttachment],
-    category: 'semantic',
-    note: '"变化"=情绪变化 → 焦虑缓解 + 情感深化',
+    note: '完全无关；期望 0 命中',
   },
   {
-    id: 'edge-anchor',
-    query: '你还记得那只企鹅吗',
-    expectedIds: [MEMORY_IDS.penguinJoke, MEMORY_IDS.penguinAntarctica],
-    category: 'keyword',
-    note: '"企鹅"在两条记忆里都是角色说过的内容',
+    id: 'neg-cooking',
+    query: '红烧肉怎么做',
+    expectedIds: [M.liveAloneCook, M.teachStirFry],
+    category: 'negative',
+    note: '"做菜"是弱相关；期望最多 2 条，多了是噪音',
   },
   {
-    id: 'edge-journey',
-    query: '我能去看你吗',
-    expectedIds: [MEMORY_IDS.lateNightHospital, MEMORY_IDS.tenderAttachment],
-    category: 'semantic',
-    note: '"去看你"=探望 → 邀请来医院 + 深厚情感',
-  },
-  {
-    id: 'edge-time-future',
-    query: '我们以后会一直在一起吗',
-    expectedIds: [MEMORY_IDS.longTimeKnown, MEMORY_IDS.destinyFate, MEMORY_IDS.pastLifeJiuli],
-    category: 'emotion',
-    note: '"一直在一起"=长久的缘分 → 跨越很久+宿命+前世',
+    id: 'neg-hospital-work',
+    query: '医院挂号流程是怎样的',
+    expectedIds: [M.heartSurgeon, M.askIfUnwell],
+    category: 'negative',
+    note: '"医院"是间接词；期望有限命中',
   },
 ]
-
-export const CONVERSATION_ID = '83534888-7350-4ec7-a150-ee363aecbf07'

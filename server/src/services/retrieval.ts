@@ -49,6 +49,27 @@ const CHANNEL_TOP_K = 20
 /** 最终返回数 */
 const FINAL_TOP_K = 8
 
+/**
+ * 遗忘曲线在最终排序里的权重大小（M8 评测实测后修正）
+ *
+ * 关键认知：RRF 分数区间极窄、且相邻排名差异极小 —— k=60 时
+ *   rank1 = 1/61 ≈ 0.01639，rank8 = 1/68 ≈ 0.01471，两者仅差 11.4%；
+ *   rank1/rank20 之比恒为 (k+20)/(k+1) = 80/61 ≈ 1.31。
+ * 而 ebbinghausStrength 可跨越约 3 倍（0.3~0.95）。若直接 `finalScore = rrf × decay`，
+ * decay 会完全压垮语义相关性排序（见 applyFinalRanking 内注释诊断）。
+ *
+ * 因此把 decay 压成「调节系数」而非「乘数」：
+ *   finalScore = rrfScore × (DECAY_FLOOR + DECAY_WEIGHT × decay)
+ *   decay=1.0 → ×1.00   decay=0.5 → ×0.95   decay=0.0 → ×0.90
+ *
+ * 摆幅上限 = (FLOOR+WEIGHT)/FLOOR 必须 < 排名 1 与 8 的 rrf 之比 (1.114)，
+ * 否则 decay 仍能反转「rank-1 相关记忆 vs rank-8 无关但高频记忆」的语义排序。
+ * 取 WEIGHT=0.10、FLOOR=0.90 → 摆幅 = 1.00/0.90 = 1.111 < 1.114，可严格保证
+ * 语义 rank-1 永远排在 rank-8 之前（遗忘曲线只做 gentle tie-breaker，绝不盖过语义）。
+ */
+const DECAY_FLOOR = 0.90
+const DECAY_WEIGHT = 0.10
+
 export interface RetrievedMemory {
   id: string
   conversationId: string | null
@@ -76,12 +97,12 @@ export interface RetrievalTrace {
 /**
  * 主入口：给定查询 + 会话，做混合检索
  * @param query 用户当前的输入（或要检索的关键词）
- * @param conversationId 限定到该会话内的记忆
+ * @param conversationId 限定到该会话内的记忆；传 null = 全库检索
  * @param topK 最终返回条数
  */
 export async function searchMemories(
   query: string,
-  conversationId: string,
+  conversationId: string | null,
   topK: number = FINAL_TOP_K,
 ): Promise<{ items: RetrievedMemory[]; trace: RetrievalTrace }> {
   const started = Date.now()
@@ -136,15 +157,17 @@ export async function searchMemories(
  */
 async function vectorSearch(
   queryVec: number[],
-  conversationId: string,
+  conversationId: string | null,
 ): Promise<Array<{ id: string; rank: number }>> {
   const vecLiteral = `[${queryVec.join(',')}]`
+  // conversationId 为空 = 全库检索（记忆本就跨会话积累）
+  const convFilter = conversationId ? sql`AND conversation_id = ${conversationId}` : sql``
   const rows = await db.execute<{ id: string; distance: number }>(sql`
       SELECT id, embedding <=> ${vecLiteral}::vector AS distance
       FROM memories
-      WHERE conversation_id = ${conversationId}
-        AND status = 'active'
+      WHERE status = 'active'
         AND embedding IS NOT NULL
+        ${convFilter}
       ORDER BY embedding <=> ${vecLiteral}::vector
       LIMIT ${CHANNEL_TOP_K}
     `)
@@ -163,17 +186,19 @@ async function vectorSearch(
  */
 async function textSearch(
   query: string,
-  conversationId: string,
+  conversationId: string | null,
 ): Promise<Array<{ id: string; rank: number }>> {
   if (!query) return []
+
+  const convFilter = conversationId ? sql`AND conversation_id = ${conversationId}` : sql``
 
   // B1：tsquery（英文/数字）
   const tsRows = (await db.execute<{ id: string }>(sql`
       SELECT id
       FROM memories
-      WHERE conversation_id = ${conversationId}
-        AND status = 'active'
+      WHERE status = 'active'
         AND content_tsv @@ websearch_to_tsquery('simple', ${query})
+        ${convFilter}
       ORDER BY ts_rank_cd(content_tsv, websearch_to_tsquery('simple', ${query})) DESC
       LIMIT ${CHANNEL_TOP_K}
     `)) as Array<{ id: string }>
@@ -198,9 +223,9 @@ async function textSearch(
     subRows = (await db.execute<{ id: string; hits: number }>(sql`
         SELECT id, ${hitsSum} AS hits
         FROM memories
-        WHERE conversation_id = ${conversationId}
-          AND status = 'active'
+        WHERE status = 'active'
           AND (${whereClause})
+          ${convFilter}
         ORDER BY hits DESC, created_at DESC
         LIMIT ${CHANNEL_TOP_K}
       `)) as Array<{ id: string; hits: number }>
@@ -267,7 +292,23 @@ async function applyFinalRanking(
         importance: row.importance,
         emotionalIntensity: row.emotionalIntensity,
       })
-      const finalScore = c.rrfScore * decay
+      // ⚠️ 关键：decay 不能直接乘，否则会压倒语义相关性
+      //
+      // 原因（M8 评测实测发现）：
+      //   RRF 分数范围极窄 —— k=60 时，rank 1 = 1/61 ≈ 0.0164，rank 20 = 1/80 = 0.0125，
+      //   满打满算只差 31%。而 decay 是 e^(-age/S)，实测能跨越 3 倍（0.3 ~ 0.95）。
+      //   直接相乘 → decay 主导排序，语义最相关的记忆被挤到 Top-8 之外。
+      //
+      // 实测证据（query "送她什么花比较好"）：
+      //   「她喜欢茉莉花」向量距离第 1 名（d=0.401），但最终 Top-8 一条都没进；
+      //   取而代之的是 importance 0.9+ 但语义无关的「极光约定」「签合同」。
+      //
+      // 修法：把 decay 压成「调节系数」而非「乘数」
+      //   finalScore = rrfScore × (DECAY_FLOOR + DECAY_WEIGHT × decay)
+      //   decay=1.0 → ×1.00    decay=0.5 → ×0.85    decay=0.0 → ×0.70
+      //   即：遗忘曲线最多只能让分数下浮 30%，永远不会盖过语义排序
+      const decayFactor = DECAY_FLOOR + DECAY_WEIGHT * decay
+      const finalScore = c.rrfScore * decayFactor
       return {
         id: row.id,
         conversationId: row.conversationId,

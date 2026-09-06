@@ -65,7 +65,9 @@ interface QueryResult {
 }
 
 async function runOneQuery(q: typeof QUERIES[number]): Promise<QueryResult> {
-  const url = `${BASE_URL}/api/retrieval/search?conversationId=${CONVERSATION_ID}&q=${encodeURIComponent(q.query)}&topK=${TOP_K}`
+  const params = new URLSearchParams({ q: q.query, topK: String(TOP_K) })
+  if (CONVERSATION_ID) params.set('conversationId', CONVERSATION_ID)
+  const url = `${BASE_URL}/api/retrieval/search?${params.toString()}`
   const t0 = Date.now()
   const resp = await fetch(url)
   if (!resp.ok) throw new Error(`HTTP ${resp.status} for query "${q.query}"`)

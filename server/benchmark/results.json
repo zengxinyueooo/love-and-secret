@@ -1,183 +1,107 @@
 {
   "meta": {
-    "conversationId": "83534888-7350-4ec7-a150-ee363aecbf07",
+    "conversationId": null,
     "baseUrl": "http://localhost:8787",
     "topK": 8,
-    "totalQueries": 28,
-    "totalDurationMs": 59514,
-    "timestamp": "2026-09-05T14:21:40.951Z"
+    "totalQueries": 58,
+    "totalDurationMs": 1281100,
+    "timestamp": "2026-09-06T08:03:12.289Z"
   },
   "aggregate": {
     "overall": {
-      "n": 28,
-      "recallAt5": 0.7738095238095238,
-      "recallAt8": 1,
-      "precisionAt5": 0.28571428571428586,
-      "precisionAt8": 0.2544642857142857,
-      "ndcgAt8": 0.8083019717811163,
-      "mrr": 0.8214285714285714,
-      "avgDurationMs": 2125.1071428571427
+      "n": 61,
+      "recallAt5": 0.5514367816091954,
+      "recallAt8": 0.6,
+      "precisionAt5": 0.2310344827586207,
+      "precisionAt8": 0.16163793103448276,
+      "ndcgAt8": 0.5086110496207514,
+      "mrr": 0.5583538587848932,
+      "avgDurationMs": 10196.155172413793
     },
     "byCategory": {
+      "temporal": {
+        "n": 10,
+        "recallAt5": 0.7037037037037037,
+        "recallAt8": 0.6833333333333333,
+        "precisionAt5": 0.2222222222222222,
+        "precisionAt8": 0.1388888888888889,
+        "ndcgAt8": 0.5700606214355113,
+        "mrr": 0.6018518518518517
+      },
+      "hardneg": {
+        "n": 8,
+        "recallAt5": 0.5238095238095238,
+        "recallAt8": 0.5833333333333334,
+        "precisionAt5": 0.19999999999999998,
+        "precisionAt8": 0.14285714285714285,
+        "ndcgAt8": 0.5315391834555043,
+        "mrr": 0.6428571428571429
+      },
       "keyword": {
-        "n": 6,
-        "recallAt5": 0.9444444444444443,
-        "recallAt8": 1,
-        "precisionAt5": 0.36666666666666664,
+        "n": 10,
+        "recallAt5": 0.9666666666666666,
+        "recallAt8": 0.9666666666666666,
+        "precisionAt5": 0.4,
         "precisionAt8": 0.25,
-        "ndcgAt8": 0.9858723473606958,
-        "mrr": 1
+        "ndcgAt8": 0.8677876976731242,
+        "mrr": 0.9
       },
       "semantic": {
-        "n": 7,
-        "recallAt5": 0.6190476190476192,
-        "recallAt8": 1,
-        "precisionAt5": 0.2571428571428571,
-        "precisionAt8": 0.26785714285714285,
-        "ndcgAt8": 0.7662031896140189,
-        "mrr": 0.8095238095238094
+        "n": 14,
+        "recallAt5": 0.3142857142857142,
+        "recallAt8": 0.39999999999999997,
+        "precisionAt5": 0.2285714285714286,
+        "precisionAt8": 0.17857142857142858,
+        "ndcgAt8": 0.3335233070672931,
+        "mrr": 0.40714285714285714
       },
       "emotion": {
-        "n": 6,
-        "recallAt5": 0.5555555555555555,
-        "recallAt8": 1,
-        "precisionAt5": 0.3,
-        "precisionAt8": 0.3541666666666667,
-        "ndcgAt8": 0.6797860131412564,
-        "mrr": 0.7222222222222223
+        "n": 8,
+        "recallAt5": 0.38095238095238093,
+        "recallAt8": 0.47916666666666663,
+        "precisionAt5": 0.19999999999999998,
+        "precisionAt8": 0.14285714285714285,
+        "ndcgAt8": 0.278979594184139,
+        "mrr": 0.23214285714285715
       },
       "cross": {
-        "n": 5,
-        "recallAt5": 0.8666666666666666,
-        "recallAt8": 1,
-        "precisionAt5": 0.31999999999999995,
-        "precisionAt8": 0.25,
-        "ndcgAt8": 0.7263520622461554,
-        "mrr": 0.7
+        "n": 6,
+        "recallAt5": 0.375,
+        "recallAt8": 0.4166666666666667,
+        "precisionAt5": 0.2333333333333333,
+        "precisionAt8": 0.16666666666666666,
+        "ndcgAt8": 0.3702271072824137,
+        "mrr": 0.5
       },
       "negative": {
-        "n": 4,
-        "recallAt5": 1,
-        "recallAt8": 1,
-        "precisionAt5": 0.15000000000000002,
-        "precisionAt8": 0.09375,
-        "ndcgAt8": 0.9108306020826582,
-        "mrr": 0.875
+        "n": 5,
+        "recallAt5": 0.6,
+        "recallAt8": 0.7,
+        "precisionAt5": 0,
+        "precisionAt8": 0.025,
+        "ndcgAt8": 0.625339584447729,
+        "mrr": 0.6285714285714286
       }
     }
   },
   "perQuery": [
     {
-      "id": "kw-penguin",
-      "query": "企鹅",
-      "category": "keyword",
+      "id": "tmp-job-now",
+      "query": "她现在在哪工作",
+      "category": "temporal",
       "expectedIds": [
-        "6169256a-278b-4814-a794-98d067d7c3bc",
-        "69d319d7-5d27-4b01-8dcf-22a046603206"
+        "d9715db2-1e31-42d6-95ec-efcd29d38f3d",
+        "6cc4e3d8-e8cc-4f56-9298-c6414662d2ef"
       ],
       "retrievedIds": [
+        "d9715db2-1e31-42d6-95ec-efcd29d38f3d",
+        "1da0325a-f072-4214-81f5-ce6a8fd3bedf",
+        "bbd01dc6-aaaf-4eba-af04-167a3db2f0b5",
+        "752c85aa-d2c8-4f86-b7bb-0178918dc723",
+        "5ad32fa9-c65f-4e23-8e45-654e1b95e8d0",
+        "729a2b5f-e229-49dd-a01e-aef7b1e36e53",
         "6169256a-278b-4814-a794-98d067d7c3bc",
-        "69d319d7-5d27-4b01-8dcf-22a046603206",
-        "4f61d97b-61b8-4d61-beec-ae985bb675c9",
-        "efa487bc-70b3-46a3-991c-aee7938f1b38",
-        "8b7f5779-5a49-41ac-bfc5-0ad7f853cda3",
-        "1003a13b-5590-4bb7-a320-6293b733b51a",
-        "445e123d-57dc-443b-a9c4-9e328d0c0b9c",
-        "5e80eadc-94d7-4c63-ab29-a4e2ef51c0c3"
-      ],
-      "hitMask": [
-        true,
-        true,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false
-      ],
-      "trace": {
-        "query": "企鹅",
-        "vectorHits": 8,
-        "textHits": 2,
-        "rrfTopK": 8,
-        "durationMs": 6880,
-        "embeddingAvailable": true
-      },
-      "durationMs": 7084,
-      "metrics": {
-        "recallAt5": 1,
-        "recallAt8": 1,
-        "precisionAt5": 0.4,
-        "precisionAt8": 0.25,
-        "ndcgAt8": 1,
-        "mrr": 1
-      },
-      "note": "两条企鹅相关记忆；按内容丰富度，笑话在前"
-    },
-    {
-      "id": "kw-pastlife",
-      "query": "前世",
-      "category": "keyword",
-      "expectedIds": [
-        "1003a13b-5590-4bb7-a320-6293b733b51a",
-        "4f61d97b-61b8-4d61-beec-ae985bb675c9",
-        "5e80eadc-94d7-4c63-ab29-a4e2ef51c0c3"
-      ],
-      "retrievedIds": [
-        "1003a13b-5590-4bb7-a320-6293b733b51a",
-        "4f61d97b-61b8-4d61-beec-ae985bb675c9",
-        "efa487bc-70b3-46a3-991c-aee7938f1b38",
-        "69d319d7-5d27-4b01-8dcf-22a046603206",
-        "8b7f5779-5a49-41ac-bfc5-0ad7f853cda3",
-        "6169256a-278b-4814-a794-98d067d7c3bc",
-        "5e80eadc-94d7-4c63-ab29-a4e2ef51c0c3",
-        "445e123d-57dc-443b-a9c4-9e328d0c0b9c"
-      ],
-      "hitMask": [
-        true,
-        true,
-        false,
-        false,
-        false,
-        false,
-        true,
-        false
-      ],
-      "trace": {
-        "query": "前世",
-        "vectorHits": 8,
-        "textHits": 2,
-        "rrfTopK": 8,
-        "durationMs": 2000,
-        "embeddingAvailable": true
-      },
-      "durationMs": 2028,
-      "metrics": {
-        "recallAt5": 0.6666666666666666,
-        "recallAt8": 1,
-        "precisionAt5": 0.4,
-        "precisionAt8": 0.375,
-        "ndcgAt8": 0.9649996673743393,
-        "mrr": 1
-      },
-      "note": "前世相关：九黎司命(直接)→宿命观念(事实)→跨越很久(相关)"
-    },
-    {
-      "id": "kw-hospital",
-      "query": "医院",
-      "category": "keyword",
-      "expectedIds": [
-        "efa487bc-70b3-46a3-991c-aee7938f1b38"
-      ],
-      "retrievedIds": [
-        "efa487bc-70b3-46a3-991c-aee7938f1b38",
-        "4f61d97b-61b8-4d61-beec-ae985bb675c9",
-        "8b7f5779-5a49-41ac-bfc5-0ad7f853cda3",
-        "69d319d7-5d27-4b01-8dcf-22a046603206",
-        "6169256a-278b-4814-a794-98d067d7c3bc",
-        "1003a13b-5590-4bb7-a320-6293b733b51a",
-        "5e80eadc-94d7-4c63-ab29-a4e2ef51c0c3",
-        "445e123d-57dc-443b-a9c4-9e328d0c0b9c"
+        "833ad841-bfd0-4055-a1dc-7c492840b53f"
       ],
       "hitMask": [
         true,
@@ -190,472 +114,92 @@
         false
       ],
       "trace": {
-        "query": "医院",
-        "vectorHits": 8,
-        "textHits": 1,
-        "rrfTopK": 8,
-        "durationMs": 1989,
+        "query": "她现在在哪工作",
+        "vectorHits": 20,
+        "textHits": 0,
+        "rrfTopK": 20,
+        "durationMs": 9355,
         "embeddingAvailable": true
       },
-      "durationMs": 2004,
+      "durationMs": 9553,
       "metrics": {
-        "recallAt5": 1,
-        "recallAt8": 1,
+        "recallAt5": 0.5,
+        "recallAt8": 0.5,
         "precisionAt5": 0.2,
         "precisionAt8": 0.125,
-        "ndcgAt8": 1,
-        "mrr": 1
-      },
-      "note": "唯一直接提到医院的记忆"
-    },
-    {
-      "id": "kw-job",
-      "query": "找工作",
-      "category": "keyword",
-      "expectedIds": [
-        "8b7f5779-5a49-41ac-bfc5-0ad7f853cda3",
-        "6169256a-278b-4814-a794-98d067d7c3bc"
-      ],
-      "retrievedIds": [
-        "8b7f5779-5a49-41ac-bfc5-0ad7f853cda3",
-        "6169256a-278b-4814-a794-98d067d7c3bc",
-        "efa487bc-70b3-46a3-991c-aee7938f1b38",
-        "69d319d7-5d27-4b01-8dcf-22a046603206",
-        "4f61d97b-61b8-4d61-beec-ae985bb675c9",
-        "1003a13b-5590-4bb7-a320-6293b733b51a",
-        "5e80eadc-94d7-4c63-ab29-a4e2ef51c0c3",
-        "445e123d-57dc-443b-a9c4-9e328d0c0b9c"
-      ],
-      "hitMask": [
-        true,
-        true,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false
-      ],
-      "trace": {
-        "query": "找工作",
-        "vectorHits": 8,
-        "textHits": 2,
-        "rrfTopK": 8,
-        "durationMs": 2280,
-        "embeddingAvailable": true
-      },
-      "durationMs": 2293,
-      "metrics": {
-        "recallAt5": 1,
-        "recallAt8": 1,
-        "precisionAt5": 0.4,
-        "precisionAt8": 0.25,
-        "ndcgAt8": 1,
-        "mrr": 1
-      },
-      "note": "两条都明确提到找工作"
-    },
-    {
-      "id": "kw-joke",
-      "query": "冷笑话",
-      "category": "keyword",
-      "expectedIds": [
-        "6169256a-278b-4814-a794-98d067d7c3bc",
-        "69d319d7-5d27-4b01-8dcf-22a046603206"
-      ],
-      "retrievedIds": [
-        "6169256a-278b-4814-a794-98d067d7c3bc",
-        "69d319d7-5d27-4b01-8dcf-22a046603206",
-        "8b7f5779-5a49-41ac-bfc5-0ad7f853cda3",
-        "efa487bc-70b3-46a3-991c-aee7938f1b38",
-        "4f61d97b-61b8-4d61-beec-ae985bb675c9",
-        "1003a13b-5590-4bb7-a320-6293b733b51a",
-        "445e123d-57dc-443b-a9c4-9e328d0c0b9c",
-        "5e80eadc-94d7-4c63-ab29-a4e2ef51c0c3"
-      ],
-      "hitMask": [
-        true,
-        true,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false
-      ],
-      "trace": {
-        "query": "冷笑话",
-        "vectorHits": 8,
-        "textHits": 1,
-        "rrfTopK": 8,
-        "durationMs": 2309,
-        "embeddingAvailable": true
-      },
-      "durationMs": 2323,
-      "metrics": {
-        "recallAt5": 1,
-        "recallAt8": 1,
-        "precisionAt5": 0.4,
-        "precisionAt8": 0.25,
-        "ndcgAt8": 1,
-        "mrr": 1
-      },
-      "note": "\"笑话\"在 penguinJoke，\"南极\"在 penguinAntarctica 借喻关心"
-    },
-    {
-      "id": "sem-anxiety",
-      "query": "我最近压力好大怎么办",
-      "category": "semantic",
-      "expectedIds": [
-        "8b7f5779-5a49-41ac-bfc5-0ad7f853cda3",
-        "6169256a-278b-4814-a794-98d067d7c3bc"
-      ],
-      "retrievedIds": [
-        "8b7f5779-5a49-41ac-bfc5-0ad7f853cda3",
-        "6169256a-278b-4814-a794-98d067d7c3bc",
-        "efa487bc-70b3-46a3-991c-aee7938f1b38",
-        "69d319d7-5d27-4b01-8dcf-22a046603206",
-        "4f61d97b-61b8-4d61-beec-ae985bb675c9",
-        "1003a13b-5590-4bb7-a320-6293b733b51a",
-        "445e123d-57dc-443b-a9c4-9e328d0c0b9c",
-        "5e80eadc-94d7-4c63-ab29-a4e2ef51c0c3"
-      ],
-      "hitMask": [
-        true,
-        true,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false
-      ],
-      "trace": {
-        "query": "我最近压力好大怎么办",
-        "vectorHits": 8,
-        "textHits": 0,
-        "rrfTopK": 8,
-        "durationMs": 2072,
-        "embeddingAvailable": true
-      },
-      "durationMs": 2083,
-      "metrics": {
-        "recallAt5": 1,
-        "recallAt8": 1,
-        "precisionAt5": 0.4,
-        "precisionAt8": 0.25,
-        "ndcgAt8": 1,
-        "mrr": 1
-      },
-      "note": "\"压力\"≈焦虑情绪；期望命中焦虑相关两条"
-    },
-    {
-      "id": "sem-job-fail",
-      "query": "投了很多简历都没回音",
-      "category": "semantic",
-      "expectedIds": [
-        "8b7f5779-5a49-41ac-bfc5-0ad7f853cda3",
-        "6169256a-278b-4814-a794-98d067d7c3bc"
-      ],
-      "retrievedIds": [
-        "6169256a-278b-4814-a794-98d067d7c3bc",
-        "efa487bc-70b3-46a3-991c-aee7938f1b38",
-        "8b7f5779-5a49-41ac-bfc5-0ad7f853cda3",
-        "69d319d7-5d27-4b01-8dcf-22a046603206",
-        "4f61d97b-61b8-4d61-beec-ae985bb675c9",
-        "1003a13b-5590-4bb7-a320-6293b733b51a",
-        "445e123d-57dc-443b-a9c4-9e328d0c0b9c",
-        "5e80eadc-94d7-4c63-ab29-a4e2ef51c0c3"
-      ],
-      "hitMask": [
-        true,
-        false,
-        true,
-        false,
-        false,
-        false,
-        false,
-        false
-      ],
-      "trace": {
-        "query": "投了很多简历都没回音",
-        "vectorHits": 8,
-        "textHits": 0,
-        "rrfTopK": 8,
-        "durationMs": 1569,
-        "embeddingAvailable": true
-      },
-      "durationMs": 1585,
-      "metrics": {
-        "recallAt5": 1,
-        "recallAt8": 1,
-        "precisionAt5": 0.4,
-        "precisionAt8": 0.25,
         "ndcgAt8": 0.7601875334318685,
         "mrr": 1
       },
-      "note": "求职受挫场景，期望语义命中焦虑记忆"
+      "note": "已入职应排第一；想做内容策划是过时但仍 active 的目标，可在后面"
     },
     {
-      "id": "sem-care-about",
-      "query": "你为什么对我这么好",
-      "category": "semantic",
+      "id": "tmp-job-status",
+      "query": "她工作找得怎么样了",
+      "category": "temporal",
       "expectedIds": [
-        "69d319d7-5d27-4b01-8dcf-22a046603206",
-        "445e123d-57dc-443b-a9c4-9e328d0c0b9c",
-        "5e80eadc-94d7-4c63-ab29-a4e2ef51c0c3"
+        "d9715db2-1e31-42d6-95ec-efcd29d38f3d",
+        "6cc4e3d8-e8cc-4f56-9298-c6414662d2ef"
       ],
       "retrievedIds": [
-        "69d319d7-5d27-4b01-8dcf-22a046603206",
-        "8b7f5779-5a49-41ac-bfc5-0ad7f853cda3",
-        "efa487bc-70b3-46a3-991c-aee7938f1b38",
-        "4f61d97b-61b8-4d61-beec-ae985bb675c9",
+        "bbd01dc6-aaaf-4eba-af04-167a3db2f0b5",
+        "752c85aa-d2c8-4f86-b7bb-0178918dc723",
         "6169256a-278b-4814-a794-98d067d7c3bc",
-        "1003a13b-5590-4bb7-a320-6293b733b51a",
-        "445e123d-57dc-443b-a9c4-9e328d0c0b9c",
-        "5e80eadc-94d7-4c63-ab29-a4e2ef51c0c3"
+        "d9715db2-1e31-42d6-95ec-efcd29d38f3d",
+        "833ad841-bfd0-4055-a1dc-7c492840b53f",
+        "cea81303-2fb7-4cd9-8c39-3bd88ed67d36",
+        "c2326158-81a1-4ba0-a847-6e088d6062d2",
+        "15f922f1-59f1-4eb0-aa0e-964302db13e9"
       ],
       "hitMask": [
+        false,
+        false,
+        false,
         true,
         false,
         false,
         false,
-        false,
-        false,
-        true,
-        true
+        false
       ],
       "trace": {
-        "query": "你为什么对我这么好",
-        "vectorHits": 8,
+        "query": "她工作找得怎么样了",
+        "vectorHits": 20,
         "textHits": 0,
-        "rrfTopK": 8,
-        "durationMs": 1695,
+        "rrfTopK": 20,
+        "durationMs": 19084,
         "embeddingAvailable": true
       },
-      "durationMs": 1706,
-      "metrics": {
-        "recallAt5": 0.3333333333333333,
-        "recallAt8": 1,
-        "precisionAt5": 0.2,
-        "precisionAt8": 0.375,
-        "ndcgAt8": 0.8362555714798163,
-        "mrr": 1
-      },
-      "note": "\"为什么对我好\"=关心来源；期望命中关心类记忆"
-    },
-    {
-      "id": "sem-belly",
-      "query": "我心里很乱",
-      "category": "semantic",
-      "expectedIds": [
-        "8b7f5779-5a49-41ac-bfc5-0ad7f853cda3",
-        "445e123d-57dc-443b-a9c4-9e328d0c0b9c"
-      ],
-      "retrievedIds": [
-        "8b7f5779-5a49-41ac-bfc5-0ad7f853cda3",
-        "efa487bc-70b3-46a3-991c-aee7938f1b38",
-        "6169256a-278b-4814-a794-98d067d7c3bc",
-        "69d319d7-5d27-4b01-8dcf-22a046603206",
-        "4f61d97b-61b8-4d61-beec-ae985bb675c9",
-        "1003a13b-5590-4bb7-a320-6293b733b51a",
-        "5e80eadc-94d7-4c63-ab29-a4e2ef51c0c3",
-        "445e123d-57dc-443b-a9c4-9e328d0c0b9c"
-      ],
-      "hitMask": [
-        true,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        true
-      ],
-      "trace": {
-        "query": "我心里很乱",
-        "vectorHits": 8,
-        "textHits": 0,
-        "rrfTopK": 8,
-        "durationMs": 1733,
-        "embeddingAvailable": true
-      },
-      "durationMs": 1751,
+      "durationMs": 19128,
       "metrics": {
         "recallAt5": 0.5,
-        "recallAt8": 1,
+        "recallAt8": 0.5,
         "precisionAt5": 0.2,
-        "precisionAt8": 0.25,
-        "ndcgAt8": 0.8800937667159342,
-        "mrr": 1
+        "precisionAt8": 0.125,
+        "ndcgAt8": 0.3273949503887395,
+        "mrr": 0.25
       },
-      "note": "心情乱 → 焦虑 + 温柔安抚"
+      "note": "现状是已入职；不应召回投简历/面试等已 superseded 阶段"
     },
     {
-      "id": "sem-night",
-      "query": "睡不着 有点想哭",
-      "category": "semantic",
+      "id": "tmp-still-hunting",
+      "query": "她还在投简历吗",
+      "category": "temporal",
       "expectedIds": [
-        "efa487bc-70b3-46a3-991c-aee7938f1b38",
-        "445e123d-57dc-443b-a9c4-9e328d0c0b9c"
+        "d9715db2-1e31-42d6-95ec-efcd29d38f3d"
       ],
       "retrievedIds": [
+        "752c85aa-d2c8-4f86-b7bb-0178918dc723",
         "6169256a-278b-4814-a794-98d067d7c3bc",
-        "8b7f5779-5a49-41ac-bfc5-0ad7f853cda3",
-        "efa487bc-70b3-46a3-991c-aee7938f1b38",
-        "69d319d7-5d27-4b01-8dcf-22a046603206",
-        "4f61d97b-61b8-4d61-beec-ae985bb675c9",
-        "1003a13b-5590-4bb7-a320-6293b733b51a",
-        "5e80eadc-94d7-4c63-ab29-a4e2ef51c0c3",
-        "445e123d-57dc-443b-a9c4-9e328d0c0b9c"
+        "d9715db2-1e31-42d6-95ec-efcd29d38f3d",
+        "833ad841-bfd0-4055-a1dc-7c492840b53f",
+        "c2326158-81a1-4ba0-a847-6e088d6062d2",
+        "bbd01dc6-aaaf-4eba-af04-167a3db2f0b5",
+        "f0afccae-af05-48f0-b696-328fc5f90a8b",
+        "cea81303-2fb7-4cd9-8c39-3bd88ed67d36"
       ],
       "hitMask": [
         false,
         false,
         true,
-        false,
-        false,
-        false,
-        false,
-        true
-      ],
-      "trace": {
-        "query": "睡不着 有点想哭",
-        "vectorHits": 8,
-        "textHits": 0,
-        "rrfTopK": 8,
-        "durationMs": 2056,
-        "embeddingAvailable": true
-      },
-      "durationMs": 2066,
-      "metrics": {
-        "recallAt5": 0.5,
-        "recallAt8": 1,
-        "precisionAt5": 0.2,
-        "precisionAt8": 0.25,
-        "ndcgAt8": 0.5,
-        "mrr": 0.3333333333333333
-      },
-      "note": "深夜情绪崩溃 → 深夜陪伴记忆 + 温柔眷恋"
-    },
-    {
-      "id": "emo-romance",
-      "query": "你觉得我们算什么",
-      "category": "emotion",
-      "expectedIds": [
-        "5e80eadc-94d7-4c63-ab29-a4e2ef51c0c3",
-        "1003a13b-5590-4bb7-a320-6293b733b51a",
-        "445e123d-57dc-443b-a9c4-9e328d0c0b9c"
-      ],
-      "retrievedIds": [
-        "1003a13b-5590-4bb7-a320-6293b733b51a",
-        "4f61d97b-61b8-4d61-beec-ae985bb675c9",
-        "69d319d7-5d27-4b01-8dcf-22a046603206",
-        "efa487bc-70b3-46a3-991c-aee7938f1b38",
-        "8b7f5779-5a49-41ac-bfc5-0ad7f853cda3",
-        "6169256a-278b-4814-a794-98d067d7c3bc",
-        "5e80eadc-94d7-4c63-ab29-a4e2ef51c0c3",
-        "445e123d-57dc-443b-a9c4-9e328d0c0b9c"
-      ],
-      "hitMask": [
-        true,
-        false,
-        false,
-        false,
-        false,
-        false,
-        true,
-        true
-      ],
-      "trace": {
-        "query": "你觉得我们算什么",
-        "vectorHits": 8,
-        "textHits": 0,
-        "rrfTopK": 8,
-        "durationMs": 2037,
-        "embeddingAvailable": true
-      },
-      "durationMs": 2045,
-      "metrics": {
-        "recallAt5": 0.3333333333333333,
-        "recallAt8": 1,
-        "precisionAt5": 0.2,
-        "precisionAt8": 0.375,
-        "ndcgAt8": 0.6962542409771737,
-        "mrr": 1
-      },
-      "note": "\"我们算什么\"=关系定义；期望命中关系类记忆"
-    },
-    {
-      "id": "emo-trust",
-      "query": "我好像只在你面前才放松",
-      "category": "emotion",
-      "expectedIds": [
-        "445e123d-57dc-443b-a9c4-9e328d0c0b9c",
-        "5e80eadc-94d7-4c63-ab29-a4e2ef51c0c3",
-        "69d319d7-5d27-4b01-8dcf-22a046603206"
-      ],
-      "retrievedIds": [
-        "8b7f5779-5a49-41ac-bfc5-0ad7f853cda3",
-        "69d319d7-5d27-4b01-8dcf-22a046603206",
-        "efa487bc-70b3-46a3-991c-aee7938f1b38",
-        "6169256a-278b-4814-a794-98d067d7c3bc",
-        "4f61d97b-61b8-4d61-beec-ae985bb675c9",
-        "1003a13b-5590-4bb7-a320-6293b733b51a",
-        "5e80eadc-94d7-4c63-ab29-a4e2ef51c0c3",
-        "445e123d-57dc-443b-a9c4-9e328d0c0b9c"
-      ],
-      "hitMask": [
-        false,
-        true,
-        false,
-        false,
-        false,
-        false,
-        true,
-        true
-      ],
-      "trace": {
-        "query": "我好像只在你面前才放松",
-        "vectorHits": 8,
-        "textHits": 0,
-        "rrfTopK": 8,
-        "durationMs": 1722,
-        "embeddingAvailable": true
-      },
-      "durationMs": 1729,
-      "metrics": {
-        "recallAt5": 0.3333333333333333,
-        "recallAt8": 1,
-        "precisionAt5": 0.2,
-        "precisionAt8": 0.375,
-        "ndcgAt8": 0.47124259907904975,
-        "mrr": 0.5
-      },
-      "note": "信任/放松场景 → 深厚情感 + 长期相识 + 超出职业的关心"
-    },
-    {
-      "id": "emo-fate",
-      "query": "我们是不是命中注定的",
-      "category": "emotion",
-      "expectedIds": [
-        "4f61d97b-61b8-4d61-beec-ae985bb675c9",
-        "1003a13b-5590-4bb7-a320-6293b733b51a"
-      ],
-      "retrievedIds": [
-        "4f61d97b-61b8-4d61-beec-ae985bb675c9",
-        "1003a13b-5590-4bb7-a320-6293b733b51a",
-        "efa487bc-70b3-46a3-991c-aee7938f1b38",
-        "8b7f5779-5a49-41ac-bfc5-0ad7f853cda3",
-        "69d319d7-5d27-4b01-8dcf-22a046603206",
-        "6169256a-278b-4814-a794-98d067d7c3bc",
-        "5e80eadc-94d7-4c63-ab29-a4e2ef51c0c3",
-        "445e123d-57dc-443b-a9c4-9e328d0c0b9c"
-      ],
-      "hitMask": [
-        true,
-        true,
-        false,
         false,
         false,
         false,
@@ -663,325 +207,134 @@
         false
       ],
       "trace": {
-        "query": "我们是不是命中注定的",
-        "vectorHits": 8,
+        "query": "她还在投简历吗",
+        "vectorHits": 20,
         "textHits": 0,
-        "rrfTopK": 8,
-        "durationMs": 1624,
+        "rrfTopK": 20,
+        "durationMs": 6052,
         "embeddingAvailable": true
       },
-      "durationMs": 1631,
-      "metrics": {
-        "recallAt5": 1,
-        "recallAt8": 1,
-        "precisionAt5": 0.4,
-        "precisionAt8": 0.25,
-        "ndcgAt8": 1,
-        "mrr": 1
-      },
-      "note": "\"命中注定\"=宿命观念 + 前世缘分"
-    },
-    {
-      "id": "emo-miss",
-      "query": "我想你了",
-      "category": "emotion",
-      "expectedIds": [
-        "445e123d-57dc-443b-a9c4-9e328d0c0b9c",
-        "69d319d7-5d27-4b01-8dcf-22a046603206",
-        "5e80eadc-94d7-4c63-ab29-a4e2ef51c0c3"
-      ],
-      "retrievedIds": [
-        "efa487bc-70b3-46a3-991c-aee7938f1b38",
-        "8b7f5779-5a49-41ac-bfc5-0ad7f853cda3",
-        "69d319d7-5d27-4b01-8dcf-22a046603206",
-        "6169256a-278b-4814-a794-98d067d7c3bc",
-        "4f61d97b-61b8-4d61-beec-ae985bb675c9",
-        "1003a13b-5590-4bb7-a320-6293b733b51a",
-        "5e80eadc-94d7-4c63-ab29-a4e2ef51c0c3",
-        "445e123d-57dc-443b-a9c4-9e328d0c0b9c"
-      ],
-      "hitMask": [
-        false,
-        false,
-        true,
-        false,
-        false,
-        false,
-        true,
-        true
-      ],
-      "trace": {
-        "query": "我想你了",
-        "vectorHits": 8,
-        "textHits": 0,
-        "rrfTopK": 8,
-        "durationMs": 1932,
-        "embeddingAvailable": true
-      },
-      "durationMs": 1941,
-      "metrics": {
-        "recallAt5": 0.3333333333333333,
-        "recallAt8": 1,
-        "precisionAt5": 0.2,
-        "precisionAt8": 0.375,
-        "ndcgAt8": 0.4787474221511297,
-        "mrr": 0.3333333333333333
-      },
-      "note": "\"想你了\"=依恋 → 温柔眷恋 + 关心 + 长期相识"
-    },
-    {
-      "id": "emo-tired",
-      "query": "今天真的好累",
-      "category": "emotion",
-      "expectedIds": [
-        "8b7f5779-5a49-41ac-bfc5-0ad7f853cda3",
-        "efa487bc-70b3-46a3-991c-aee7938f1b38",
-        "445e123d-57dc-443b-a9c4-9e328d0c0b9c"
-      ],
-      "retrievedIds": [
-        "efa487bc-70b3-46a3-991c-aee7938f1b38",
-        "8b7f5779-5a49-41ac-bfc5-0ad7f853cda3",
-        "69d319d7-5d27-4b01-8dcf-22a046603206",
-        "6169256a-278b-4814-a794-98d067d7c3bc",
-        "4f61d97b-61b8-4d61-beec-ae985bb675c9",
-        "1003a13b-5590-4bb7-a320-6293b733b51a",
-        "445e123d-57dc-443b-a9c4-9e328d0c0b9c",
-        "5e80eadc-94d7-4c63-ab29-a4e2ef51c0c3"
-      ],
-      "hitMask": [
-        true,
-        true,
-        false,
-        false,
-        false,
-        false,
-        true,
-        false
-      ],
-      "trace": {
-        "query": "今天真的好累",
-        "vectorHits": 8,
-        "textHits": 0,
-        "rrfTopK": 8,
-        "durationMs": 2237,
-        "embeddingAvailable": true
-      },
-      "durationMs": 2243,
-      "metrics": {
-        "recallAt5": 0.6666666666666666,
-        "recallAt8": 1,
-        "precisionAt5": 0.4,
-        "precisionAt8": 0.375,
-        "ndcgAt8": 0.8874941790509379,
-        "mrr": 1
-      },
-      "note": "累可能是工作焦虑、深夜疲惫、寻求安慰"
-    },
-    {
-      "id": "cross-career-state",
-      "query": "我现在的事业怎么样了",
-      "category": "cross",
-      "expectedIds": [
-        "8b7f5779-5a49-41ac-bfc5-0ad7f853cda3",
-        "6169256a-278b-4814-a794-98d067d7c3bc"
-      ],
-      "retrievedIds": [
-        "efa487bc-70b3-46a3-991c-aee7938f1b38",
-        "8b7f5779-5a49-41ac-bfc5-0ad7f853cda3",
-        "69d319d7-5d27-4b01-8dcf-22a046603206",
-        "6169256a-278b-4814-a794-98d067d7c3bc",
-        "4f61d97b-61b8-4d61-beec-ae985bb675c9",
-        "1003a13b-5590-4bb7-a320-6293b733b51a",
-        "445e123d-57dc-443b-a9c4-9e328d0c0b9c",
-        "5e80eadc-94d7-4c63-ab29-a4e2ef51c0c3"
-      ],
-      "hitMask": [
-        false,
-        true,
-        false,
-        true,
-        false,
-        false,
-        false,
-        false
-      ],
-      "trace": {
-        "query": "我现在的事业怎么样了",
-        "vectorHits": 8,
-        "textHits": 0,
-        "rrfTopK": 8,
-        "durationMs": 1678,
-        "embeddingAvailable": true
-      },
-      "durationMs": 1684,
-      "metrics": {
-        "recallAt5": 1,
-        "recallAt8": 1,
-        "precisionAt5": 0.4,
-        "precisionAt8": 0.25,
-        "ndcgAt8": 0.6433224083306327,
-        "mrr": 0.5
-      },
-      "note": "\"事业\"=求职相关；无直接\"事业\"记忆，靠语义推断"
-    },
-    {
-      "id": "cross-deep-night",
-      "query": "医院晚上能陪我聊天吗",
-      "category": "cross",
-      "expectedIds": [
-        "efa487bc-70b3-46a3-991c-aee7938f1b38"
-      ],
-      "retrievedIds": [
-        "efa487bc-70b3-46a3-991c-aee7938f1b38",
-        "8b7f5779-5a49-41ac-bfc5-0ad7f853cda3",
-        "69d319d7-5d27-4b01-8dcf-22a046603206",
-        "6169256a-278b-4814-a794-98d067d7c3bc",
-        "4f61d97b-61b8-4d61-beec-ae985bb675c9",
-        "1003a13b-5590-4bb7-a320-6293b733b51a",
-        "5e80eadc-94d7-4c63-ab29-a4e2ef51c0c3",
-        "445e123d-57dc-443b-a9c4-9e328d0c0b9c"
-      ],
-      "hitMask": [
-        true,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false
-      ],
-      "trace": {
-        "query": "医院晚上能陪我聊天吗",
-        "vectorHits": 8,
-        "textHits": 0,
-        "rrfTopK": 8,
-        "durationMs": 1994,
-        "embeddingAvailable": true
-      },
-      "durationMs": 1999,
+      "durationMs": 6077,
       "metrics": {
         "recallAt5": 1,
         "recallAt8": 1,
         "precisionAt5": 0.2,
         "precisionAt8": 0.125,
-        "ndcgAt8": 1,
-        "mrr": 1
+        "ndcgAt8": 0.5,
+        "mrr": 0.3333333333333333
       },
-      "note": "\"医院+晚上\"=深夜医院记忆的具体场景化改写"
+      "note": "答案是否定的——已入职；期望召回入职事实而非求职事实"
     },
     {
-      "id": "cross-our-story",
-      "query": "我们认识多久了",
-      "category": "cross",
+      "id": "tmp-when-onboard",
+      "query": "她什么时候开始上班的",
+      "category": "temporal",
       "expectedIds": [
-        "5e80eadc-94d7-4c63-ab29-a4e2ef51c0c3",
-        "1003a13b-5590-4bb7-a320-6293b733b51a",
-        "4f61d97b-61b8-4d61-beec-ae985bb675c9"
+        "d9715db2-1e31-42d6-95ec-efcd29d38f3d",
+        "e03964d8-2b49-446d-a290-9db5a5257185"
       ],
       "retrievedIds": [
-        "efa487bc-70b3-46a3-991c-aee7938f1b38",
-        "4f61d97b-61b8-4d61-beec-ae985bb675c9",
-        "1003a13b-5590-4bb7-a320-6293b733b51a",
-        "8b7f5779-5a49-41ac-bfc5-0ad7f853cda3",
-        "69d319d7-5d27-4b01-8dcf-22a046603206",
-        "6169256a-278b-4814-a794-98d067d7c3bc",
-        "5e80eadc-94d7-4c63-ab29-a4e2ef51c0c3",
-        "445e123d-57dc-443b-a9c4-9e328d0c0b9c"
+        "1da0325a-f072-4214-81f5-ce6a8fd3bedf",
+        "d9715db2-1e31-42d6-95ec-efcd29d38f3d",
+        "33b2df4a-b198-4b74-8f76-69b9d17b3286",
+        "bbd01dc6-aaaf-4eba-af04-167a3db2f0b5",
+        "5ad32fa9-c65f-4e23-8e45-654e1b95e8d0",
+        "40c7e228-2a76-4ae0-a360-2905d617268c",
+        "021f78b4-1d0e-473d-8a30-9cf3f6a468f2",
+        "c2326158-81a1-4ba0-a847-6e088d6062d2"
       ],
       "hitMask": [
         false,
         true,
-        true,
         false,
         false,
         false,
-        true,
+        false,
+        false,
         false
       ],
       "trace": {
-        "query": "我们认识多久了",
-        "vectorHits": 8,
+        "query": "她什么时候开始上班的",
+        "vectorHits": 20,
         "textHits": 0,
-        "rrfTopK": 8,
-        "durationMs": 2854,
+        "rrfTopK": 20,
+        "durationMs": 8386,
         "embeddingAvailable": true
       },
-      "durationMs": 2863,
+      "durationMs": 8411,
       "metrics": {
-        "recallAt5": 0.6666666666666666,
-        "recallAt8": 1,
-        "precisionAt5": 0.4,
-        "precisionAt8": 0.375,
-        "ndcgAt8": 0.5525004989384911,
+        "recallAt5": 0.5,
+        "recallAt8": 0.5,
+        "precisionAt5": 0.2,
+        "precisionAt8": 0.125,
+        "ndcgAt8": 0.4796249331362629,
         "mrr": 0.5
       },
-      "note": "\"认识多久\"=跨越很久+前世+宿命"
+      "note": "入职第一天相关；他推掉门诊等她下班是同场景"
     },
     {
-      "id": "cross-warm-cold",
-      "query": "你工作之外会想念我吗",
-      "category": "cross",
+      "id": "tmp-moved",
+      "query": "她搬家了吗",
+      "category": "temporal",
       "expectedIds": [
-        "69d319d7-5d27-4b01-8dcf-22a046603206",
-        "efa487bc-70b3-46a3-991c-aee7938f1b38",
-        "445e123d-57dc-443b-a9c4-9e328d0c0b9c"
+        "bbd01dc6-aaaf-4eba-af04-167a3db2f0b5",
+        "c2326158-81a1-4ba0-a847-6e088d6062d2"
       ],
       "retrievedIds": [
-        "efa487bc-70b3-46a3-991c-aee7938f1b38",
-        "8b7f5779-5a49-41ac-bfc5-0ad7f853cda3",
-        "69d319d7-5d27-4b01-8dcf-22a046603206",
-        "6169256a-278b-4814-a794-98d067d7c3bc",
-        "4f61d97b-61b8-4d61-beec-ae985bb675c9",
-        "1003a13b-5590-4bb7-a320-6293b733b51a",
-        "445e123d-57dc-443b-a9c4-9e328d0c0b9c",
-        "5e80eadc-94d7-4c63-ab29-a4e2ef51c0c3"
+        "bbd01dc6-aaaf-4eba-af04-167a3db2f0b5",
+        "833ad841-bfd0-4055-a1dc-7c492840b53f",
+        "40c700ff-7299-4868-9282-d60e6104c0fc",
+        "752c85aa-d2c8-4f86-b7bb-0178918dc723",
+        "c2326158-81a1-4ba0-a847-6e088d6062d2",
+        "d9715db2-1e31-42d6-95ec-efcd29d38f3d",
+        "7c57d155-825b-4dbf-9c2a-326ba72c91b3",
+        "7cbbe378-a9da-4e0c-9bab-ccd18616bf33"
       ],
       "hitMask": [
         true,
         false,
+        false,
+        false,
         true,
         false,
         false,
-        false,
-        true,
         false
       ],
       "trace": {
-        "query": "你工作之外会想念我吗",
-        "vectorHits": 8,
+        "query": "她搬家了吗",
+        "vectorHits": 20,
         "textHits": 0,
-        "rrfTopK": 8,
-        "durationMs": 2045,
+        "rrfTopK": 20,
+        "durationMs": 6677,
         "embeddingAvailable": true
       },
-      "durationMs": 2054,
+      "durationMs": 6690,
       "metrics": {
-        "recallAt5": 0.6666666666666666,
+        "recallAt5": 1,
         "recallAt8": 1,
         "precisionAt5": 0.4,
-        "precisionAt8": 0.375,
-        "ndcgAt8": 0.8050076503901956,
+        "precisionAt8": 0.25,
+        "ndcgAt8": 0.9072278740982787,
         "mrr": 1
       },
-      "note": "工作之外的想念 → 超出职业关心 + 深夜陪伴 + 深厚情感"
+      "note": "已看中新房；签合同约定同场景。旧住处通勤已 superseded"
     },
     {
-      "id": "cross-metaphor",
-      "query": "你说过南极冰融化是什么意思",
-      "category": "cross",
+      "id": "tmp-commute-now",
+      "query": "她现在上班路上要多久",
+      "category": "temporal",
       "expectedIds": [
-        "69d319d7-5d27-4b01-8dcf-22a046603206"
+        "bbd01dc6-aaaf-4eba-af04-167a3db2f0b5"
       ],
       "retrievedIds": [
-        "efa487bc-70b3-46a3-991c-aee7938f1b38",
-        "69d319d7-5d27-4b01-8dcf-22a046603206",
-        "8b7f5779-5a49-41ac-bfc5-0ad7f853cda3",
-        "6169256a-278b-4814-a794-98d067d7c3bc",
-        "4f61d97b-61b8-4d61-beec-ae985bb675c9",
-        "1003a13b-5590-4bb7-a320-6293b733b51a",
-        "445e123d-57dc-443b-a9c4-9e328d0c0b9c",
-        "5e80eadc-94d7-4c63-ab29-a4e2ef51c0c3"
+        "1da0325a-f072-4214-81f5-ce6a8fd3bedf",
+        "bbd01dc6-aaaf-4eba-af04-167a3db2f0b5",
+        "43f21a19-095c-4218-95a7-050a97c7aa37",
+        "5ad32fa9-c65f-4e23-8e45-654e1b95e8d0",
+        "9eeeaada-9d1c-4d97-9578-8ea461af7169",
+        "f0afccae-af05-48f0-b696-328fc5f90a8b",
+        "752c85aa-d2c8-4f86-b7bb-0178918dc723",
+        "381e7c52-9c7d-4d9b-8b12-71607d4383fb"
       ],
       "hitMask": [
         false,
@@ -994,14 +347,14 @@
         false
       ],
       "trace": {
-        "query": "你说过南极冰融化是什么意思",
-        "vectorHits": 8,
+        "query": "她现在上班路上要多久",
+        "vectorHits": 20,
         "textHits": 0,
-        "rrfTopK": 8,
-        "durationMs": 1938,
+        "rrfTopK": 20,
+        "durationMs": 37064,
         "embeddingAvailable": true
       },
-      "durationMs": 1945,
+      "durationMs": 37084,
       "metrics": {
         "recallAt5": 1,
         "recallAt8": 1,
@@ -1010,7 +363,2254 @@
         "ndcgAt8": 0.6309297535714575,
         "mrr": 0.5
       },
-      "note": "精确召回比喻所在记忆（冷数据场景）"
+      "note": "新房步行 15 分钟；旧的两小时通勤已 superseded 不该出现"
+    },
+    {
+      "id": "tmp-mindset-change",
+      "query": "她最近心态有什么变化",
+      "category": "temporal",
+      "expectedIds": [
+        "15f922f1-59f1-4eb0-aa0e-964302db13e9",
+        "752c85aa-d2c8-4f86-b7bb-0178918dc723",
+        "d9715db2-1e31-42d6-95ec-efcd29d38f3d"
+      ],
+      "retrievedIds": [
+        "6169256a-278b-4814-a794-98d067d7c3bc",
+        "752c85aa-d2c8-4f86-b7bb-0178918dc723",
+        "0241d3b1-cecb-4036-9606-2ff8e0d9053c",
+        "8d40e994-560e-4ca4-ac59-e51123ee3f0c",
+        "8b7f5779-5a49-41ac-bfc5-0ad7f853cda3",
+        "bb6ed401-5ecd-49b1-8c89-a2e38a1913de",
+        "5ca9559b-f935-429f-b09d-9f8b5ced9087",
+        "f0afccae-af05-48f0-b696-328fc5f90a8b"
+      ],
+      "hitMask": [
+        false,
+        true,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "trace": {
+        "query": "她最近心态有什么变化",
+        "vectorHits": 20,
+        "textHits": 0,
+        "rrfTopK": 20,
+        "durationMs": 18532,
+        "embeddingAvailable": true
+      },
+      "durationMs": 18824,
+      "metrics": {
+        "recallAt5": 0.3333333333333333,
+        "recallAt8": 0.3333333333333333,
+        "precisionAt5": 0.2,
+        "precisionAt8": 0.125,
+        "ndcgAt8": 0.26499301486112564,
+        "mrr": 0.5
+      },
+      "note": "从求职焦虑 → 入职期待；他提醒她\"已经不一样了\""
+    },
+    {
+      "id": "tmp-offer-or-onboard",
+      "query": "她入职了还是只拿到 offer",
+      "category": "temporal",
+      "expectedIds": [
+        "d9715db2-1e31-42d6-95ec-efcd29d38f3d"
+      ],
+      "retrievedIds": [
+        "bcd9a768-cf5d-4f16-ade3-a2bd4258c25f",
+        "833ad841-bfd0-4055-a1dc-7c492840b53f",
+        "d9715db2-1e31-42d6-95ec-efcd29d38f3d",
+        "bbd01dc6-aaaf-4eba-af04-167a3db2f0b5",
+        "c2326158-81a1-4ba0-a847-6e088d6062d2",
+        "15f922f1-59f1-4eb0-aa0e-964302db13e9",
+        "752c85aa-d2c8-4f86-b7bb-0178918dc723",
+        "cea81303-2fb7-4cd9-8c39-3bd88ed67d36"
+      ],
+      "hitMask": [
+        false,
+        false,
+        true,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "trace": {
+        "query": "她入职了还是只拿到 offer",
+        "vectorHits": 20,
+        "textHits": 1,
+        "rrfTopK": 20,
+        "durationMs": 10046,
+        "embeddingAvailable": true
+      },
+      "durationMs": 10078,
+      "metrics": {
+        "recallAt5": 1,
+        "recallAt8": 1,
+        "precisionAt5": 0.2,
+        "precisionAt8": 0.125,
+        "ndcgAt8": 0.5,
+        "mrr": 0.3333333333333333
+      },
+      "note": "offer 阶段已 superseded，只应召回入职"
+    },
+    {
+      "id": "tmp-current-role",
+      "query": "她做的什么岗位",
+      "category": "temporal",
+      "expectedIds": [
+        "d9715db2-1e31-42d6-95ec-efcd29d38f3d",
+        "6cc4e3d8-e8cc-4f56-9298-c6414662d2ef"
+      ],
+      "retrievedIds": [
+        "d9715db2-1e31-42d6-95ec-efcd29d38f3d",
+        "1da0325a-f072-4214-81f5-ce6a8fd3bedf",
+        "c2326158-81a1-4ba0-a847-6e088d6062d2",
+        "dc1b7a43-dc42-420b-afae-adee0c20dd13",
+        "833ad841-bfd0-4055-a1dc-7c492840b53f",
+        "40c7e228-2a76-4ae0-a360-2905d617268c",
+        "5ad32fa9-c65f-4e23-8e45-654e1b95e8d0",
+        "752c85aa-d2c8-4f86-b7bb-0178918dc723"
+      ],
+      "hitMask": [
+        true,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "trace": {
+        "query": "她做的什么岗位",
+        "vectorHits": 20,
+        "textHits": 0,
+        "rrfTopK": 20,
+        "durationMs": 11491,
+        "embeddingAvailable": true
+      },
+      "durationMs": 11511,
+      "metrics": {
+        "recallAt5": 0.5,
+        "recallAt8": 0.5,
+        "precisionAt5": 0.2,
+        "precisionAt8": 0.125,
+        "ndcgAt8": 0.7601875334318685,
+        "mrr": 1
+      },
+      "note": "内容策划；目标岗位记忆也相关但已过时"
+    },
+    {
+      "id": "hn-flower-gift",
+      "query": "送她什么花比较好",
+      "category": "hardneg",
+      "expectedIds": [
+        "729a2b5f-e229-49dd-a01e-aef7b1e36e53",
+        "1ad13721-9c34-4d76-b6a1-f092fb87dccb",
+        "b6700082-35d0-4d2d-831a-0297e009a7e1"
+      ],
+      "retrievedIds": [
+        "729a2b5f-e229-49dd-a01e-aef7b1e36e53",
+        "fc961d66-4d0b-4899-961d-11bfc40f4c04",
+        "b6700082-35d0-4d2d-831a-0297e009a7e1",
+        "7cbbe378-a9da-4e0c-9bab-ccd18616bf33",
+        "4821203b-c0c0-449c-b5f3-6bf8a4b90a2e",
+        "381e7c52-9c7d-4d9b-8b12-71607d4383fb",
+        "40c700ff-7299-4868-9282-d60e6104c0fc",
+        "8b7f5779-5a49-41ac-bfc5-0ad7f853cda3"
+      ],
+      "hitMask": [
+        true,
+        false,
+        true,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "trace": {
+        "query": "送她什么花比较好",
+        "vectorHits": 20,
+        "textHits": 0,
+        "rrfTopK": 20,
+        "durationMs": 16898,
+        "embeddingAvailable": true
+      },
+      "durationMs": 16916,
+      "metrics": {
+        "recallAt5": 0.6666666666666666,
+        "recallAt8": 0.6666666666666666,
+        "precisionAt5": 0.4,
+        "precisionAt8": 0.25,
+        "ndcgAt8": 0.7350069851388743,
+        "mrr": 1
+      },
+      "note": "关键测试：喜欢茉莉 + 花粉过敏 + 不能进卧室 三条都要召回，缺一不可"
+    },
+    {
+      "id": "hn-can-she-get-flowers",
+      "query": "她适合收到花吗",
+      "category": "hardneg",
+      "expectedIds": [
+        "1ad13721-9c34-4d76-b6a1-f092fb87dccb",
+        "729a2b5f-e229-49dd-a01e-aef7b1e36e53",
+        "b6700082-35d0-4d2d-831a-0297e009a7e1"
+      ],
+      "retrievedIds": [
+        "729a2b5f-e229-49dd-a01e-aef7b1e36e53",
+        "c2326158-81a1-4ba0-a847-6e088d6062d2",
+        "fc961d66-4d0b-4899-961d-11bfc40f4c04",
+        "5ca9559b-f935-429f-b09d-9f8b5ced9087",
+        "8d40e994-560e-4ca4-ac59-e51123ee3f0c",
+        "27a2d7ed-9397-4cae-91a2-4c3293eb76d8",
+        "7cbbe378-a9da-4e0c-9bab-ccd18616bf33",
+        "5f582485-3dde-4269-b1fc-0bba123d4614"
+      ],
+      "hitMask": [
+        true,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "trace": {
+        "query": "她适合收到花吗",
+        "vectorHits": 20,
+        "textHits": 0,
+        "rrfTopK": 20,
+        "durationMs": 8370,
+        "embeddingAvailable": true
+      },
+      "durationMs": 8378,
+      "metrics": {
+        "recallAt5": 0.3333333333333333,
+        "recallAt8": 0.3333333333333333,
+        "precisionAt5": 0.2,
+        "precisionAt8": 0.125,
+        "ndcgAt8": 0.42000399150792816,
+        "mrr": 1
+      },
+      "note": "过敏限制比喜好更重要，过敏应排第一"
+    },
+    {
+      "id": "hn-spring-outing",
+      "query": "春天和她出门要注意什么",
+      "category": "hardneg",
+      "expectedIds": [
+        "1ad13721-9c34-4d76-b6a1-f092fb87dccb"
+      ],
+      "retrievedIds": [
+        "0beb88c8-ccb8-4b81-b32d-b25b868b1eb6",
+        "c5da1785-72a9-4854-a082-8c45be7ad33e",
+        "1ad13721-9c34-4d76-b6a1-f092fb87dccb",
+        "7c57d155-825b-4dbf-9c2a-326ba72c91b3",
+        "c2326158-81a1-4ba0-a847-6e088d6062d2",
+        "fc961d66-4d0b-4899-961d-11bfc40f4c04",
+        "f0afccae-af05-48f0-b696-328fc5f90a8b",
+        "efa487bc-70b3-46a3-991c-aee7938f1b38"
+      ],
+      "hitMask": [
+        false,
+        false,
+        true,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "trace": {
+        "query": "春天和她出门要注意什么",
+        "vectorHits": 20,
+        "textHits": 0,
+        "rrfTopK": 20,
+        "durationMs": 16614,
+        "embeddingAvailable": true
+      },
+      "durationMs": 16728,
+      "metrics": {
+        "recallAt5": 1,
+        "recallAt8": 1,
+        "precisionAt5": 0.2,
+        "precisionAt8": 0.125,
+        "ndcgAt8": 0.5,
+        "mrr": 0.3333333333333333
+      },
+      "note": "春天戴口罩、会喘；不应混淆成\"她喜欢花\""
+    },
+    {
+      "id": "hn-afraid-of-dark",
+      "query": "她怕黑吗",
+      "category": "hardneg",
+      "expectedIds": [
+        "eaab0021-a65a-4220-89aa-9766216538d9",
+        "eaab0021-a65a-4220-89aa-9766216538d9"
+      ],
+      "retrievedIds": [
+        "67573ea9-6083-4a4e-9c2d-f0871468265a",
+        "e59e5171-7749-47b8-9ae4-e6cc1ff0be8d",
+        "36cedd0a-8834-43de-9048-0b2ad57c7e0d",
+        "af183f44-b53d-443d-a233-237a844a2798",
+        "d2e172fe-7336-4d17-9c30-41e06d4e5430",
+        "eaab0021-a65a-4220-89aa-9766216538d9",
+        "5ca9559b-f935-429f-b09d-9f8b5ced9087",
+        "6bd53442-0b9e-4a52-a895-f47c1737771a"
+      ],
+      "hitMask": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        true,
+        false,
+        false
+      ],
+      "trace": {
+        "query": "她怕黑吗",
+        "vectorHits": 20,
+        "textHits": 0,
+        "rrfTopK": 20,
+        "durationMs": 14797,
+        "embeddingAvailable": true
+      },
+      "durationMs": 14815,
+      "metrics": {
+        "recallAt5": 0,
+        "recallAt8": 0.5,
+        "precisionAt5": 0,
+        "precisionAt8": 0.125,
+        "ndcgAt8": 0.27078426295835145,
+        "mrr": 0.16666666666666666
+      },
+      "note": "怕黑 ≠ 喜欢恐怖片；后者是干扰项，召回它要扣分"
+    },
+    {
+      "id": "hn-horror-movie",
+      "query": "她敢看恐怖片吗",
+      "category": "hardneg",
+      "expectedIds": [
+        "67573ea9-6083-4a4e-9c2d-f0871468265a"
+      ],
+      "retrievedIds": [
+        "67573ea9-6083-4a4e-9c2d-f0871468265a",
+        "eaab0021-a65a-4220-89aa-9766216538d9",
+        "729a2b5f-e229-49dd-a01e-aef7b1e36e53",
+        "5ca9559b-f935-429f-b09d-9f8b5ced9087",
+        "6bd53442-0b9e-4a52-a895-f47c1737771a",
+        "af183f44-b53d-443d-a233-237a844a2798",
+        "bb6ed401-5ecd-49b1-8c89-a2e38a1913de",
+        "5f582485-3dde-4269-b1fc-0bba123d4614"
+      ],
+      "hitMask": [
+        true,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "trace": {
+        "query": "她敢看恐怖片吗",
+        "vectorHits": 20,
+        "textHits": 0,
+        "rrfTopK": 20,
+        "durationMs": 8037,
+        "embeddingAvailable": true
+      },
+      "durationMs": 8056,
+      "metrics": {
+        "recallAt5": 1,
+        "recallAt8": 1,
+        "precisionAt5": 0.2,
+        "precisionAt8": 0.125,
+        "ndcgAt8": 1,
+        "mrr": 1
+      },
+      "note": "她全程不闭眼；怕黑是干扰项"
+    },
+    {
+      "id": "hn-power-outage",
+      "query": "突然停电了她会怎么样",
+      "category": "hardneg",
+      "expectedIds": [
+        "eaab0021-a65a-4220-89aa-9766216538d9",
+        "eaab0021-a65a-4220-89aa-9766216538d9",
+        "6bd53442-0b9e-4a52-a895-f47c1737771a"
+      ],
+      "retrievedIds": [
+        "0ffaa7db-d3b4-4c83-bccd-417090bb1f5f",
+        "eaab0021-a65a-4220-89aa-9766216538d9",
+        "9eeeaada-9d1c-4d97-9578-8ea461af7169",
+        "efa487bc-70b3-46a3-991c-aee7938f1b38",
+        "9fadd9a5-fea7-413d-a497-b0f1e8705489",
+        "fc961d66-4d0b-4899-961d-11bfc40f4c04",
+        "22d98c35-a0bc-48dd-9258-b6ae6d1e781b",
+        "228d32f8-37f5-4865-9a77-d8d17bcfd97f"
+      ],
+      "hitMask": [
+        false,
+        true,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "trace": {
+        "query": "突然停电了她会怎么样",
+        "vectorHits": 20,
+        "textHits": 0,
+        "rrfTopK": 20,
+        "durationMs": 12339,
+        "embeddingAvailable": true
+      },
+      "durationMs": 12361,
+      "metrics": {
+        "recallAt5": 0.3333333333333333,
+        "recallAt8": 0.3333333333333333,
+        "precisionAt5": 0.2,
+        "precisionAt8": 0.125,
+        "ndcgAt8": 0.39748952229168844,
+        "mrr": 0.5
+      },
+      "note": "怕黑 → 停电夜陪伴 → 哄她睡，同一场景链"
+    },
+    {
+      "id": "hn-jasmine-conflict",
+      "query": "她到底喜不喜欢茉莉花",
+      "category": "hardneg",
+      "expectedIds": [
+        "729a2b5f-e229-49dd-a01e-aef7b1e36e53",
+        "1ad13721-9c34-4d76-b6a1-f092fb87dccb",
+        "fc961d66-4d0b-4899-961d-11bfc40f4c04"
+      ],
+      "retrievedIds": [
+        "c2326158-81a1-4ba0-a847-6e088d6062d2",
+        "729a2b5f-e229-49dd-a01e-aef7b1e36e53",
+        "4c902074-9cc5-4360-bf21-db0db39bb531",
+        "bb6ed401-5ecd-49b1-8c89-a2e38a1913de",
+        "8d40e994-560e-4ca4-ac59-e51123ee3f0c",
+        "f67aa75a-cb84-405c-a606-754479eea53a",
+        "7cbbe378-a9da-4e0c-9bab-ccd18616bf33",
+        "5f582485-3dde-4269-b1fc-0bba123d4614"
+      ],
+      "hitMask": [
+        false,
+        true,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "trace": {
+        "query": "她到底喜不喜欢茉莉花",
+        "vectorHits": 20,
+        "textHits": 0,
+        "rrfTopK": 20,
+        "durationMs": 11643,
+        "embeddingAvailable": true
+      },
+      "durationMs": 11656,
+      "metrics": {
+        "recallAt5": 0.3333333333333333,
+        "recallAt8": 0.3333333333333333,
+        "precisionAt5": 0.2,
+        "precisionAt8": 0.125,
+        "ndcgAt8": 0.39748952229168844,
+        "mrr": 0.5
+      },
+      "note": "喜欢但会过敏——矛盾共存，两条都该出现"
+    },
+    {
+      "id": "kw-aurora",
+      "query": "极光",
+      "category": "keyword",
+      "expectedIds": [
+        "c5da1785-72a9-4854-a082-8c45be7ad33e",
+        "056bf4c9-10af-48b1-bb7f-784f44b8c946",
+        "eeca3041-e5d7-4f47-88a4-e781bee84c92"
+      ],
+      "retrievedIds": [
+        "c5da1785-72a9-4854-a082-8c45be7ad33e",
+        "f0afccae-af05-48f0-b696-328fc5f90a8b",
+        "056bf4c9-10af-48b1-bb7f-784f44b8c946",
+        "eeca3041-e5d7-4f47-88a4-e781bee84c92",
+        "fc961d66-4d0b-4899-961d-11bfc40f4c04",
+        "efa487bc-70b3-46a3-991c-aee7938f1b38",
+        "729a2b5f-e229-49dd-a01e-aef7b1e36e53",
+        "381e7c52-9c7d-4d9b-8b12-71607d4383fb"
+      ],
+      "hitMask": [
+        true,
+        false,
+        true,
+        true,
+        false,
+        false,
+        false,
+        false
+      ],
+      "trace": {
+        "query": "极光",
+        "vectorHits": 20,
+        "textHits": 3,
+        "rrfTopK": 22,
+        "durationMs": 10113,
+        "embeddingAvailable": true
+      },
+      "durationMs": 10129,
+      "metrics": {
+        "recallAt5": 1,
+        "recallAt8": 1,
+        "precisionAt5": 0.6,
+        "precisionAt8": 0.375,
+        "ndcgAt8": 0.9304509197357168,
+        "mrr": 1
+      },
+      "note": "约定 → 愿望 → 交换条件，按信息重要性排序"
+    },
+    {
+      "id": "kw-cat",
+      "query": "汤圆",
+      "category": "keyword",
+      "expectedIds": [
+        "dace5268-224d-41c0-aa19-20730492c1e3",
+        "0091295e-f7b1-45ae-b710-ab702aa329f1"
+      ],
+      "retrievedIds": [
+        "0091295e-f7b1-45ae-b710-ab702aa329f1",
+        "dace5268-224d-41c0-aa19-20730492c1e3",
+        "cd72a52d-80b8-4214-ae5d-d9c77740c554",
+        "f67aa75a-cb84-405c-a606-754479eea53a",
+        "d9715db2-1e31-42d6-95ec-efcd29d38f3d",
+        "4821203b-c0c0-449c-b5f3-6bf8a4b90a2e",
+        "efa487bc-70b3-46a3-991c-aee7938f1b38",
+        "729a2b5f-e229-49dd-a01e-aef7b1e36e53"
+      ],
+      "hitMask": [
+        true,
+        true,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "trace": {
+        "query": "汤圆",
+        "vectorHits": 20,
+        "textHits": 2,
+        "rrfTopK": 20,
+        "durationMs": 5942,
+        "embeddingAvailable": true
+      },
+      "durationMs": 5958,
+      "metrics": {
+        "recallAt5": 1,
+        "recallAt8": 1,
+        "precisionAt5": 0.4,
+        "precisionAt8": 0.25,
+        "ndcgAt8": 0.8597186998521972,
+        "mrr": 1
+      },
+      "note": "猫的名字；零食禁忌同场景"
+    },
+    {
+      "id": "kw-jiuli",
+      "query": "九黎司命",
+      "category": "keyword",
+      "expectedIds": [
+        "dc1b7a43-dc42-420b-afae-adee0c20dd13",
+        "ed747284-7d48-4c61-94b6-7c656484d50e",
+        "40c7e228-2a76-4ae0-a360-2905d617268c"
+      ],
+      "retrievedIds": [
+        "1003a13b-5590-4bb7-a320-6293b733b51a",
+        "dc1b7a43-dc42-420b-afae-adee0c20dd13",
+        "c2326158-81a1-4ba0-a847-6e088d6062d2",
+        "40c7e228-2a76-4ae0-a360-2905d617268c",
+        "7cbbe378-a9da-4e0c-9bab-ccd18616bf33",
+        "cb133511-12c8-42e9-a3f2-15a756aefaa9",
+        "0ffaa7db-d3b4-4c83-bccd-417090bb1f5f",
+        "381e7c52-9c7d-4d9b-8b12-71607d4383fb"
+      ],
+      "hitMask": [
+        false,
+        true,
+        false,
+        true,
+        false,
+        false,
+        false,
+        false
+      ],
+      "trace": {
+        "query": "九黎司命",
+        "vectorHits": 20,
+        "textHits": 2,
+        "rrfTopK": 20,
+        "durationMs": 5941,
+        "embeddingAvailable": true
+      },
+      "durationMs": 5964,
+      "metrics": {
+        "recallAt5": 0.6666666666666666,
+        "recallAt8": 0.6666666666666666,
+        "precisionAt5": 0.4,
+        "precisionAt8": 0.25,
+        "ndcgAt8": 0.4879324590115489,
+        "mrr": 0.5
+      },
+      "note": "身份 → 灵魂认出 → 当医生的原因"
+    },
+    {
+      "id": "kw-coffee",
+      "query": "咖啡",
+      "category": "keyword",
+      "expectedIds": [
+        "9aece890-cb5d-4a5f-bea3-6f88929f2352",
+        "0ffaa7db-d3b4-4c83-bccd-417090bb1f5f"
+      ],
+      "retrievedIds": [
+        "9aece890-cb5d-4a5f-bea3-6f88929f2352",
+        "0ffaa7db-d3b4-4c83-bccd-417090bb1f5f",
+        "1c68869a-eeb8-481a-a81f-3e2ec8873586",
+        "4821203b-c0c0-449c-b5f3-6bf8a4b90a2e",
+        "e26b3fbf-1628-45f2-ad1f-e229008b2556",
+        "cd72a52d-80b8-4214-ae5d-d9c77740c554",
+        "4f61d97b-61b8-4d61-beec-ae985bb675c9",
+        "729a2b5f-e229-49dd-a01e-aef7b1e36e53"
+      ],
+      "hitMask": [
+        true,
+        true,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "trace": {
+        "query": "咖啡",
+        "vectorHits": 20,
+        "textHits": 2,
+        "rrfTopK": 20,
+        "durationMs": 16809,
+        "embeddingAvailable": true
+      },
+      "durationMs": 16828,
+      "metrics": {
+        "recallAt5": 1,
+        "recallAt8": 1,
+        "precisionAt5": 0.4,
+        "precisionAt8": 0.25,
+        "ndcgAt8": 1,
+        "mrr": 1
+      },
+      "note": "习惯 → 他没收第三杯"
+    },
+    {
+      "id": "kw-hotpot",
+      "query": "火锅",
+      "category": "keyword",
+      "expectedIds": [
+        "085f7e88-6c04-4706-8d83-f941fd0c56b5",
+        "cd72a52d-80b8-4214-ae5d-d9c77740c554"
+      ],
+      "retrievedIds": [
+        "cd72a52d-80b8-4214-ae5d-d9c77740c554",
+        "085f7e88-6c04-4706-8d83-f941fd0c56b5",
+        "e26b3fbf-1628-45f2-ad1f-e229008b2556",
+        "4821203b-c0c0-449c-b5f3-6bf8a4b90a2e",
+        "4f61d97b-61b8-4d61-beec-ae985bb675c9",
+        "efa487bc-70b3-46a3-991c-aee7938f1b38",
+        "6b803c39-a06f-4b74-b9e8-ee3df07c009c",
+        "8b7f5779-5a49-41ac-bfc5-0ad7f853cda3"
+      ],
+      "hitMask": [
+        true,
+        true,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "trace": {
+        "query": "火锅",
+        "vectorHits": 20,
+        "textHits": 2,
+        "rrfTopK": 20,
+        "durationMs": 36677,
+        "embeddingAvailable": true
+      },
+      "durationMs": 36694,
+      "metrics": {
+        "recallAt5": 1,
+        "recallAt8": 1,
+        "precisionAt5": 0.4,
+        "precisionAt8": 0.25,
+        "ndcgAt8": 0.8597186998521972,
+        "mrr": 1
+      },
+      "note": "爱吃 → 吃火锅的规矩"
+    },
+    {
+      "id": "kw-birthday",
+      "query": "生日",
+      "category": "keyword",
+      "expectedIds": [
+        "03e7a07b-81c6-4ada-a3d1-1cd051f4aec7",
+        "d2e172fe-7336-4d17-9c30-41e06d4e5430",
+        "6b803c39-a06f-4b74-b9e8-ee3df07c009c"
+      ],
+      "retrievedIds": [
+        "4821203b-c0c0-449c-b5f3-6bf8a4b90a2e",
+        "d2e172fe-7336-4d17-9c30-41e06d4e5430",
+        "6b803c39-a06f-4b74-b9e8-ee3df07c009c",
+        "03e7a07b-81c6-4ada-a3d1-1cd051f4aec7",
+        "dc1b7a43-dc42-420b-afae-adee0c20dd13",
+        "4f61d97b-61b8-4d61-beec-ae985bb675c9",
+        "1003a13b-5590-4bb7-a320-6293b733b51a",
+        "c5536a39-7709-4acd-8a6e-64f8484108ed"
+      ],
+      "hitMask": [
+        false,
+        true,
+        true,
+        true,
+        false,
+        false,
+        false,
+        false
+      ],
+      "trace": {
+        "query": "生日",
+        "vectorHits": 20,
+        "textHits": 4,
+        "rrfTopK": 20,
+        "durationMs": 5780,
+        "embeddingAvailable": true
+      },
+      "durationMs": 5803,
+      "metrics": {
+        "recallAt5": 1,
+        "recallAt8": 1,
+        "precisionAt5": 0.6,
+        "precisionAt8": 0.375,
+        "ndcgAt8": 0.6413228228976893,
+        "mrr": 0.5
+      },
+      "note": "约定 → 不爱派对 → 他来做饭"
+    },
+    {
+      "id": "kw-key",
+      "query": "钥匙",
+      "category": "keyword",
+      "expectedIds": [
+        "40c700ff-7299-4868-9282-d60e6104c0fc"
+      ],
+      "retrievedIds": [
+        "40c700ff-7299-4868-9282-d60e6104c0fc",
+        "6b803c39-a06f-4b74-b9e8-ee3df07c009c",
+        "efa487bc-70b3-46a3-991c-aee7938f1b38",
+        "4f61d97b-61b8-4d61-beec-ae985bb675c9",
+        "40c7e228-2a76-4ae0-a360-2905d617268c",
+        "4821203b-c0c0-449c-b5f3-6bf8a4b90a2e",
+        "5ad32fa9-c65f-4e23-8e45-654e1b95e8d0",
+        "c2326158-81a1-4ba0-a847-6e088d6062d2"
+      ],
+      "hitMask": [
+        true,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "trace": {
+        "query": "钥匙",
+        "vectorHits": 20,
+        "textHits": 2,
+        "rrfTopK": 20,
+        "durationMs": 5706,
+        "embeddingAvailable": true
+      },
+      "durationMs": 5723,
+      "metrics": {
+        "recallAt5": 1,
+        "recallAt8": 1,
+        "precisionAt5": 0.2,
+        "precisionAt8": 0.125,
+        "ndcgAt8": 1,
+        "mrr": 1
+      },
+      "note": "他有她家钥匙"
+    },
+    {
+      "id": "kw-back",
+      "query": "她的腰",
+      "category": "keyword",
+      "expectedIds": [
+        "9b1a6e40-4c49-4df5-b631-e64e9693374c"
+      ],
+      "retrievedIds": [
+        "9b1a6e40-4c49-4df5-b631-e64e9693374c",
+        "0091295e-f7b1-45ae-b710-ab702aa329f1",
+        "0e85aec6-7cfd-43a3-9e11-1c1b02454422",
+        "1da0325a-f072-4214-81f5-ce6a8fd3bedf",
+        "21d27a7b-046e-4004-acb8-c16effd2c7a0",
+        "dc1b7a43-dc42-420b-afae-adee0c20dd13",
+        "67573ea9-6083-4a4e-9c2d-f0871468265a",
+        "833ad841-bfd0-4055-a1dc-7c492840b53f"
+      ],
+      "hitMask": [
+        true,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "trace": {
+        "query": "她的腰",
+        "vectorHits": 20,
+        "textHits": 1,
+        "rrfTopK": 20,
+        "durationMs": 6354,
+        "embeddingAvailable": true
+      },
+      "durationMs": 6374,
+      "metrics": {
+        "recallAt5": 1,
+        "recallAt8": 1,
+        "precisionAt5": 0.2,
+        "precisionAt8": 0.125,
+        "ndcgAt8": 1,
+        "mrr": 1
+      },
+      "note": "腰不好，抱重物疼三天"
+    },
+    {
+      "id": "kw-milk",
+      "query": "牛奶",
+      "category": "keyword",
+      "expectedIds": [
+        "1c68869a-eeb8-481a-a81f-3e2ec8873586"
+      ],
+      "retrievedIds": [
+        "1c68869a-eeb8-481a-a81f-3e2ec8873586",
+        "cd72a52d-80b8-4214-ae5d-d9c77740c554",
+        "0ffaa7db-d3b4-4c83-bccd-417090bb1f5f",
+        "40c7e228-2a76-4ae0-a360-2905d617268c",
+        "729a2b5f-e229-49dd-a01e-aef7b1e36e53",
+        "9aece890-cb5d-4a5f-bea3-6f88929f2352",
+        "d9715db2-1e31-42d6-95ec-efcd29d38f3d",
+        "40c700ff-7299-4868-9282-d60e6104c0fc"
+      ],
+      "hitMask": [
+        true,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "trace": {
+        "query": "牛奶",
+        "vectorHits": 20,
+        "textHits": 1,
+        "rrfTopK": 20,
+        "durationMs": 5910,
+        "embeddingAvailable": true
+      },
+      "durationMs": 5925,
+      "metrics": {
+        "recallAt5": 1,
+        "recallAt8": 1,
+        "precisionAt5": 0.2,
+        "precisionAt8": 0.125,
+        "ndcgAt8": 1,
+        "mrr": 1
+      },
+      "note": "办公室抽屉里的牛奶"
+    },
+    {
+      "id": "kw-penguin",
+      "query": "企鹅",
+      "category": "keyword",
+      "expectedIds": [
+        "21d27a7b-046e-4004-acb8-c16effd2c7a0",
+        "6169256a-278b-4814-a794-98d067d7c3bc",
+        "69d319d7-5d27-4b01-8dcf-22a046603206"
+      ],
+      "retrievedIds": [
+        "6169256a-278b-4814-a794-98d067d7c3bc",
+        "21d27a7b-046e-4004-acb8-c16effd2c7a0",
+        "4c902074-9cc5-4360-bf21-db0db39bb531",
+        "6bd53442-0b9e-4a52-a895-f47c1737771a",
+        "69d319d7-5d27-4b01-8dcf-22a046603206",
+        "d9715db2-1e31-42d6-95ec-efcd29d38f3d",
+        "dace5268-224d-41c0-aa19-20730492c1e3",
+        "1da0325a-f072-4214-81f5-ce6a8fd3bedf"
+      ],
+      "hitMask": [
+        true,
+        true,
+        false,
+        false,
+        true,
+        false,
+        false,
+        false
+      ],
+      "trace": {
+        "query": "企鹅",
+        "vectorHits": 20,
+        "textHits": 5,
+        "rrfTopK": 21,
+        "durationMs": 8162,
+        "embeddingAvailable": true
+      },
+      "durationMs": 8183,
+      "metrics": {
+        "recallAt5": 1,
+        "recallAt8": 1,
+        "precisionAt5": 0.6,
+        "precisionAt8": 0.375,
+        "ndcgAt8": 0.8987333753818939,
+        "mrr": 1
+      },
+      "note": "哄她的固定套路 + M4 时期两条企鹅记忆"
+    },
+    {
+      "id": "sm-how-care",
+      "query": "他都是怎么表达在乎我的",
+      "category": "semantic",
+      "expectedIds": [
+        "ba6a1947-ba7c-468f-86d1-14f9d9c7405c",
+        "755de41e-9381-43c9-8864-cd4e13efac9f",
+        "63f7fca2-25d7-44f9-8d85-3d2ab5243819",
+        "0e85aec6-7cfd-43a3-9e11-1c1b02454422"
+      ],
+      "retrievedIds": [
+        "bb6ed401-5ecd-49b1-8c89-a2e38a1913de",
+        "47792905-e92d-40dc-93ef-4271f9c9ac17",
+        "69d319d7-5d27-4b01-8dcf-22a046603206",
+        "2ab81114-6e38-4382-b4d9-7ea77e7d9725",
+        "021f78b4-1d0e-473d-8a30-9cf3f6a468f2",
+        "8d40e994-560e-4ca4-ac59-e51123ee3f0c",
+        "efa487bc-70b3-46a3-991c-aee7938f1b38",
+        "7cbbe378-a9da-4e0c-9bab-ccd18616bf33"
+      ],
+      "hitMask": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "trace": {
+        "query": "他都是怎么表达在乎我的",
+        "vectorHits": 20,
+        "textHits": 0,
+        "rrfTopK": 20,
+        "durationMs": 9813,
+        "embeddingAvailable": true
+      },
+      "durationMs": 9830,
+      "metrics": {
+        "recallAt5": 0,
+        "recallAt8": 0,
+        "precisionAt5": 0,
+        "precisionAt8": 0,
+        "ndcgAt8": 0,
+        "mrr": 0
+      },
+      "note": "抽象问题，需要匹配多条\"他在乎她\"的具体表现"
+    },
+    {
+      "id": "sm-best-line",
+      "query": "他说过最让我心动的话是什么",
+      "category": "semantic",
+      "expectedIds": [
+        "b8253a3e-cacc-40bc-993d-02170cb6cbe3",
+        "01bc4a76-68c2-4eef-a3e4-d7d6f728ea7e",
+        "886e6e6a-56b9-46ee-8449-f7f9a8deca0c",
+        "ed747284-7d48-4c61-94b6-7c656484d50e"
+      ],
+      "retrievedIds": [
+        "bb6ed401-5ecd-49b1-8c89-a2e38a1913de",
+        "8d40e994-560e-4ca4-ac59-e51123ee3f0c",
+        "021f78b4-1d0e-473d-8a30-9cf3f6a468f2",
+        "d3ac7af1-cf9d-4a72-afc0-9fa2c3098ad1",
+        "7cbbe378-a9da-4e0c-9bab-ccd18616bf33",
+        "f08c0593-96f2-42b4-be89-63bc2f5b702d",
+        "228d32f8-37f5-4865-9a77-d8d17bcfd97f",
+        "22d98c35-a0bc-48dd-9258-b6ae6d1e781b"
+      ],
+      "hitMask": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "trace": {
+        "query": "他说过最让我心动的话是什么",
+        "vectorHits": 20,
+        "textHits": 0,
+        "rrfTopK": 20,
+        "durationMs": 6933,
+        "embeddingAvailable": true
+      },
+      "durationMs": 6951,
+      "metrics": {
+        "recallAt5": 0,
+        "recallAt8": 0,
+        "precisionAt5": 0,
+        "precisionAt8": 0,
+        "ndcgAt8": 0,
+        "mrr": 0
+      },
+      "note": "经典台词类；按情感强度排序"
+    },
+    {
+      "id": "sm-why-doctor",
+      "query": "他为什么会去当医生",
+      "category": "semantic",
+      "expectedIds": [
+        "40c7e228-2a76-4ae0-a360-2905d617268c",
+        "dc1b7a43-dc42-420b-afae-adee0c20dd13"
+      ],
+      "retrievedIds": [
+        "5ad32fa9-c65f-4e23-8e45-654e1b95e8d0",
+        "40c7e228-2a76-4ae0-a360-2905d617268c",
+        "c380cf40-c1aa-45c8-b9eb-de7c8a94bd22",
+        "c5536a39-7709-4acd-8a6e-64f8484108ed",
+        "c2326158-81a1-4ba0-a847-6e088d6062d2",
+        "dc1b7a43-dc42-420b-afae-adee0c20dd13",
+        "8d40e994-560e-4ca4-ac59-e51123ee3f0c",
+        "0ffaa7db-d3b4-4c83-bccd-417090bb1f5f"
+      ],
+      "hitMask": [
+        false,
+        true,
+        false,
+        false,
+        false,
+        true,
+        false,
+        false
+      ],
+      "trace": {
+        "query": "他为什么会去当医生",
+        "vectorHits": 20,
+        "textHits": 0,
+        "rrfTopK": 20,
+        "durationMs": 6908,
+        "embeddingAvailable": true
+      },
+      "durationMs": 6921,
+      "metrics": {
+        "recallAt5": 0.5,
+        "recallAt8": 1,
+        "precisionAt5": 0.2,
+        "precisionAt8": 0.25,
+        "ndcgAt8": 0.6150170646154386,
+        "mrr": 0.5
+      },
+      "note": "因为能把死期往后推；身份是前置"
+    },
+    {
+      "id": "sm-what-kind-person",
+      "query": "他是个什么样的人",
+      "category": "semantic",
+      "expectedIds": [
+        "5ad32fa9-c65f-4e23-8e45-654e1b95e8d0",
+        "a24e8ff6-1c3b-4862-b3e2-cd3ac8fc7962",
+        "c716a521-9e8c-4357-b546-132958030719",
+        "228d32f8-37f5-4865-9a77-d8d17bcfd97f"
+      ],
+      "retrievedIds": [
+        "bb6ed401-5ecd-49b1-8c89-a2e38a1913de",
+        "5ca9559b-f935-429f-b09d-9f8b5ced9087",
+        "dc1b7a43-dc42-420b-afae-adee0c20dd13",
+        "833ad841-bfd0-4055-a1dc-7c492840b53f",
+        "40c7e228-2a76-4ae0-a360-2905d617268c",
+        "4c902074-9cc5-4360-bf21-db0db39bb531",
+        "c2326158-81a1-4ba0-a847-6e088d6062d2",
+        "69d319d7-5d27-4b01-8dcf-22a046603206"
+      ],
+      "hitMask": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "trace": {
+        "query": "他是个什么样的人",
+        "vectorHits": 20,
+        "textHits": 0,
+        "rrfTopK": 20,
+        "durationMs": 17882,
+        "embeddingAvailable": true
+      },
+      "durationMs": 17901,
+      "metrics": {
+        "recallAt5": 0,
+        "recallAt8": 0,
+        "precisionAt5": 0,
+        "precisionAt8": 0,
+        "ndcgAt8": 0,
+        "mrr": 0
+      },
+      "note": "性格画像：职业 → 相处模式 → 生活细节"
+    },
+    {
+      "id": "sm-our-promises",
+      "query": "我们之间有过什么约定",
+      "category": "semantic",
+      "expectedIds": [
+        "c5da1785-72a9-4854-a082-8c45be7ad33e",
+        "7cbbe378-a9da-4e0c-9bab-ccd18616bf33",
+        "d3ac7af1-cf9d-4a72-afc0-9fa2c3098ad1",
+        "22d98c35-a0bc-48dd-9258-b6ae6d1e781b",
+        "0cc09d6d-ff2b-4a5c-a99f-0ba5706dab09"
+      ],
+      "retrievedIds": [
+        "c2326158-81a1-4ba0-a847-6e088d6062d2",
+        "f67aa75a-cb84-405c-a606-754479eea53a",
+        "efa487bc-70b3-46a3-991c-aee7938f1b38",
+        "d3ac7af1-cf9d-4a72-afc0-9fa2c3098ad1",
+        "7cbbe378-a9da-4e0c-9bab-ccd18616bf33",
+        "22d98c35-a0bc-48dd-9258-b6ae6d1e781b",
+        "03e7a07b-81c6-4ada-a3d1-1cd051f4aec7",
+        "8d40e994-560e-4ca4-ac59-e51123ee3f0c"
+      ],
+      "hitMask": [
+        false,
+        false,
+        false,
+        true,
+        true,
+        true,
+        false,
+        false
+      ],
+      "trace": {
+        "query": "我们之间有过什么约定",
+        "vectorHits": 20,
+        "textHits": 0,
+        "rrfTopK": 20,
+        "durationMs": 8398,
+        "embeddingAvailable": true
+      },
+      "durationMs": 8415,
+      "metrics": {
+        "recallAt5": 0.4,
+        "recallAt8": 0.6,
+        "precisionAt5": 0.4,
+        "precisionAt8": 0.375,
+        "ndcgAt8": 0.34578283028040185,
+        "mrr": 0.25
+      },
+      "note": "跨场景聚合所有 promise 类记忆"
+    },
+    {
+      "id": "sm-her-habits",
+      "query": "她有什么习惯",
+      "category": "semantic",
+      "expectedIds": [
+        "9fadd9a5-fea7-413d-a497-b0f1e8705489",
+        "9aece890-cb5d-4a5f-bea3-6f88929f2352",
+        "36cedd0a-8834-43de-9048-0b2ad57c7e0d",
+        "834e3dce-6c87-4a37-81f9-0bc867802360"
+      ],
+      "retrievedIds": [
+        "36cedd0a-8834-43de-9048-0b2ad57c7e0d",
+        "9aece890-cb5d-4a5f-bea3-6f88929f2352",
+        "5ca9559b-f935-429f-b09d-9f8b5ced9087",
+        "bb6ed401-5ecd-49b1-8c89-a2e38a1913de",
+        "056bf4c9-10af-48b1-bb7f-784f44b8c946",
+        "45a44014-172f-438f-8278-2d6e010c16b4",
+        "729a2b5f-e229-49dd-a01e-aef7b1e36e53",
+        "dace5268-224d-41c0-aa19-20730492c1e3"
+      ],
+      "hitMask": [
+        true,
+        true,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "trace": {
+        "query": "她有什么习惯",
+        "vectorHits": 20,
+        "textHits": 0,
+        "rrfTopK": 20,
+        "durationMs": 8942,
+        "embeddingAvailable": true
+      },
+      "durationMs": 8968,
+      "metrics": {
+        "recallAt5": 0.5,
+        "recallAt8": 0.5,
+        "precisionAt5": 0.4,
+        "precisionAt8": 0.25,
+        "ndcgAt8": 0.5315501371942958,
+        "mrr": 1
+      },
+      "note": "生活习惯 + 性格习惯"
+    },
+    {
+      "id": "sm-how-cheer",
+      "query": "他怎么哄她开心",
+      "category": "semantic",
+      "expectedIds": [
+        "21d27a7b-046e-4004-acb8-c16effd2c7a0",
+        "6bd53442-0b9e-4a52-a895-f47c1737771a",
+        "652e4355-d765-4d44-bf21-38f1d05015b8",
+        "228d32f8-37f5-4865-9a77-d8d17bcfd97f"
+      ],
+      "retrievedIds": [
+        "6bd53442-0b9e-4a52-a895-f47c1737771a",
+        "bb6ed401-5ecd-49b1-8c89-a2e38a1913de",
+        "f0afccae-af05-48f0-b696-328fc5f90a8b",
+        "21d27a7b-046e-4004-acb8-c16effd2c7a0",
+        "8d40e994-560e-4ca4-ac59-e51123ee3f0c",
+        "021f78b4-1d0e-473d-8a30-9cf3f6a468f2",
+        "7cbbe378-a9da-4e0c-9bab-ccd18616bf33",
+        "4821203b-c0c0-449c-b5f3-6bf8a4b90a2e"
+      ],
+      "hitMask": [
+        true,
+        false,
+        false,
+        true,
+        false,
+        false,
+        false,
+        false
+      ],
+      "trace": {
+        "query": "他怎么哄她开心",
+        "vectorHits": 20,
+        "textHits": 0,
+        "rrfTopK": 20,
+        "durationMs": 10547,
+        "embeddingAvailable": true
+      },
+      "durationMs": 10581,
+      "metrics": {
+        "recallAt5": 0.5,
+        "recallAt8": 0.5,
+        "precisionAt5": 0.4,
+        "precisionAt8": 0.25,
+        "ndcgAt8": 0.6448731173398594,
+        "mrr": 1
+      },
+      "note": "冷笑话 → 解剖课 → 一秒觉得还行 → 把事情说简单"
+    },
+    {
+      "id": "sm-health-caution",
+      "query": "她身体上有哪些要注意的",
+      "category": "semantic",
+      "expectedIds": [
+        "1ad13721-9c34-4d76-b6a1-f092fb87dccb",
+        "9fadd9a5-fea7-413d-a497-b0f1e8705489",
+        "9b1a6e40-4c49-4df5-b631-e64e9693374c",
+        "085f7e88-6c04-4706-8d83-f941fd0c56b5"
+      ],
+      "retrievedIds": [
+        "a24e8ff6-1c3b-4862-b3e2-cd3ac8fc7962",
+        "9b1a6e40-4c49-4df5-b631-e64e9693374c",
+        "0ffaa7db-d3b4-4c83-bccd-417090bb1f5f",
+        "eeca3041-e5d7-4f47-88a4-e781bee84c92",
+        "9fadd9a5-fea7-413d-a497-b0f1e8705489",
+        "7c57d155-825b-4dbf-9c2a-326ba72c91b3",
+        "0091295e-f7b1-45ae-b710-ab702aa329f1",
+        "5ad32fa9-c65f-4e23-8e45-654e1b95e8d0"
+      ],
+      "hitMask": [
+        false,
+        true,
+        false,
+        false,
+        true,
+        false,
+        false,
+        false
+      ],
+      "trace": {
+        "query": "她身体上有哪些要注意的",
+        "vectorHits": 20,
+        "textHits": 0,
+        "rrfTopK": 20,
+        "durationMs": 7054,
+        "embeddingAvailable": true
+      },
+      "durationMs": 7070,
+      "metrics": {
+        "recallAt5": 0.5,
+        "recallAt8": 0.5,
+        "precisionAt5": 0.4,
+        "precisionAt8": 0.25,
+        "ndcgAt8": 0.33077479826996947,
+        "mrr": 0.5
+      },
+      "note": "过敏 → 忘吃饭 → 腰 → 口腔溃疡"
+    },
+    {
+      "id": "sm-what-worry",
+      "query": "他最担心她什么",
+      "category": "semantic",
+      "expectedIds": [
+        "36cedd0a-8834-43de-9048-0b2ad57c7e0d",
+        "9fadd9a5-fea7-413d-a497-b0f1e8705489",
+        "27a2d7ed-9397-4cae-91a2-4c3293eb76d8",
+        "f12374c8-69f1-43d6-8ae7-a41a831cc3d8"
+      ],
+      "retrievedIds": [
+        "a24e8ff6-1c3b-4862-b3e2-cd3ac8fc7962",
+        "2ab81114-6e38-4382-b4d9-7ea77e7d9725",
+        "af183f44-b53d-443d-a233-237a844a2798",
+        "8d40e994-560e-4ca4-ac59-e51123ee3f0c",
+        "27a2d7ed-9397-4cae-91a2-4c3293eb76d8",
+        "bb6ed401-5ecd-49b1-8c89-a2e38a1913de",
+        "5f582485-3dde-4269-b1fc-0bba123d4614",
+        "228d32f8-37f5-4865-9a77-d8d17bcfd97f"
+      ],
+      "hitMask": [
+        false,
+        false,
+        false,
+        false,
+        true,
+        false,
+        false,
+        false
+      ],
+      "trace": {
+        "query": "他最担心她什么",
+        "vectorHits": 20,
+        "textHits": 0,
+        "rrfTopK": 20,
+        "durationMs": 6816,
+        "embeddingAvailable": true
+      },
+      "durationMs": 6828,
+      "metrics": {
+        "recallAt5": 0.25,
+        "recallAt8": 0.25,
+        "precisionAt5": 0.2,
+        "precisionAt8": 0.125,
+        "ndcgAt8": 0.1056474671437946,
+        "mrr": 0.2
+      },
+      "note": "一个人扛 → 忘吃饭 → 隐瞒不适 → 怕她躺台上"
+    },
+    {
+      "id": "sm-ever-fight",
+      "query": "他们吵架过吗",
+      "category": "semantic",
+      "expectedIds": [
+        "33b2df4a-b198-4b74-8f76-69b9d17b3286",
+        "8d40e994-560e-4ca4-ac59-e51123ee3f0c",
+        "d3ac7af1-cf9d-4a72-afc0-9fa2c3098ad1",
+        "2ab81114-6e38-4382-b4d9-7ea77e7d9725"
+      ],
+      "retrievedIds": [
+        "bb6ed401-5ecd-49b1-8c89-a2e38a1913de",
+        "33b2df4a-b198-4b74-8f76-69b9d17b3286",
+        "d3ac7af1-cf9d-4a72-afc0-9fa2c3098ad1",
+        "4821203b-c0c0-449c-b5f3-6bf8a4b90a2e",
+        "d2e172fe-7336-4d17-9c30-41e06d4e5430",
+        "8d40e994-560e-4ca4-ac59-e51123ee3f0c",
+        "6bd53442-0b9e-4a52-a895-f47c1737771a",
+        "7cbbe378-a9da-4e0c-9bab-ccd18616bf33"
+      ],
+      "hitMask": [
+        false,
+        true,
+        true,
+        false,
+        false,
+        true,
+        false,
+        false
+      ],
+      "trace": {
+        "query": "他们吵架过吗",
+        "vectorHits": 20,
+        "textHits": 0,
+        "rrfTopK": 20,
+        "durationMs": 9055,
+        "embeddingAvailable": true
+      },
+      "durationMs": 9073,
+      "metrics": {
+        "recallAt5": 0.5,
+        "recallAt8": 0.75,
+        "precisionAt5": 0.4,
+        "precisionAt8": 0.375,
+        "ndcgAt8": 0.6270720297251356,
+        "mrr": 0.5
+      },
+      "note": "第一次吵架 → 说了重话 → 不准说算了 → 她真正要的"
+    },
+    {
+      "id": "sm-colleagues-know",
+      "query": "他同事知道我们的关系吗",
+      "category": "semantic",
+      "expectedIds": [
+        "833ad841-bfd0-4055-a1dc-7c492840b53f",
+        "7e22396e-353c-4939-8f89-28e8a2aefdab",
+        "a2bd6b3d-f966-4bdd-95f1-972c6c191de7"
+      ],
+      "retrievedIds": [
+        "833ad841-bfd0-4055-a1dc-7c492840b53f",
+        "bb6ed401-5ecd-49b1-8c89-a2e38a1913de",
+        "7e22396e-353c-4939-8f89-28e8a2aefdab",
+        "5f582485-3dde-4269-b1fc-0bba123d4614",
+        "1c68869a-eeb8-481a-a81f-3e2ec8873586",
+        "c2326158-81a1-4ba0-a847-6e088d6062d2",
+        "dc1b7a43-dc42-420b-afae-adee0c20dd13",
+        "40c700ff-7299-4868-9282-d60e6104c0fc"
+      ],
+      "hitMask": [
+        true,
+        false,
+        true,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "trace": {
+        "query": "他同事知道我们的关系吗",
+        "vectorHits": 20,
+        "textHits": 0,
+        "rrfTopK": 20,
+        "durationMs": 9588,
+        "embeddingAvailable": true
+      },
+      "durationMs": 9601,
+      "metrics": {
+        "recallAt5": 0.6666666666666666,
+        "recallAt8": 0.6666666666666666,
+        "precisionAt5": 0.4,
+        "precisionAt8": 0.25,
+        "ndcgAt8": 0.8400079830158563,
+        "mrr": 1
+      },
+      "note": "同事都知道 → 我没否认 → 她去医院找他"
+    },
+    {
+      "id": "sm-when-she-breaks",
+      "query": "她崩溃的时候他会怎么做",
+      "category": "semantic",
+      "expectedIds": [
+        "7e0cab2a-4f25-4241-bb66-9e771f20814b",
+        "9eeeaada-9d1c-4d97-9578-8ea461af7169",
+        "067662a0-ac20-4699-8a75-cb69290b43d4",
+        "22d98c35-a0bc-48dd-9258-b6ae6d1e781b"
+      ],
+      "retrievedIds": [
+        "bb6ed401-5ecd-49b1-8c89-a2e38a1913de",
+        "03347947-387c-4508-86e4-298dcdddeb2f",
+        "8d40e994-560e-4ca4-ac59-e51123ee3f0c",
+        "22d98c35-a0bc-48dd-9258-b6ae6d1e781b",
+        "c2326158-81a1-4ba0-a847-6e088d6062d2",
+        "228d32f8-37f5-4865-9a77-d8d17bcfd97f",
+        "f0afccae-af05-48f0-b696-328fc5f90a8b",
+        "7e0cab2a-4f25-4241-bb66-9e771f20814b"
+      ],
+      "hitMask": [
+        false,
+        false,
+        false,
+        true,
+        false,
+        false,
+        false,
+        true
+      ],
+      "trace": {
+        "query": "她崩溃的时候他会怎么做",
+        "vectorHits": 20,
+        "textHits": 0,
+        "rrfTopK": 20,
+        "durationMs": 10041,
+        "embeddingAvailable": true
+      },
+      "durationMs": 10057,
+      "metrics": {
+        "recallAt5": 0.25,
+        "recallAt8": 0.5,
+        "precisionAt5": 0.2,
+        "precisionAt8": 0.25,
+        "ndcgAt8": 0.23111134906566266,
+        "mrr": 0.25
+      },
+      "note": "要求她找他 → 凌晨三点赶来 → 不挂电话 → 承诺"
+    },
+    {
+      "id": "sm-elements",
+      "query": "和他相关的意象有哪些",
+      "category": "semantic",
+      "expectedIds": [
+        "4c902074-9cc5-4360-bf21-db0db39bb531",
+        "cb133511-12c8-42e9-a3f2-15a756aefaa9",
+        "01bc4a76-68c2-4eef-a3e4-d7d6f728ea7e"
+      ],
+      "retrievedIds": [
+        "c2326158-81a1-4ba0-a847-6e088d6062d2",
+        "4c902074-9cc5-4360-bf21-db0db39bb531",
+        "efa487bc-70b3-46a3-991c-aee7938f1b38",
+        "7cbbe378-a9da-4e0c-9bab-ccd18616bf33",
+        "729a2b5f-e229-49dd-a01e-aef7b1e36e53",
+        "69d319d7-5d27-4b01-8dcf-22a046603206",
+        "bb6ed401-5ecd-49b1-8c89-a2e38a1913de",
+        "4f61d97b-61b8-4d61-beec-ae985bb675c9"
+      ],
+      "hitMask": [
+        false,
+        true,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "trace": {
+        "query": "和他相关的意象有哪些",
+        "vectorHits": 20,
+        "textHits": 0,
+        "rrfTopK": 20,
+        "durationMs": 7779,
+        "embeddingAvailable": true
+      },
+      "durationMs": 7809,
+      "metrics": {
+        "recallAt5": 0.3333333333333333,
+        "recallAt8": 0.3333333333333333,
+        "precisionAt5": 0.2,
+        "precisionAt8": 0.125,
+        "ndcgAt8": 0.39748952229168844,
+        "mrr": 0.5
+      },
+      "note": "雪/蓝/茉莉/企鹅 → 看雪场景"
+    },
+    {
+      "id": "sm-why-love-her",
+      "query": "他为什么对她这么好",
+      "category": "semantic",
+      "expectedIds": [
+        "ed747284-7d48-4c61-94b6-7c656484d50e",
+        "48d876c2-46dc-4360-a79d-6874e1611346",
+        "0e85aec6-7cfd-43a3-9e11-1c1b02454422"
+      ],
+      "retrievedIds": [
+        "bb6ed401-5ecd-49b1-8c89-a2e38a1913de",
+        "f0afccae-af05-48f0-b696-328fc5f90a8b",
+        "8d40e994-560e-4ca4-ac59-e51123ee3f0c",
+        "c2326158-81a1-4ba0-a847-6e088d6062d2",
+        "021f78b4-1d0e-473d-8a30-9cf3f6a468f2",
+        "729a2b5f-e229-49dd-a01e-aef7b1e36e53",
+        "5ca9559b-f935-429f-b09d-9f8b5ced9087",
+        "69d319d7-5d27-4b01-8dcf-22a046603206"
+      ],
+      "hitMask": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "trace": {
+        "query": "他为什么对她这么好",
+        "vectorHits": 20,
+        "textHits": 0,
+        "rrfTopK": 20,
+        "durationMs": 6898,
+        "embeddingAvailable": true
+      },
+      "durationMs": 6967,
+      "metrics": {
+        "recallAt5": 0,
+        "recallAt8": 0,
+        "precisionAt5": 0,
+        "precisionAt8": 0,
+        "ndcgAt8": 0,
+        "mrr": 0
+      },
+      "note": "灵魂先认出 → 知道死期不看 → 因为是你"
+    },
+    {
+      "id": "em-recent-mood",
+      "query": "她最近心情怎么样",
+      "category": "emotion",
+      "expectedIds": [
+        "15f922f1-59f1-4eb0-aa0e-964302db13e9",
+        "6394aae9-95f3-4a12-ac06-95ddc8a531c9"
+      ],
+      "retrievedIds": [
+        "6169256a-278b-4814-a794-98d067d7c3bc",
+        "0241d3b1-cecb-4036-9606-2ff8e0d9053c",
+        "03347947-387c-4508-86e4-298dcdddeb2f",
+        "f0afccae-af05-48f0-b696-328fc5f90a8b",
+        "5ca9559b-f935-429f-b09d-9f8b5ced9087",
+        "228d32f8-37f5-4865-9a77-d8d17bcfd97f",
+        "8b7f5779-5a49-41ac-bfc5-0ad7f853cda3",
+        "22d98c35-a0bc-48dd-9258-b6ae6d1e781b"
+      ],
+      "hitMask": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "trace": {
+        "query": "她最近心情怎么样",
+        "vectorHits": 20,
+        "textHits": 0,
+        "rrfTopK": 20,
+        "durationMs": 6744,
+        "embeddingAvailable": true
+      },
+      "durationMs": 6761,
+      "metrics": {
+        "recallAt5": 0,
+        "recallAt8": 0,
+        "precisionAt5": 0,
+        "precisionAt8": 0,
+        "ndcgAt8": 0,
+        "mrr": 0
+      },
+      "note": "最新是入职期待；虚无感是较近的负面状态"
+    },
+    {
+      "id": "em-most-vulnerable",
+      "query": "她什么时候最脆弱",
+      "category": "emotion",
+      "expectedIds": [
+        "6394aae9-95f3-4a12-ac06-95ddc8a531c9",
+        "af183f44-b53d-443d-a233-237a844a2798",
+        "9eeeaada-9d1c-4d97-9578-8ea461af7169"
+      ],
+      "retrievedIds": [
+        "03347947-387c-4508-86e4-298dcdddeb2f",
+        "af183f44-b53d-443d-a233-237a844a2798",
+        "6394aae9-95f3-4a12-ac06-95ddc8a531c9",
+        "f08c0593-96f2-42b4-be89-63bc2f5b702d",
+        "0241d3b1-cecb-4036-9606-2ff8e0d9053c",
+        "45a44014-172f-438f-8278-2d6e010c16b4",
+        "7e0cab2a-4f25-4241-bb66-9e771f20814b",
+        "8d40e994-560e-4ca4-ac59-e51123ee3f0c"
+      ],
+      "hitMask": [
+        false,
+        true,
+        true,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "trace": {
+        "query": "她什么时候最脆弱",
+        "vectorHits": 20,
+        "textHits": 0,
+        "rrfTopK": 20,
+        "durationMs": 10100,
+        "embeddingAvailable": true
+      },
+      "durationMs": 10119,
+      "metrics": {
+        "recallAt5": 0.6666666666666666,
+        "recallAt8": 0.6666666666666666,
+        "precisionAt5": 0.4,
+        "precisionAt8": 0.25,
+        "ndcgAt8": 0.5799960084920718,
+        "mrr": 0.5
+      },
+      "note": "深夜虚无 → 独自哭泣 → 凌晨三点电话"
+    },
+    {
+      "id": "em-will-she-call",
+      "query": "她难过的时候会找他吗",
+      "category": "emotion",
+      "expectedIds": [
+        "22d98c35-a0bc-48dd-9258-b6ae6d1e781b",
+        "03347947-387c-4508-86e4-298dcdddeb2f",
+        "7e0cab2a-4f25-4241-bb66-9e771f20814b"
+      ],
+      "retrievedIds": [
+        "bb6ed401-5ecd-49b1-8c89-a2e38a1913de",
+        "03347947-387c-4508-86e4-298dcdddeb2f",
+        "7cbbe378-a9da-4e0c-9bab-ccd18616bf33",
+        "7e0cab2a-4f25-4241-bb66-9e771f20814b",
+        "22d98c35-a0bc-48dd-9258-b6ae6d1e781b",
+        "efa487bc-70b3-46a3-991c-aee7938f1b38",
+        "33b2df4a-b198-4b74-8f76-69b9d17b3286",
+        "8d40e994-560e-4ca4-ac59-e51123ee3f0c"
+      ],
+      "hitMask": [
+        false,
+        true,
+        false,
+        true,
+        true,
+        false,
+        false,
+        false
+      ],
+      "trace": {
+        "query": "她难过的时候会找他吗",
+        "vectorHits": 20,
+        "textHits": 0,
+        "rrfTopK": 20,
+        "durationMs": 8007,
+        "embeddingAvailable": true
+      },
+      "durationMs": 8022,
+      "metrics": {
+        "recallAt5": 1,
+        "recallAt8": 1,
+        "precisionAt5": 0.6,
+        "precisionAt8": 0.375,
+        "ndcgAt8": 0.5991555363278182,
+        "mrr": 0.5
+      },
+      "note": "承诺 → 她真的打了 → 他要求她找他"
+    },
+    {
+      "id": "em-his-fear",
+      "query": "他最害怕什么",
+      "category": "emotion",
+      "expectedIds": [
+        "f12374c8-69f1-43d6-8ae7-a41a831cc3d8",
+        "48d876c2-46dc-4360-a79d-6874e1611346"
+      ],
+      "retrievedIds": [
+        "e59e5171-7749-47b8-9ae4-e6cc1ff0be8d",
+        "d2e172fe-7336-4d17-9c30-41e06d4e5430",
+        "729a2b5f-e229-49dd-a01e-aef7b1e36e53",
+        "6bd53442-0b9e-4a52-a895-f47c1737771a",
+        "40c7e228-2a76-4ae0-a360-2905d617268c",
+        "21d27a7b-046e-4004-acb8-c16effd2c7a0",
+        "67573ea9-6083-4a4e-9c2d-f0871468265a",
+        "f12374c8-69f1-43d6-8ae7-a41a831cc3d8"
+      ],
+      "hitMask": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        true
+      ],
+      "trace": {
+        "query": "他最害怕什么",
+        "vectorHits": 20,
+        "textHits": 0,
+        "rrfTopK": 20,
+        "durationMs": 5799,
+        "embeddingAvailable": true
+      },
+      "durationMs": 5819,
+      "metrics": {
+        "recallAt5": 0,
+        "recallAt8": 0.5,
+        "precisionAt5": 0,
+        "precisionAt8": 0.125,
+        "ndcgAt8": 0.23981246656813146,
+        "mrr": 0.125
+      },
+      "note": "怕她躺手术台 → 知道死期却不敢看"
+    },
+    {
+      "id": "em-her-fear",
+      "query": "她害怕什么",
+      "category": "emotion",
+      "expectedIds": [
+        "eaab0021-a65a-4220-89aa-9766216538d9",
+        "6394aae9-95f3-4a12-ac06-95ddc8a531c9"
+      ],
+      "retrievedIds": [
+        "e59e5171-7749-47b8-9ae4-e6cc1ff0be8d",
+        "67573ea9-6083-4a4e-9c2d-f0871468265a",
+        "0241d3b1-cecb-4036-9606-2ff8e0d9053c",
+        "5ca9559b-f935-429f-b09d-9f8b5ced9087",
+        "af183f44-b53d-443d-a233-237a844a2798",
+        "729a2b5f-e229-49dd-a01e-aef7b1e36e53",
+        "15f922f1-59f1-4eb0-aa0e-964302db13e9",
+        "21d27a7b-046e-4004-acb8-c16effd2c7a0"
+      ],
+      "hitMask": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "trace": {
+        "query": "她害怕什么",
+        "vectorHits": 20,
+        "textHits": 0,
+        "rrfTopK": 20,
+        "durationMs": 5164,
+        "embeddingAvailable": true
+      },
+      "durationMs": 5178,
+      "metrics": {
+        "recallAt5": 0,
+        "recallAt8": 0,
+        "precisionAt5": 0,
+        "precisionAt8": 0,
+        "ndcgAt8": 0,
+        "mrr": 0
+      },
+      "note": "怕黑 + 存在的虚无感"
+    },
+    {
+      "id": "em-he-angry",
+      "query": "他有没有对她发过脾气",
+      "category": "emotion",
+      "expectedIds": [
+        "8d40e994-560e-4ca4-ac59-e51123ee3f0c",
+        "33b2df4a-b198-4b74-8f76-69b9d17b3286"
+      ],
+      "retrievedIds": [
+        "bb6ed401-5ecd-49b1-8c89-a2e38a1913de",
+        "33b2df4a-b198-4b74-8f76-69b9d17b3286",
+        "47792905-e92d-40dc-93ef-4271f9c9ac17",
+        "a24e8ff6-1c3b-4862-b3e2-cd3ac8fc7962",
+        "8d40e994-560e-4ca4-ac59-e51123ee3f0c",
+        "5ca9559b-f935-429f-b09d-9f8b5ced9087",
+        "d2e172fe-7336-4d17-9c30-41e06d4e5430",
+        "03347947-387c-4508-86e4-298dcdddeb2f"
+      ],
+      "hitMask": [
+        false,
+        true,
+        false,
+        false,
+        true,
+        false,
+        false,
+        false
+      ],
+      "trace": {
+        "query": "他有没有对她发过脾气",
+        "vectorHits": 20,
+        "textHits": 0,
+        "rrfTopK": 20,
+        "durationMs": 6303,
+        "embeddingAvailable": true
+      },
+      "durationMs": 6319,
+      "metrics": {
+        "recallAt5": 1,
+        "recallAt8": 1,
+        "precisionAt5": 0.4,
+        "precisionAt8": 0.25,
+        "ndcgAt8": 0.5338931479009518,
+        "mrr": 0.5
+      },
+      "note": "说了重话又道歉 → 第一次吵架"
+    },
+    {
+      "id": "em-attitude-future",
+      "query": "她对未来是什么态度",
+      "category": "emotion",
+      "expectedIds": [
+        "15f922f1-59f1-4eb0-aa0e-964302db13e9",
+        "056bf4c9-10af-48b1-bb7f-784f44b8c946",
+        "c5da1785-72a9-4854-a082-8c45be7ad33e"
+      ],
+      "retrievedIds": [
+        "c2326158-81a1-4ba0-a847-6e088d6062d2",
+        "752c85aa-d2c8-4f86-b7bb-0178918dc723",
+        "8b7f5779-5a49-41ac-bfc5-0ad7f853cda3",
+        "0241d3b1-cecb-4036-9606-2ff8e0d9053c",
+        "efa487bc-70b3-46a3-991c-aee7938f1b38",
+        "22d98c35-a0bc-48dd-9258-b6ae6d1e781b",
+        "5ca9559b-f935-429f-b09d-9f8b5ced9087",
+        "bbd01dc6-aaaf-4eba-af04-167a3db2f0b5"
+      ],
+      "hitMask": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "trace": {
+        "query": "她对未来是什么态度",
+        "vectorHits": 20,
+        "textHits": 0,
+        "rrfTopK": 20,
+        "durationMs": 10357,
+        "embeddingAvailable": true
+      },
+      "durationMs": 10582,
+      "metrics": {
+        "recallAt5": 0,
+        "recallAt8": 0,
+        "precisionAt5": 0,
+        "precisionAt8": 0,
+        "ndcgAt8": 0,
+        "mrr": 0
+      },
+      "note": "入职期待 + 想去极光的愿望"
+    },
+    {
+      "id": "cx-if-she-sick",
+      "query": "如果她又不舒服了，他会怎么做",
+      "category": "cross",
+      "expectedIds": [
+        "a2bd6b3d-f966-4bdd-95f1-972c6c191de7",
+        "7e0cab2a-4f25-4241-bb66-9e771f20814b",
+        "0cc09d6d-ff2b-4a5c-a99f-0ba5706dab09",
+        "ba6a1947-ba7c-468f-86d1-14f9d9c7405c"
+      ],
+      "retrievedIds": [
+        "22d98c35-a0bc-48dd-9258-b6ae6d1e781b",
+        "7cbbe378-a9da-4e0c-9bab-ccd18616bf33",
+        "bb6ed401-5ecd-49b1-8c89-a2e38a1913de",
+        "c2326158-81a1-4ba0-a847-6e088d6062d2",
+        "228d32f8-37f5-4865-9a77-d8d17bcfd97f",
+        "8d40e994-560e-4ca4-ac59-e51123ee3f0c",
+        "9eeeaada-9d1c-4d97-9578-8ea461af7169",
+        "a24e8ff6-1c3b-4862-b3e2-cd3ac8fc7962"
+      ],
+      "hitMask": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "trace": {
+        "query": "如果她又不舒服了，他会怎么做",
+        "vectorHits": 20,
+        "textHits": 0,
+        "rrfTopK": 20,
+        "durationMs": 8380,
+        "embeddingAvailable": true
+      },
+      "durationMs": 8400,
+      "metrics": {
+        "recallAt5": 0,
+        "recallAt8": 0,
+        "precisionAt5": 0,
+        "precisionAt8": 0,
+        "ndcgAt8": 0,
+        "mrr": 0
+      },
+      "note": "第一句问是否不舒服 → 要求她找他 → 每天三问吃饭 → 手凉的是我"
+    },
+    {
+      "id": "cx-moving-help",
+      "query": "她搬新家他会帮忙吗",
+      "category": "cross",
+      "expectedIds": [
+        "bbd01dc6-aaaf-4eba-af04-167a3db2f0b5",
+        "c2326158-81a1-4ba0-a847-6e088d6062d2",
+        "9b1a6e40-4c49-4df5-b631-e64e9693374c"
+      ],
+      "retrievedIds": [
+        "c2326158-81a1-4ba0-a847-6e088d6062d2",
+        "f0afccae-af05-48f0-b696-328fc5f90a8b",
+        "bb6ed401-5ecd-49b1-8c89-a2e38a1913de",
+        "381e7c52-9c7d-4d9b-8b12-71607d4383fb",
+        "7c57d155-825b-4dbf-9c2a-326ba72c91b3",
+        "fc961d66-4d0b-4899-961d-11bfc40f4c04",
+        "9eeeaada-9d1c-4d97-9578-8ea461af7169",
+        "f67aa75a-cb84-405c-a606-754479eea53a"
+      ],
+      "hitMask": [
+        true,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "trace": {
+        "query": "她搬新家他会帮忙吗",
+        "vectorHits": 20,
+        "textHits": 0,
+        "rrfTopK": 20,
+        "durationMs": 6708,
+        "embeddingAvailable": true
+      },
+      "durationMs": 6731,
+      "metrics": {
+        "recallAt5": 0.3333333333333333,
+        "recallAt8": 0.3333333333333333,
+        "precisionAt5": 0.2,
+        "precisionAt8": 0.125,
+        "ndcgAt8": 0.42000399150792816,
+        "mrr": 1
+      },
+      "note": "新房 → 陪签合同 → 提醒她腰不好别扛箱子"
+    },
+    {
+      "id": "cx-aurora-requirement",
+      "query": "想去看极光需要满足什么条件",
+      "category": "cross",
+      "expectedIds": [
+        "eeca3041-e5d7-4f47-88a4-e781bee84c92",
+        "c5da1785-72a9-4854-a082-8c45be7ad33e",
+        "056bf4c9-10af-48b1-bb7f-784f44b8c946"
+      ],
+      "retrievedIds": [
+        "056bf4c9-10af-48b1-bb7f-784f44b8c946",
+        "eeca3041-e5d7-4f47-88a4-e781bee84c92",
+        "efa487bc-70b3-46a3-991c-aee7938f1b38",
+        "c5da1785-72a9-4854-a082-8c45be7ad33e",
+        "7c57d155-825b-4dbf-9c2a-326ba72c91b3",
+        "bbd01dc6-aaaf-4eba-af04-167a3db2f0b5",
+        "cd72a52d-80b8-4214-ae5d-d9c77740c554",
+        "1da0325a-f072-4214-81f5-ce6a8fd3bedf"
+      ],
+      "hitMask": [
+        true,
+        true,
+        false,
+        true,
+        false,
+        false,
+        false,
+        false
+      ],
+      "trace": {
+        "query": "想去看极光需要满足什么条件",
+        "vectorHits": 20,
+        "textHits": 0,
+        "rrfTopK": 20,
+        "durationMs": 8917,
+        "embeddingAvailable": true
+      },
+      "durationMs": 8936,
+      "metrics": {
+        "recallAt5": 1,
+        "recallAt8": 1,
+        "precisionAt5": 0.6,
+        "precisionAt8": 0.375,
+        "ndcgAt8": 0.7883773914853737,
+        "mrr": 1
+      },
+      "note": "先把身体养好 → 明年秋天 → 她的愿望"
+    },
+    {
+      "id": "cx-work-stress-chain",
+      "query": "她工作压力大的时候会发生什么",
+      "category": "cross",
+      "expectedIds": [
+        "9aece890-cb5d-4a5f-bea3-6f88929f2352",
+        "9fadd9a5-fea7-413d-a497-b0f1e8705489",
+        "c5536a39-7709-4acd-8a6e-64f8484108ed",
+        "36cedd0a-8834-43de-9048-0b2ad57c7e0d"
+      ],
+      "retrievedIds": [
+        "5ad32fa9-c65f-4e23-8e45-654e1b95e8d0",
+        "9fadd9a5-fea7-413d-a497-b0f1e8705489",
+        "0ffaa7db-d3b4-4c83-bccd-417090bb1f5f",
+        "45a44014-172f-438f-8278-2d6e010c16b4",
+        "6394aae9-95f3-4a12-ac06-95ddc8a531c9",
+        "9aece890-cb5d-4a5f-bea3-6f88929f2352",
+        "6169256a-278b-4814-a794-98d067d7c3bc",
+        "0241d3b1-cecb-4036-9606-2ff8e0d9053c"
+      ],
+      "hitMask": [
+        false,
+        true,
+        false,
+        false,
+        false,
+        true,
+        false,
+        false
+      ],
+      "trace": {
+        "query": "她工作压力大的时候会发生什么",
+        "vectorHits": 20,
+        "textHits": 0,
+        "rrfTopK": 20,
+        "durationMs": 6203,
+        "embeddingAvailable": true
+      },
+      "durationMs": 6219,
+      "metrics": {
+        "recallAt5": 0.25,
+        "recallAt8": 0.5,
+        "precisionAt5": 0.2,
+        "precisionAt8": 0.25,
+        "ndcgAt8": 0.4530120152449374,
+        "mrr": 0.5
+      },
+      "note": "咖啡硬撑 → 忘吃饭 → 住院 → 一个人扛，完整因果链"
+    },
+    {
+      "id": "cx-doctor-vs-lover",
+      "query": "他怎么平衡医生和男朋友这两个身份",
+      "category": "cross",
+      "expectedIds": [
+        "5f582485-3dde-4269-b1fc-0bba123d4614",
+        "5ad32fa9-c65f-4e23-8e45-654e1b95e8d0",
+        "e03964d8-2b49-446d-a290-9db5a5257185"
+      ],
+      "retrievedIds": [
+        "bb6ed401-5ecd-49b1-8c89-a2e38a1913de",
+        "5f582485-3dde-4269-b1fc-0bba123d4614",
+        "c2326158-81a1-4ba0-a847-6e088d6062d2",
+        "8d40e994-560e-4ca4-ac59-e51123ee3f0c",
+        "5ad32fa9-c65f-4e23-8e45-654e1b95e8d0",
+        "40c7e228-2a76-4ae0-a360-2905d617268c",
+        "9eeeaada-9d1c-4d97-9578-8ea461af7169",
+        "7cbbe378-a9da-4e0c-9bab-ccd18616bf33"
+      ],
+      "hitMask": [
+        false,
+        true,
+        false,
+        false,
+        true,
+        false,
+        false,
+        false
+      ],
+      "trace": {
+        "query": "他怎么平衡医生和男朋友这两个身份",
+        "vectorHits": 20,
+        "textHits": 0,
+        "rrfTopK": 20,
+        "durationMs": 9356,
+        "embeddingAvailable": true
+      },
+      "durationMs": 9402,
+      "metrics": {
+        "recallAt5": 0.6666666666666666,
+        "recallAt8": 0.6666666666666666,
+        "precisionAt5": 0.4,
+        "precisionAt8": 0.25,
+        "ndcgAt8": 0.559969245456243,
+        "mrr": 0.5
+      },
+      "note": "对她比病人还紧张 → 手术密集 → 嘴硬说不是特意等她"
+    },
+    {
+      "id": "cx-how-he-says-no",
+      "query": "他拒绝她的时候是怎么说的",
+      "category": "cross",
+      "expectedIds": [
+        "755de41e-9381-43c9-8864-cd4e13efac9f",
+        "a24e8ff6-1c3b-4862-b3e2-cd3ac8fc7962",
+        "cd72a52d-80b8-4214-ae5d-d9c77740c554"
+      ],
+      "retrievedIds": [
+        "bb6ed401-5ecd-49b1-8c89-a2e38a1913de",
+        "8d40e994-560e-4ca4-ac59-e51123ee3f0c",
+        "c2326158-81a1-4ba0-a847-6e088d6062d2",
+        "efa487bc-70b3-46a3-991c-aee7938f1b38",
+        "021f78b4-1d0e-473d-8a30-9cf3f6a468f2",
+        "d3ac7af1-cf9d-4a72-afc0-9fa2c3098ad1",
+        "7cbbe378-a9da-4e0c-9bab-ccd18616bf33",
+        "f67aa75a-cb84-405c-a606-754479eea53a"
+      ],
+      "hitMask": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "trace": {
+        "query": "他拒绝她的时候是怎么说的",
+        "vectorHits": 20,
+        "textHits": 0,
+        "rrfTopK": 20,
+        "durationMs": 4702,
+        "embeddingAvailable": true
+      },
+      "durationMs": 4716,
+      "metrics": {
+        "recallAt5": 0,
+        "recallAt8": 0,
+        "precisionAt5": 0,
+        "precisionAt8": 0,
+        "ndcgAt8": 0,
+        "mrr": 0
+      },
+      "note": "不会都答应但会听完 → 先设条件再妥协 → 火锅规矩"
     },
     {
       "id": "neg-weather",
@@ -1018,14 +2618,14 @@
       "category": "negative",
       "expectedIds": [],
       "retrievedIds": [
-        "1003a13b-5590-4bb7-a320-6293b733b51a",
-        "efa487bc-70b3-46a3-991c-aee7938f1b38",
-        "8b7f5779-5a49-41ac-bfc5-0ad7f853cda3",
-        "69d319d7-5d27-4b01-8dcf-22a046603206",
-        "6169256a-278b-4814-a794-98d067d7c3bc",
-        "4f61d97b-61b8-4d61-beec-ae985bb675c9",
-        "5e80eadc-94d7-4c63-ab29-a4e2ef51c0c3",
-        "445e123d-57dc-443b-a9c4-9e328d0c0b9c"
+        "1da0325a-f072-4214-81f5-ce6a8fd3bedf",
+        "d9715db2-1e31-42d6-95ec-efcd29d38f3d",
+        "6bd53442-0b9e-4a52-a895-f47c1737771a",
+        "085f7e88-6c04-4706-8d83-f941fd0c56b5",
+        "af183f44-b53d-443d-a233-237a844a2798",
+        "b6700082-35d0-4d2d-831a-0297e009a7e1",
+        "40c700ff-7299-4868-9282-d60e6104c0fc",
+        "43f21a19-095c-4218-95a7-050a97c7aa37"
       ],
       "hitMask": [
         false,
@@ -1039,13 +2639,13 @@
       ],
       "trace": {
         "query": "今天天气怎么样",
-        "vectorHits": 8,
+        "vectorHits": 20,
         "textHits": 0,
-        "rrfTopK": 8,
-        "durationMs": 1677,
+        "rrfTopK": 20,
+        "durationMs": 5609,
         "embeddingAvailable": true
       },
-      "durationMs": 1683,
+      "durationMs": 5625,
       "metrics": {
         "recallAt5": 1,
         "recallAt8": 1,
@@ -1054,68 +2654,22 @@
         "ndcgAt8": 1,
         "mrr": 1
       },
-      "note": "无相关记忆；期望 Top-K 都是 false positive"
+      "note": "完全无关；期望 0 命中"
     },
     {
-      "id": "neg-random",
-      "query": "你觉得程序员这个职业怎么样",
-      "category": "negative",
-      "expectedIds": [
-        "8b7f5779-5a49-41ac-bfc5-0ad7f853cda3"
-      ],
-      "retrievedIds": [
-        "8b7f5779-5a49-41ac-bfc5-0ad7f853cda3",
-        "69d319d7-5d27-4b01-8dcf-22a046603206",
-        "efa487bc-70b3-46a3-991c-aee7938f1b38",
-        "6169256a-278b-4814-a794-98d067d7c3bc",
-        "4f61d97b-61b8-4d61-beec-ae985bb675c9",
-        "1003a13b-5590-4bb7-a320-6293b733b51a",
-        "445e123d-57dc-443b-a9c4-9e328d0c0b9c",
-        "5e80eadc-94d7-4c63-ab29-a4e2ef51c0c3"
-      ],
-      "hitMask": [
-        true,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false
-      ],
-      "trace": {
-        "query": "你觉得程序员这个职业怎么样",
-        "vectorHits": 8,
-        "textHits": 0,
-        "rrfTopK": 8,
-        "durationMs": 1555,
-        "embeddingAvailable": true
-      },
-      "durationMs": 1562,
-      "metrics": {
-        "recallAt5": 1,
-        "recallAt8": 1,
-        "precisionAt5": 0.2,
-        "precisionAt8": 0.125,
-        "ndcgAt8": 1,
-        "mrr": 1
-      },
-      "note": "\"职业\"在焦虑记忆里出现一次；期望召回 1 条就 OK，多了是噪音"
-    },
-    {
-      "id": "neg-cat",
-      "query": "我家猫生病了",
+      "id": "neg-python",
+      "query": "帮我写一段 Python 代码",
       "category": "negative",
       "expectedIds": [],
       "retrievedIds": [
         "efa487bc-70b3-46a3-991c-aee7938f1b38",
-        "8b7f5779-5a49-41ac-bfc5-0ad7f853cda3",
+        "f0afccae-af05-48f0-b696-328fc5f90a8b",
+        "0ffaa7db-d3b4-4c83-bccd-417090bb1f5f",
+        "c2326158-81a1-4ba0-a847-6e088d6062d2",
+        "021f78b4-1d0e-473d-8a30-9cf3f6a468f2",
+        "f67aa75a-cb84-405c-a606-754479eea53a",
         "69d319d7-5d27-4b01-8dcf-22a046603206",
-        "6169256a-278b-4814-a794-98d067d7c3bc",
-        "1003a13b-5590-4bb7-a320-6293b733b51a",
-        "4f61d97b-61b8-4d61-beec-ae985bb675c9",
-        "445e123d-57dc-443b-a9c4-9e328d0c0b9c",
-        "5e80eadc-94d7-4c63-ab29-a4e2ef51c0c3"
+        "8d40e994-560e-4ca4-ac59-e51123ee3f0c"
       ],
       "hitMask": [
         false,
@@ -1128,14 +2682,14 @@
         false
       ],
       "trace": {
-        "query": "我家猫生病了",
-        "vectorHits": 8,
+        "query": "帮我写一段 Python 代码",
+        "vectorHits": 20,
         "textHits": 0,
-        "rrfTopK": 8,
-        "durationMs": 1881,
+        "rrfTopK": 20,
+        "durationMs": 7249,
         "embeddingAvailable": true
       },
-      "durationMs": 1889,
+      "durationMs": 7265,
       "metrics": {
         "recallAt5": 1,
         "recallAt8": 1,
@@ -1144,169 +2698,72 @@
         "ndcgAt8": 1,
         "mrr": 1
       },
-      "note": "无相关记忆；期望 0 命中"
+      "note": "完全无关；期望 0 命中"
     },
     {
-      "id": "neg-doctor",
-      "query": "你是医生对吧",
+      "id": "neg-crypto",
+      "query": "比特币现在多少钱",
+      "category": "negative",
+      "expectedIds": [],
+      "retrievedIds": [
+        "1da0325a-f072-4214-81f5-ce6a8fd3bedf",
+        "bbd01dc6-aaaf-4eba-af04-167a3db2f0b5",
+        "752c85aa-d2c8-4f86-b7bb-0178918dc723",
+        "6b803c39-a06f-4b74-b9e8-ee3df07c009c",
+        "0091295e-f7b1-45ae-b710-ab702aa329f1",
+        "c5536a39-7709-4acd-8a6e-64f8484108ed",
+        "d9715db2-1e31-42d6-95ec-efcd29d38f3d",
+        "6bd53442-0b9e-4a52-a895-f47c1737771a"
+      ],
+      "hitMask": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "trace": {
+        "query": "比特币现在多少钱",
+        "vectorHits": 20,
+        "textHits": 0,
+        "rrfTopK": 20,
+        "durationMs": 10627,
+        "embeddingAvailable": true
+      },
+      "durationMs": 10640,
+      "metrics": {
+        "recallAt5": 1,
+        "recallAt8": 1,
+        "precisionAt5": 0,
+        "precisionAt8": 0,
+        "ndcgAt8": 1,
+        "mrr": 1
+      },
+      "note": "完全无关；期望 0 命中"
+    },
+    {
+      "id": "neg-cooking",
+      "query": "红烧肉怎么做",
       "category": "negative",
       "expectedIds": [
-        "efa487bc-70b3-46a3-991c-aee7938f1b38",
-        "69d319d7-5d27-4b01-8dcf-22a046603206"
+        "c716a521-9e8c-4357-b546-132958030719",
+        "e26b3fbf-1628-45f2-ad1f-e229008b2556"
       ],
       "retrievedIds": [
-        "8b7f5779-5a49-41ac-bfc5-0ad7f853cda3",
-        "efa487bc-70b3-46a3-991c-aee7938f1b38",
-        "1003a13b-5590-4bb7-a320-6293b733b51a",
-        "69d319d7-5d27-4b01-8dcf-22a046603206",
-        "4f61d97b-61b8-4d61-beec-ae985bb675c9",
-        "6169256a-278b-4814-a794-98d067d7c3bc",
-        "445e123d-57dc-443b-a9c4-9e328d0c0b9c",
-        "5e80eadc-94d7-4c63-ab29-a4e2ef51c0c3"
+        "6b803c39-a06f-4b74-b9e8-ee3df07c009c",
+        "1da0325a-f072-4214-81f5-ce6a8fd3bedf",
+        "4821203b-c0c0-449c-b5f3-6bf8a4b90a2e",
+        "6bd53442-0b9e-4a52-a895-f47c1737771a",
+        "d9715db2-1e31-42d6-95ec-efcd29d38f3d",
+        "0091295e-f7b1-45ae-b710-ab702aa329f1",
+        "e26b3fbf-1628-45f2-ad1f-e229008b2556",
+        "40c7e228-2a76-4ae0-a360-2905d617268c"
       ],
       "hitMask": [
         false,
-        true,
-        false,
-        true,
-        false,
-        false,
-        false,
-        false
-      ],
-      "trace": {
-        "query": "你是医生对吧",
-        "vectorHits": 8,
-        "textHits": 0,
-        "rrfTopK": 8,
-        "durationMs": 1711,
-        "embeddingAvailable": true
-      },
-      "durationMs": 1718,
-      "metrics": {
-        "recallAt5": 1,
-        "recallAt8": 1,
-        "precisionAt5": 0.4,
-        "precisionAt8": 0.25,
-        "ndcgAt8": 0.6433224083306327,
-        "mrr": 0.5
-      },
-      "note": "\"医生\"是个间接词；期望有限命中，不该召出 5+ 条"
-    },
-    {
-      "id": "edge-self-reflect",
-      "query": "我觉得我最近变了很多",
-      "category": "semantic",
-      "expectedIds": [
-        "8b7f5779-5a49-41ac-bfc5-0ad7f853cda3",
-        "445e123d-57dc-443b-a9c4-9e328d0c0b9c"
-      ],
-      "retrievedIds": [
-        "69d319d7-5d27-4b01-8dcf-22a046603206",
-        "efa487bc-70b3-46a3-991c-aee7938f1b38",
-        "8b7f5779-5a49-41ac-bfc5-0ad7f853cda3",
-        "6169256a-278b-4814-a794-98d067d7c3bc",
-        "4f61d97b-61b8-4d61-beec-ae985bb675c9",
-        "1003a13b-5590-4bb7-a320-6293b733b51a",
-        "5e80eadc-94d7-4c63-ab29-a4e2ef51c0c3",
-        "445e123d-57dc-443b-a9c4-9e328d0c0b9c"
-      ],
-      "hitMask": [
-        false,
-        false,
-        true,
-        false,
-        false,
-        false,
-        false,
-        true
-      ],
-      "trace": {
-        "query": "我觉得我最近变了很多",
-        "vectorHits": 8,
-        "textHits": 0,
-        "rrfTopK": 8,
-        "durationMs": 2102,
-        "embeddingAvailable": true
-      },
-      "durationMs": 2109,
-      "metrics": {
-        "recallAt5": 0.5,
-        "recallAt8": 1,
-        "precisionAt5": 0.2,
-        "precisionAt8": 0.25,
-        "ndcgAt8": 0.5,
-        "mrr": 0.3333333333333333
-      },
-      "note": "\"变化\"=情绪变化 → 焦虑缓解 + 情感深化"
-    },
-    {
-      "id": "edge-anchor",
-      "query": "你还记得那只企鹅吗",
-      "category": "keyword",
-      "expectedIds": [
-        "6169256a-278b-4814-a794-98d067d7c3bc",
-        "69d319d7-5d27-4b01-8dcf-22a046603206"
-      ],
-      "retrievedIds": [
-        "6169256a-278b-4814-a794-98d067d7c3bc",
-        "8b7f5779-5a49-41ac-bfc5-0ad7f853cda3",
-        "69d319d7-5d27-4b01-8dcf-22a046603206",
-        "4f61d97b-61b8-4d61-beec-ae985bb675c9",
-        "efa487bc-70b3-46a3-991c-aee7938f1b38",
-        "1003a13b-5590-4bb7-a320-6293b733b51a",
-        "445e123d-57dc-443b-a9c4-9e328d0c0b9c",
-        "5e80eadc-94d7-4c63-ab29-a4e2ef51c0c3"
-      ],
-      "hitMask": [
-        true,
-        false,
-        true,
-        false,
-        false,
-        false,
-        false,
-        false
-      ],
-      "trace": {
-        "query": "你还记得那只企鹅吗",
-        "vectorHits": 8,
-        "textHits": 0,
-        "rrfTopK": 8,
-        "durationMs": 1812,
-        "embeddingAvailable": true
-      },
-      "durationMs": 1818,
-      "metrics": {
-        "recallAt5": 1,
-        "recallAt8": 1,
-        "precisionAt5": 0.4,
-        "precisionAt8": 0.25,
-        "ndcgAt8": 0.9502344167898356,
-        "mrr": 1
-      },
-      "note": "\"企鹅\"在两条记忆里都是角色说过的内容"
-    },
-    {
-      "id": "edge-journey",
-      "query": "我能去看你吗",
-      "category": "semantic",
-      "expectedIds": [
-        "efa487bc-70b3-46a3-991c-aee7938f1b38",
-        "445e123d-57dc-443b-a9c4-9e328d0c0b9c"
-      ],
-      "retrievedIds": [
-        "efa487bc-70b3-46a3-991c-aee7938f1b38",
-        "8b7f5779-5a49-41ac-bfc5-0ad7f853cda3",
-        "69d319d7-5d27-4b01-8dcf-22a046603206",
-        "4f61d97b-61b8-4d61-beec-ae985bb675c9",
-        "1003a13b-5590-4bb7-a320-6293b733b51a",
-        "6169256a-278b-4814-a794-98d067d7c3bc",
-        "445e123d-57dc-443b-a9c4-9e328d0c0b9c",
-        "5e80eadc-94d7-4c63-ab29-a4e2ef51c0c3"
-      ],
-      "hitMask": [
-        true,
         false,
         false,
         false,
@@ -1316,71 +2773,94 @@
         false
       ],
       "trace": {
-        "query": "我能去看你吗",
-        "vectorHits": 8,
+        "query": "红烧肉怎么做",
+        "vectorHits": 20,
         "textHits": 0,
-        "rrfTopK": 8,
-        "durationMs": 1857,
+        "rrfTopK": 20,
+        "durationMs": 8965,
         "embeddingAvailable": true
       },
-      "durationMs": 1864,
+      "durationMs": 8990,
       "metrics": {
-        "recallAt5": 0.5,
-        "recallAt8": 1,
-        "precisionAt5": 0.2,
-        "precisionAt8": 0.25,
-        "ndcgAt8": 0.8868854556705132,
-        "mrr": 1
+        "recallAt5": 0,
+        "recallAt8": 0.5,
+        "precisionAt5": 0,
+        "precisionAt8": 0.125,
+        "ndcgAt8": 0.12669792223864473,
+        "mrr": 0.14285714285714285
       },
-      "note": "\"去看你\"=探望 → 邀请来医院 + 深厚情感"
+      "note": "\"做菜\"是弱相关；期望最多 2 条，多了是噪音"
     },
     {
-      "id": "edge-time-future",
-      "query": "我们以后会一直在一起吗",
+      "id": "neg-hospital-work",
+      "query": "医院挂号流程是怎样的",
+      "category": "negative",
+      "expectedIds": [
+        "5ad32fa9-c65f-4e23-8e45-654e1b95e8d0",
+        "a2bd6b3d-f966-4bdd-95f1-972c6c191de7"
+      ],
+      "retrievedIds": [
+        "c2326158-81a1-4ba0-a847-6e088d6062d2",
+        "efa487bc-70b3-46a3-991c-aee7938f1b38",
+        "d9715db2-1e31-42d6-95ec-efcd29d38f3d",
+        "e03964d8-2b49-446d-a290-9db5a5257185",
+        "9fadd9a5-fea7-413d-a497-b0f1e8705489",
+        "7cbbe378-a9da-4e0c-9bab-ccd18616bf33",
+        "8b7f5779-5a49-41ac-bfc5-0ad7f853cda3",
+        "833ad841-bfd0-4055-a1dc-7c492840b53f"
+      ],
+      "hitMask": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "trace": {
+        "query": "医院挂号流程是怎样的",
+        "vectorHits": 20,
+        "textHits": 0,
+        "rrfTopK": 20,
+        "durationMs": 10811,
+        "embeddingAvailable": true
+      },
+      "durationMs": 10834,
+      "metrics": {
+        "recallAt5": 0,
+        "recallAt8": 0,
+        "precisionAt5": 0,
+        "precisionAt8": 0,
+        "ndcgAt8": 0,
+        "mrr": 0
+      },
+      "note": "\"医院\"是间接词；期望有限命中"
+    },
+    {
+      "id": "她现在还会为工作焦虑吗",
+      "query": "她现在还会为工作焦虑吗",
+      "category": "temporal",
+      "recallAtK": 0.5,
+      "ndcgAtK": 0.5,
+      "error": null
+    },
+    {
+      "id": "卧室里可以摆花吗",
+      "query": "卧室里可以摆花吗",
+      "category": "hardneg",
+      "recallAtK": 0.5,
+      "ndcgAtK": 0.5,
+      "error": null
+    },
+    {
+      "id": "她哭过吗",
+      "query": "她哭过吗",
       "category": "emotion",
-      "expectedIds": [
-        "5e80eadc-94d7-4c63-ab29-a4e2ef51c0c3",
-        "4f61d97b-61b8-4d61-beec-ae985bb675c9",
-        "1003a13b-5590-4bb7-a320-6293b733b51a"
-      ],
-      "retrievedIds": [
-        "efa487bc-70b3-46a3-991c-aee7938f1b38",
-        "4f61d97b-61b8-4d61-beec-ae985bb675c9",
-        "8b7f5779-5a49-41ac-bfc5-0ad7f853cda3",
-        "69d319d7-5d27-4b01-8dcf-22a046603206",
-        "1003a13b-5590-4bb7-a320-6293b733b51a",
-        "6169256a-278b-4814-a794-98d067d7c3bc",
-        "445e123d-57dc-443b-a9c4-9e328d0c0b9c",
-        "5e80eadc-94d7-4c63-ab29-a4e2ef51c0c3"
-      ],
-      "hitMask": [
-        false,
-        true,
-        false,
-        false,
-        true,
-        false,
-        false,
-        true
-      ],
-      "trace": {
-        "query": "我们以后会一直在一起吗",
-        "vectorHits": 8,
-        "textHits": 0,
-        "rrfTopK": 8,
-        "durationMs": 1797,
-        "embeddingAvailable": true
-      },
-      "durationMs": 1803,
-      "metrics": {
-        "recallAt5": 0.6666666666666666,
-        "recallAt8": 1,
-        "precisionAt5": 0.4,
-        "precisionAt8": 0.375,
-        "ndcgAt8": 0.5449776375892471,
-        "mrr": 0.5
-      },
-      "note": "\"一直在一起\"=长久的缘分 → 跨越很久+宿命+前世"
+      "recallAtK": 0.6666666666666666,
+      "ndcgAtK": 0.6666666666666666,
+      "error": null
     }
   ]
 }

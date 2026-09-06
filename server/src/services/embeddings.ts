@@ -16,6 +16,9 @@
  *   - 单条失败不阻塞整批
  */
 
+import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs'
+import { join } from 'node:path'
+
 export interface EmbeddingConfig {
   baseUrl: string
   apiKey: string
@@ -81,6 +84,24 @@ export async function embedBatch(texts: string[], cfg?: EmbeddingConfig): Promis
     return { vectors: texts.map(() => null), model: 'none', elapsedMs: 0, usageTokens: 0 }
   }
   const started = Date.now()
+
+  // 磁盘缓存：相同 query 不重复调 API（benchmark 反复跑同一批 query 时尤其省额度、避 429）
+  const { hits, missIdx, missTexts } = readCache(config, texts)
+  if (missTexts.length === 0) {
+    return { vectors: hits, model: config.model, elapsedMs: Date.now() - started, usageTokens: 0 }
+  }
+
+  let vectors: (number[] | null)[] = await embedBatchFresh(missTexts, config)
+
+  // 把 miss 的结果写回缓存，再按原始顺序拼回
+  writeCache(config, missIdx, missTexts, vectors)
+  const out: (number[] | null)[] = [...hits]
+  missIdx.forEach((origIdx, k) => { out[origIdx] = vectors[k] })
+  return { vectors: out, model: config.model, elapsedMs: Date.now() - started, usageTokens: 0 }
+}
+
+/** 绕过缓存、直接打 API（embed() 单条调用用） */
+async function embedBatchFresh(texts: string[], config: EmbeddingConfig): Promise<(number[] | null)[]> {
   let lastError: unknown
   const retries = config.retries ?? 1
   const timeoutMs = config.timeoutMs ?? 30_000
@@ -113,37 +134,81 @@ export async function embedBatch(texts: string[], cfg?: EmbeddingConfig): Promis
         model: string
         usage?: { total_tokens?: number; prompt_tokens?: number }
       }
-      const vectors = json.data.map((d) => d?.embedding ?? null)
-      if (vectors.length !== texts.length) {
-        throw new Error(`embedding 数量不匹配：请求 ${texts.length} 收到 ${vectors.length}`)
+      const vecs = json.data.map((d) => d?.embedding ?? null)
+      if (vecs.length !== texts.length) {
+        throw new Error(`embedding 数量不匹配：请求 ${texts.length} 收到 ${vecs.length}`)
       }
-      if (vectors.some((v) => !v || v.length === 0)) {
+      if (vecs.some((v) => !v || v.length === 0)) {
         throw new Error('embedding 产出包含空向量')
       }
-      if (config.dimensions && vectors.some((v) => v && v.length !== config.dimensions)) {
-        const got = vectors.find((v) => v && v.length !== config.dimensions)?.length
+      if (config.dimensions && vecs.some((v) => v && v.length !== config.dimensions)) {
+        const got = vecs.find((v) => v && v.length !== config.dimensions)?.length
         throw new Error(
           `embedding 维度不匹配：期望 ${config.dimensions}，实际 ${got}（检查 EMBEDDING_MODEL 与 EMBEDDING_DIMENSIONS 是否一致）`,
         )
       }
-      return {
-        vectors,
-        model: json.model || config.model,
-        elapsedMs: Date.now() - started,
-        usageTokens: json.usage?.total_tokens ?? json.usage?.prompt_tokens ?? 0,
-      }
+      return vecs
     } catch (err) {
       lastError = err
-      // 4xx 是请求本身的问题，重试无意义；429 重试
       const msg = err instanceof Error ? err.message : String(err)
-      if (/embedding API 4\d\d/.test(msg) && !msg.includes('429')) {
-        throw err
-      }
+      // 429 / 网络抖动：指数退避，最长等到窗口重置
+      const isRetryable = msg.includes('429') || /timeout|abort|fetch failed|network/i.test(msg)
+      if (!isRetryable && /embedding API 4\d\d/.test(msg)) throw err
       if (attempt < retries) {
-        console.warn(`[embeddings] 第 ${attempt + 1} 次失败，重试:`, msg)
-        await new Promise((r) => setTimeout(r, 1000 * (attempt + 1)))
+        const backoff = msg.includes('429') ? 8000 * (attempt + 1) : 1000 * (attempt + 1)
+        console.warn(`[embeddings] 第 ${attempt + 1} 次失败，${backoff}ms 后重试:`, msg.slice(0, 120))
+        await new Promise((r) => setTimeout(r, backoff))
       }
     }
   }
   throw lastError
+}
+
+// ── 磁盘缓存（按 model+text 存向量）──────────────────────────────
+const CACHE_DIR = join(process.cwd(), '.cache')
+const CACHE_FILE = join(CACHE_DIR, 'embeddings.json')
+type CacheStore = Record<string, number[]>
+
+function loadCacheFile(): CacheStore {
+  try {
+    if (existsSync(CACHE_FILE)) {
+      return JSON.parse(readFileSync(CACHE_FILE, 'utf-8')) as CacheStore
+    }
+  } catch { /* 损坏则重建 */ }
+  return {}
+}
+
+let _cache: CacheStore | null = null
+function cacheStore(): CacheStore {
+  if (_cache === null) _cache = loadCacheFile()
+  return _cache
+}
+function cacheKey(cfg: EmbeddingConfig, text: string): string {
+  return `${cfg.model}::${cfg.dimensions ?? ''}::${text}`
+}
+function readCache(cfg: EmbeddingConfig, texts: string[]) {
+  const store = cacheStore()
+  const hits: (number[] | null)[] = new Array(texts.length).fill(null)
+  const missIdx: number[] = []
+  const missTexts: string[] = []
+  texts.forEach((t, i) => {
+    const v = store[cacheKey(cfg, t)]
+    if (v) hits[i] = v
+    else { missIdx.push(i); missTexts.push(t) }
+  })
+  return { hits, missIdx, missTexts }
+}
+function writeCache(cfg: EmbeddingConfig, missIdx: number[], missTexts: string[], vectors: (number[] | null)[]) {
+  if (missTexts.length === 0) return
+  const store = cacheStore()
+  missIdx.forEach((_, k) => {
+    const v = vectors[k]
+    if (v && v.length > 0) store[cacheKey(cfg, missTexts[k])] = v
+  })
+  try {
+    if (!existsSync(CACHE_DIR)) mkdirSync(CACHE_DIR, { recursive: true })
+    writeFileSync(CACHE_FILE, JSON.stringify(store), 'utf-8')
+  } catch (e) {
+    console.warn('[embeddings] 写缓存失败（忽略）:', (e as Error).message)
+  }
 }
