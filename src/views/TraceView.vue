@@ -12,7 +12,7 @@
  */
 import { computed, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import type { TraceMessage, ContextTrace, TraceLayer } from '../types'
+import type { TraceMessage, TraceLayer } from '../types'
 
 const route = useRoute()
 const router = useRouter()
@@ -135,10 +135,6 @@ const sessionOverview = computed(() => {
     latestVersion: list[list.length - 1]?.meta?.trace?.version,
   }
 })
-
-function formatDate(iso: string) {
-  return new Date(iso).toLocaleString('zh-CN', { hour12: false })
-}
 
 function scoreColor(score: number): string {
   // score 范围通常 [0, 1] 但实际很小，用相对判断

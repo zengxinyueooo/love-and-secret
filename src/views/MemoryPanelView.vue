@@ -97,7 +97,7 @@
               </span>
             </div>
             <div class="text-xs text-gray-400 whitespace-nowrap">
-              {{ formatDate(m.createdAt) }}
+              {{ formatDate(new Date(m.createdAt).getTime()) }}
             </div>
           </div>
 

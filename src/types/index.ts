@@ -86,6 +86,8 @@ export interface ContextTrace {
   llm?: { model: string; retries: number; elapsedMs: number }
   /** L5 检索到的记忆条目（来自 L5 injected 后的 query 上下文） */
   retrievedItems?: RetrievedMemoryItem[]
+  /** L5 检索统计（命中数 / 耗时 / 向量通道是否可用） */
+  retrievalStats?: { hits: number; durationMs: number; vectorEnabled: boolean }
 }
 
 export interface RetrievedMemoryItem {
