@@ -241,6 +241,8 @@ async function extractOnce(
         confidence: m.confidence,
         gate: auto ? 'auto' : 'review',
         status,
+        // M12：来源落库（user/assistant），供审计与前端展示
+        origin: m.origin ?? null,
         // M5：情感字段透传（null/undefined 时落 null，让遗忘曲线用默认 0.5）
         valence: m.valence ?? null,
         arousal: m.arousal ?? null,

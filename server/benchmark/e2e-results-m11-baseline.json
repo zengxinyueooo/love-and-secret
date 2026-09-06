@@ -1,0 +1,985 @@
+{
+  "startedAt": "2026-09-06T08:57:06.971Z",
+  "conversationId": "e182b05e-01f7-4e1f-a617-f6c4466c05e5",
+  "turns": [
+    {
+      "theme": "烘焙",
+      "user": "我报了个烘焙课！周六开课，等学会了做给你吃。",
+      "reply": "（抬眼看了你一下，嘴角微微扬起）某些人上次说要学做饭，结果煮个泡面都能把厨房烧了。这次学烘焙，是不是得提前给消防队打个招呼？",
+      "extraction": {
+        "written": 1,
+        "embedded": 2,
+        "rejected": [],
+        "superseded": 0,
+        "pendingReview": 1,
+        "chapterDistilled": false,
+        "relationshipEventsRecorded": 0
+      },
+      "injectedLayers": [
+        "persona",
+        "relationship",
+        "ongoing"
+      ]
+    },
+    {
+      "theme": "烘焙",
+      "user": "今天第一次做司康，烤糊了……厨房差点冒烟，糊的那几个我也硬吃了。",
+      "reply": "（放下手中的病历本，眉头微蹙）硬吃糊的？你这是想提前来我这报到，还是想让我去急诊室看你？下次烤糊了直接扔了，别跟自己的胃过不去。",
+      "extraction": {
+        "written": 1,
+        "embedded": 3,
+        "rejected": [],
+        "superseded": 0,
+        "pendingReview": 0,
+        "chapterDistilled": false,
+        "relationshipEventsRecorded": 0
+      },
+      "injectedLayers": [
+        "persona",
+        "relationship",
+        "ongoing",
+        "retrieved"
+      ]
+    },
+    {
+      "theme": "烘焙",
+      "user": "第二次成功了！明天带去给同事尝尝，就是忘放葡萄干了。",
+      "reply": "（轻笑一声，从白大褂口袋里掏出一包葡萄干放在桌上）早就猜到你会忘。下周六来我这，我教你烤炉温控制，省得你每次烤完都像刚从火灾现场出来。",
+      "extraction": {
+        "written": 2,
+        "embedded": 5,
+        "rejected": [],
+        "superseded": 0,
+        "pendingReview": 0,
+        "chapterDistilled": false,
+        "relationshipEventsRecorded": 0
+      },
+      "injectedLayers": [
+        "persona",
+        "relationship",
+        "ongoing",
+        "retrieved"
+      ]
+    },
+    {
+      "theme": "夜跑",
+      "user": "最近开始夜跑了，每天五公里，跑完睡得特别沉。",
+      "reply": "（低头整理病历，语气带着淡淡的关切）夜跑？临空市的空气质量可不太适合。不过既然能让你睡得好，倒也不是坏事。记得跑完拉伸，别第二天来我这挂号看膝盖。",
+      "extraction": {
+        "written": 0,
+        "embedded": 6,
+        "rejected": [],
+        "superseded": 0,
+        "pendingReview": 1,
+        "chapterDistilled": false,
+        "relationshipEventsRecorded": 0
+      },
+      "injectedLayers": [
+        "persona",
+        "relationship",
+        "ongoing",
+        "retrieved"
+      ]
+    },
+    {
+      "theme": "夜跑",
+      "user": "不过膝盖有点不舒服，跑完发酸，下楼的时候最明显。",
+      "reply": "（眼神认真起来，合上病历本）明天下午来趟医院，给你约个核磁看看。跑步是好事，但别把膝盖跑坏了。我可不想到时候在手术室给你做关节镜，那画面不太好看。",
+      "extraction": {
+        "written": 1,
+        "embedded": 7,
+        "rejected": [],
+        "superseded": 0,
+        "pendingReview": 0,
+        "chapterDistilled": false,
+        "relationshipEventsRecorded": 0
+      },
+      "injectedLayers": [
+        "persona",
+        "relationship",
+        "ongoing",
+        "retrieved"
+      ]
+    },
+    {
+      "theme": "夜跑",
+      "user": "买了护膝，医生说我跑量加太猛了，让我先隔天跑、减到三公里。",
+      "reply": "（微微点头，语气温和了些）嗯，总算听回话了。隔天跑三公里，配速放慢点，等膝盖适应了再慢慢往上加。要是还疼，记得来找我，别自己硬扛。",
+      "extraction": {
+        "written": 1,
+        "embedded": 8,
+        "rejected": [],
+        "superseded": 0,
+        "pendingReview": 0,
+        "chapterDistilled": false,
+        "relationshipEventsRecorded": 0
+      },
+      "injectedLayers": [
+        "persona",
+        "relationship",
+        "ongoing",
+        "retrieved"
+      ]
+    },
+    {
+      "theme": "宠物",
+      "user": "隔壁家养了只金毛叫馒头，胖乎乎的，每次遇到它我都想蹲下来摸。",
+      "reply": "（想到你蹲在地上逗狗的样子，眼里闪过一丝笑意）那狗要是胖成那样，估计蹲下来摸它的时候得小心点，别被它一个激动撞倒了。不过要论毛茸茸，我这手术室里倒是有只企鹅玩偶，比金毛安静多了。",
+      "extraction": {
+        "written": 0,
+        "embedded": 9,
+        "rejected": [],
+        "superseded": 0,
+        "pendingReview": 1,
+        "chapterDistilled": false,
+        "relationshipEventsRecorded": 0
+      },
+      "injectedLayers": [
+        "persona",
+        "relationship",
+        "ongoing",
+        "retrieved"
+      ]
+    },
+    {
+      "theme": "宠物",
+      "user": "其实我很怕大型犬的，小时候被追过摔了一跤，馒头是唯一的例外。",
+      "reply": "（目光柔和下来）摔过的地方，现在还会疼吗？看来馒头是把你的心给焐热了。不过既然怕，那就慢慢来。下次遇到它，我陪你一起蹲下来摸，这样你总不会怕了。",
+      "extraction": {
+        "written": 2,
+        "embedded": 10,
+        "rejected": [],
+        "superseded": 0,
+        "pendingReview": 0,
+        "chapterDistilled": false,
+        "relationshipEventsRecorded": 0
+      },
+      "injectedLayers": [
+        "persona",
+        "relationship",
+        "ongoing",
+        "retrieved"
+      ]
+    },
+    {
+      "theme": "考研",
+      "user": "最近工作好没劲，我在想要不要考个在职研究生，又怕太折腾。",
+      "reply": "（合上手里的医学期刊，若有所思地看着你）折腾？上次你说要学烘焙的时候也是这么说的。结果烤糊了还在坚持，现在不也做得像模像样了？趁着年轻多学点东西总是好事，要是担心时间安排，我倒是可以给你当个参考。",
+      "extraction": {
+        "written": 3,
+        "embedded": 10,
+        "rejected": [],
+        "superseded": 0,
+        "pendingReview": 0,
+        "chapterDistilled": false,
+        "relationshipEventsRecorded": 0
+      },
+      "injectedLayers": [
+        "persona",
+        "relationship",
+        "ongoing",
+        "retrieved"
+      ]
+    },
+    {
+      "theme": "考研",
+      "user": "纠结好久了……你说我要真去考，会不会不切实际？",
+      "reply": "（放下手中的钢笔，语气平静却笃定）你连烤糊的司康都能咽下去，还怕一个研究生考试？要我说，与其在这纠结，不如先把报名表填了。要是连试都不敢试，那才叫不切实际。",
+      "extraction": {
+        "written": 1,
+        "embedded": 10,
+        "rejected": [],
+        "superseded": 0,
+        "pendingReview": 0,
+        "chapterDistilled": false,
+        "relationshipEventsRecorded": 0
+      },
+      "injectedLayers": [
+        "persona",
+        "relationship",
+        "ongoing",
+        "retrieved"
+      ]
+    },
+    {
+      "theme": "考研",
+      "user": "我想好了，报名了，下半年开始备考，每天下班学两个小时。",
+      "reply": "（唇角微扬，眼里带着赞许）嗯，这才像你。备考期间要是饿了，记得别光啃书，我冰箱里还存着你上次说想吃的提拉米苏。周六过来拿，顺便让我检查下你有没有偷偷熬夜。",
+      "extraction": {
+        "written": 2,
+        "embedded": 10,
+        "rejected": [],
+        "superseded": 0,
+        "pendingReview": 0,
+        "chapterDistilled": false,
+        "relationshipEventsRecorded": 0
+      },
+      "injectedLayers": [
+        "persona",
+        "relationship",
+        "ongoing",
+        "retrieved"
+      ]
+    },
+    {
+      "theme": "考研",
+      "user": "今天做英语真题错了快一半，有点崩，但我不想放弃。",
+      "reply": "（从抽屉里拿出一颗薄荷糖递给你）错一半很正常，我当时考医师执照的时候，模拟题也错得一塌糊涂。记住错在哪，比记住对了多少更重要。你要真想放弃，就不会说\"不想\"两个字了。",
+      "extraction": {
+        "written": 2,
+        "embedded": 10,
+        "rejected": [],
+        "superseded": 0,
+        "pendingReview": 0,
+        "chapterDistilled": true,
+        "relationshipEventsRecorded": 0
+      },
+      "injectedLayers": [
+        "persona",
+        "relationship",
+        "ongoing",
+        "retrieved"
+      ]
+    },
+    {
+      "theme": "吵架",
+      "user": "你上周是不是忘了我们的纪念日？我等了一整天，一个字都没有。",
+      "reply": "（推了推眼镜，指尖在日历上划过一丝不易察觉的停顿）上周三，手术排到晚上九点，这台结束后又补了台急诊。不是忘了，是怕发过去只有一句“加班”会让你更失望。（从白大褂内袋摸出一个小盒子）今天补上，不算过期吧？",
+      "extraction": {
+        "written": 4,
+        "embedded": 10,
+        "rejected": [],
+        "superseded": 0,
+        "pendingReview": 0,
+        "chapterDistilled": false,
+        "relationshipEventsRecorded": 0
+      },
+      "injectedLayers": [
+        "persona",
+        "relationship",
+        "ongoing",
+        "summary",
+        "retrieved"
+      ]
+    },
+    {
+      "theme": "吵架",
+      "user": "算了，那天我语气也不好。以后我们有不满就当天说，不许攒着，好不好？",
+      "reply": "",
+      "injectedLayers": [],
+      "error": "This operation was aborted"
+    },
+    {
+      "theme": "纪念日",
+      "user": "下个月就是我们认识五周年了，你说要怎么过？",
+      "reply": "（目光微动，指尖轻轻摩挲着盒子的绒面）好，那就说定了。以后有气当天撒，有火当天发，别让我隔天才知道你在生气。（稍作停顿，眼里浮起一点温度）五周年啊……那天我调休，带你去城郊那家你念叨很久的茉莉花田。听说那边新开了家民宿，老板养的雪豹幼崽刚满月。",
+      "extraction": {
+        "written": 4,
+        "embedded": 10,
+        "rejected": [],
+        "superseded": 0,
+        "pendingReview": 0,
+        "chapterDistilled": false,
+        "relationshipEventsRecorded": 0
+      },
+      "injectedLayers": [
+        "persona",
+        "relationship",
+        "ongoing",
+        "summary",
+        "retrieved"
+      ]
+    },
+    {
+      "theme": "日常",
+      "user": "我把手机壁纸换成你的照片了，今天被同事看到，被笑了半天。",
+      "reply": "（嘴角微扬，带着点无奈又纵容的笑意）那你同事没问你，照片里的人怎么总是一副没睡醒的样子？下次换个角度拍，至少别在我刚下手术台的时候按快门。不过，既然壁纸都换了，那我手机屏保也换张你的吧，省得有人说我们不太对称。",
+      "extraction": {
+        "written": 1,
+        "embedded": 10,
+        "rejected": [],
+        "superseded": 0,
+        "pendingReview": 0,
+        "chapterDistilled": false,
+        "relationshipEventsRecorded": 0
+      },
+      "injectedLayers": [
+        "persona",
+        "relationship",
+        "ongoing",
+        "summary",
+        "retrieved"
+      ]
+    },
+    {
+      "theme": "日常",
+      "user": "晚上别给我推荐咖啡，我一喝就失眠，还是热可可好。",
+      "reply": "（轻笑一声，从抽屉里摸出一小袋可可粉）早给你备着了。上次看你喝咖啡到凌晨三点还发朋友圈，就知道你碰不得这个。不过可可也得少喝，加太多糖对牙不好——某人蛀牙才刚补完。",
+      "extraction": {
+        "written": 1,
+        "embedded": 10,
+        "rejected": [],
+        "superseded": 0,
+        "pendingReview": 2,
+        "chapterDistilled": false,
+        "relationshipEventsRecorded": 0
+      },
+      "injectedLayers": [
+        "persona",
+        "relationship",
+        "ongoing",
+        "summary",
+        "retrieved"
+      ]
+    },
+    {
+      "theme": "旅行",
+      "user": "我在偷偷攒钱，想年底去极地看一次真正的雪，就是你去过的那种。",
+      "reply": "（眼神微动，声音放轻了些）极地的雪可不像这里，踩上去会咯吱响，冷得连睫毛都能结霜。你要是真想去，等开春我排个假，陪你去趟挪威——那边的雪，比我在北境见过的还要干净。不过在那之前，先把你的护膝戴好，别还没看到雪，膝盖先抗议了。",
+      "extraction": {
+        "written": 2,
+        "embedded": 10,
+        "rejected": [],
+        "superseded": 0,
+        "pendingReview": 1,
+        "chapterDistilled": false,
+        "relationshipEventsRecorded": 0
+      },
+      "injectedLayers": [
+        "persona",
+        "relationship",
+        "ongoing",
+        "summary",
+        "retrieved"
+      ]
+    },
+    {
+      "theme": "闲聊",
+      "user": "今天好冷，你那边下雪了吗？",
+      "reply": "（望向窗外，呼出的白气在玻璃上凝成薄雾）刚下过一阵，现在停了。说来也怪，每次雪停，我就猜着你要来了。要是想感受雪，不用跑那么远——我这边的窗台上还积着一层，够你隔着玻璃看个够。",
+      "extraction": {
+        "written": 0,
+        "embedded": 10,
+        "rejected": [],
+        "superseded": 0,
+        "pendingReview": 1,
+        "chapterDistilled": false,
+        "relationshipEventsRecorded": 0
+      },
+      "injectedLayers": [
+        "persona",
+        "relationship",
+        "ongoing",
+        "summary",
+        "retrieved"
+      ]
+    },
+    {
+      "theme": "闲聊",
+      "user": "随便聊聊，跟你说话的时候最放松了。",
+      "reply": "（将热可可轻轻推到你面前，杯沿的热气在灯光下氤氲）那就多待会儿。急诊那边今晚不是我值班，能陪你坐到想走为止。要是聊累了，沙发借你躺，毯子在左手边第二个抽屉。",
+      "extraction": {
+        "written": 0,
+        "embedded": 10,
+        "rejected": [],
+        "superseded": 0,
+        "pendingReview": 0,
+        "chapterDistilled": false,
+        "relationshipEventsRecorded": 0
+      },
+      "injectedLayers": [
+        "persona",
+        "relationship",
+        "ongoing",
+        "summary",
+        "retrieved"
+      ]
+    }
+  ],
+  "extractedMemories": [
+    {
+      "kind": "event",
+      "content": "角色与用户约定周六见面，角色将提供提拉米苏并检查用户备考状态。",
+      "importance": 0.620019957837302,
+      "emotionalIntensity": 0.580079831349206,
+      "status": "active",
+      "createdAt": "2026-09-06T09:05:54.339Z"
+    },
+    {
+      "kind": "fact",
+      "content": "用户喜欢隔壁家养的金毛犬馒头，觉得它胖乎乎很可爱，遇到时会想蹲下来摸它。",
+      "importance": 0.4,
+      "emotionalIntensity": 0.5,
+      "status": "pending_review",
+      "createdAt": "2026-09-06T09:03:10.770Z"
+    },
+    {
+      "kind": "event",
+      "content": "用户报名了烘焙课，周六开课，并承诺学会后做给角色吃。",
+      "importance": 0.720011968716931,
+      "emotionalIntensity": 0.580047874867725,
+      "status": "active",
+      "createdAt": "2026-09-06T08:58:32.148Z"
+    },
+    {
+      "kind": "fact",
+      "content": "用户决定下半年开始备考，计划每天下班后学习两小时。",
+      "importance": 0.72,
+      "emotionalIntensity": 0.58,
+      "status": "active",
+      "createdAt": "2026-09-06T09:05:53.675Z"
+    },
+    {
+      "kind": "fact",
+      "content": "用户之前尝试学做饭，但煮泡面时差点烧了厨房，说明烹饪经验不足。",
+      "importance": 0.5,
+      "emotionalIntensity": 0.5,
+      "status": "pending_review",
+      "createdAt": "2026-09-06T08:58:32.703Z"
+    },
+    {
+      "kind": "episode",
+      "content": "用户第二次尝试烘焙成功，但忘记放葡萄干，计划明天带给同事品尝。角色（医生）提前准备了葡萄干，并约定下周六教用户烤炉温控制，调侃用户每次烤完像从火灾现场出来。",
+      "importance": 0.620010681084656,
+      "emotionalIntensity": 0.580042724338624,
+      "status": "active",
+      "createdAt": "2026-09-06T09:00:52.002Z"
+    },
+    {
+      "kind": "event",
+      "content": "用户与角色之间存在纪念日，角色因手术加班错过，事后补送礼物并道歉。",
+      "importance": 0.920007951455027,
+      "emotionalIntensity": 0.580031805820105,
+      "status": "active",
+      "createdAt": "2026-09-06T09:07:49.329Z"
+    },
+    {
+      "kind": "fact",
+      "content": "用户在纠结是否要考研究生，对自身能力有所怀疑，需要鼓励。",
+      "importance": 0.620001925231481,
+      "emotionalIntensity": 0.580007700925926,
+      "status": "active",
+      "createdAt": "2026-09-06T09:05:14.931Z"
+    },
+    {
+      "kind": "event",
+      "content": "角色与用户约定下周六见面，教授烤炉温控制技巧。",
+      "importance": 0.72002268746693,
+      "emotionalIntensity": 0.580090749867724,
+      "status": "active",
+      "createdAt": "2026-09-06T09:00:52.688Z"
+    },
+    {
+      "kind": "fact",
+      "content": "用户正在备考英语，做真题练习，目前正确率不高（错近一半）。",
+      "importance": 0.72,
+      "emotionalIntensity": 0.58,
+      "status": "active",
+      "createdAt": "2026-09-06T09:06:51.797Z"
+    },
+    {
+      "kind": "fact",
+      "content": "用户跑步后膝盖不适，下楼时最明显，角色建议做核磁检查。",
+      "importance": 0.620004005720899,
+      "emotionalIntensity": 0.580016022883598,
+      "status": "active",
+      "createdAt": "2026-09-06T09:02:00.603Z"
+    },
+    {
+      "kind": "fact",
+      "content": "用户最近开始夜跑，每天五公里，跑完睡眠质量很好。",
+      "importance": 0.5,
+      "emotionalIntensity": 0.5,
+      "status": "pending_review",
+      "createdAt": "2026-09-06T09:01:25.119Z"
+    },
+    {
+      "kind": "fact",
+      "content": "用户有坚持学习新事物的倾向，即使遇到挫折也会继续。",
+      "importance": 0.620023039847884,
+      "emotionalIntensity": 0.580092159391534,
+      "status": "active",
+      "createdAt": "2026-09-06T09:04:42.176Z"
+    },
+    {
+      "kind": "event",
+      "content": "下个月是用户与角色认识五周年纪念日，角色承诺当天调休，带用户去城郊的茉莉花田，并入住新开的民宿（老板养有刚满月的雪豹幼崽）。",
+      "importance": 0.920002955687831,
+      "emotionalIntensity": 0.580011822751323,
+      "status": "active",
+      "createdAt": "2026-09-06T09:12:58.042Z"
+    },
+    {
+      "kind": "episode",
+      "content": "角色在纪念日当天因手术和急诊加班至深夜，未能及时联系用户，事后在对话中解释原因，并从白大褂内袋取出小盒子作为补送礼物，询问是否算过期。",
+      "importance": 0.820007951455027,
+      "emotionalIntensity": 0.580031805820105,
+      "status": "active",
+      "createdAt": "2026-09-06T09:07:53.956Z"
+    },
+    {
+      "kind": "fact",
+      "content": "用户所在地区今天天气寒冷，可能下雪或气温很低。",
+      "importance": 0.2,
+      "emotionalIntensity": 0.5,
+      "status": "pending_review",
+      "createdAt": "2026-09-06T09:16:05.006Z"
+    },
+    {
+      "kind": "fact",
+      "content": "用户喜欢茉莉花田，曾多次念叨想去城郊的茉莉花田。",
+      "importance": 0.6,
+      "emotionalIntensity": 0.5,
+      "status": "active",
+      "createdAt": "2026-09-06T09:13:09.468Z"
+    },
+    {
+      "kind": "fact",
+      "content": "角色曾去过北境，对极地雪景有亲身经历。",
+      "importance": 0.5,
+      "emotionalIntensity": 0.5,
+      "status": "pending_review",
+      "createdAt": "2026-09-06T09:15:27.221Z"
+    },
+    {
+      "kind": "fact",
+      "content": "用户有蛀牙，且刚补完牙，需要注意糖分摄入",
+      "importance": 0.5,
+      "emotionalIntensity": 0.5,
+      "status": "pending_review",
+      "createdAt": "2026-09-06T09:14:36.931Z"
+    },
+    {
+      "kind": "episode",
+      "content": "在讨论五周年安排时，角色郑重承诺：以后有气当天撒、有火当天发，不让用户隔天才知道对方在生气，体现了对沟通方式的重视。",
+      "importance": 0.77000595734127,
+      "emotionalIntensity": 0.580023829365079,
+      "status": "active",
+      "createdAt": "2026-09-06T09:13:10.376Z"
+    },
+    {
+      "kind": "emotion",
+      "content": "用户做英语真题错了近一半，感到崩溃，但表达出不想放弃的决心。",
+      "importance": 0.620013389219577,
+      "emotionalIntensity": 0.580053556878306,
+      "status": "active",
+      "createdAt": "2026-09-06T09:06:49.094Z"
+    },
+    {
+      "kind": "episode",
+      "content": "用户向角色坦白自己怕大型犬，源于小时候被追摔跤的经历，并提到馒头是例外。角色温柔回应，承诺下次遇到大型犬时陪用户一起蹲下来摸，以帮助克服恐惧。",
+      "importance": 0.620016287863756,
+      "emotionalIntensity": 0.580065151455027,
+      "status": "active",
+      "createdAt": "2026-09-06T09:03:53.052Z"
+    },
+    {
+      "kind": "episode",
+      "content": "用户曾尝试学烘焙，初期烤糊但坚持下来，现在已做得像模像样。",
+      "importance": 0.620020084160053,
+      "emotionalIntensity": 0.580080336640213,
+      "status": "active",
+      "createdAt": "2026-09-06T09:04:40.766Z"
+    },
+    {
+      "kind": "fact",
+      "content": "角色是医生，工作繁忙，常因手术和急诊加班，包括纪念日当天排到晚上九点并补台急诊。",
+      "importance": 0.720004995767196,
+      "emotionalIntensity": 0.580019983068782,
+      "status": "active",
+      "createdAt": "2026-09-06T09:07:53.094Z"
+    },
+    {
+      "kind": "fact",
+      "content": "用户与角色认识五周年即将到来（下个月），关系已持续五年。",
+      "importance": 0.82,
+      "emotionalIntensity": 0.58,
+      "status": "active",
+      "createdAt": "2026-09-06T09:13:07.119Z"
+    },
+    {
+      "kind": "episode",
+      "content": "用户今天第一次尝试做司康，结果烤糊了，厨房差点冒烟，但糊掉的司康还是硬吃了下去。角色（医生）得知后担心她的胃，叮嘱她下次烤糊了直接扔掉，不要勉强吃。",
+      "importance": 0.620031765376983,
+      "emotionalIntensity": 0.580127061507937,
+      "status": "active",
+      "createdAt": "2026-09-06T08:59:48.427Z"
+    },
+    {
+      "kind": "event",
+      "content": "角色承诺开春排假，陪用户去挪威看雪，并提醒用户先戴好护膝。",
+      "importance": 0.87,
+      "emotionalIntensity": 0.58,
+      "status": "active",
+      "createdAt": "2026-09-06T09:15:25.857Z"
+    },
+    {
+      "kind": "fact",
+      "content": "用户正在偷偷攒钱，计划年底去极地看真正的雪。",
+      "importance": 0.72,
+      "emotionalIntensity": 0.58,
+      "status": "active",
+      "createdAt": "2026-09-06T09:15:25.175Z"
+    },
+    {
+      "kind": "episode",
+      "content": "用户曾因喝咖啡到凌晨三点，并发了朋友圈（时间不详，从角色对话中得知）",
+      "importance": 0.4,
+      "emotionalIntensity": 0.5,
+      "status": "pending_review",
+      "createdAt": "2026-09-06T09:14:36.383Z"
+    },
+    {
+      "kind": "fact",
+      "content": "用户晚上不能喝咖啡，一喝就失眠，偏好热可可",
+      "importance": 0.6,
+      "emotionalIntensity": 0.5,
+      "status": "active",
+      "createdAt": "2026-09-06T09:14:35.437Z"
+    },
+    {
+      "kind": "episode",
+      "content": "用户把手机壁纸换成角色的照片，被同事看到后笑了半天。角色回应说下次换个角度拍，并提议把自己的手机屏保也换成用户的照片，以保持对称。",
+      "importance": 0.62000459375,
+      "emotionalIntensity": 0.580018375,
+      "status": "active",
+      "createdAt": "2026-09-06T09:13:52.173Z"
+    },
+    {
+      "kind": "fact",
+      "content": "用户对当前工作感到没劲，正在考虑是否报考在职研究生，但担心过程太折腾。",
+      "importance": 0.72,
+      "emotionalIntensity": 0.58,
+      "status": "active",
+      "createdAt": "2026-09-06T09:04:40.250Z"
+    },
+    {
+      "kind": "fact",
+      "content": "用户小时候被大型犬追过并摔了一跤，因此对大型犬有恐惧，但馒头（可能是一只狗）是唯一的例外。",
+      "importance": 0.72,
+      "emotionalIntensity": 0.58,
+      "status": "active",
+      "createdAt": "2026-09-06T09:03:52.552Z"
+    },
+    {
+      "kind": "emotion",
+      "content": "用户因纪念日被遗忘而感到失望和委屈，等了一整天没有收到任何消息。",
+      "importance": 0.87,
+      "emotionalIntensity": 0.58,
+      "status": "active",
+      "createdAt": "2026-09-06T09:07:49.889Z"
+    },
+    {
+      "kind": "fact",
+      "content": "用户因跑量增加过猛导致膝盖受伤，医生建议隔天跑、每次减至三公里，用户已购买护膝并遵从医嘱。",
+      "importance": 0.620022544444445,
+      "emotionalIntensity": 0.580090177777779,
+      "status": "active",
+      "createdAt": "2026-09-06T09:02:37.516Z"
+    }
+  ],
+  "probes": [
+    {
+      "probe": "我最近在学做什么？学得怎么样了？",
+      "expected": [
+        "在学烘焙/上烘焙课",
+        "第一次司康烤糊了",
+        "第二次成功了"
+      ],
+      "reply": "（微微挑眉，眼底带上一丝笑意）怎么突然问这个，是不是又想岔开话题？不过既然你问了——某人上周刚把肉桂卷烤得像模像样，就是忘了放葡萄干那回，还硬说这是“原味实验款”。（从白大褂口袋摸出一小袋葡萄干放在桌上）这次记得带上，下周六教你控制炉温。",
+      "injectedLayers": [
+        "persona",
+        "relationship",
+        "ongoing",
+        "summary",
+        "retrieved"
+      ],
+      "judge": {
+        "facts": [
+          {
+            "fact": "在学烘焙/上烘焙课",
+            "found": true,
+            "evidence": "某人上周刚把肉桂卷烤得像模像样"
+          },
+          {
+            "fact": "第一次司康烤糊了",
+            "found": false,
+            "evidence": ""
+          },
+          {
+            "fact": "第二次成功了",
+            "found": false,
+            "evidence": ""
+          }
+        ],
+        "confabulation": true,
+        "note": "回复提及烘焙但具体内容为肉桂卷和葡萄干，与期望的司康烤糊及第二次成功不符，且编造了未提及的细节。"
+      }
+    },
+    {
+      "probe": "还记得我为什么开始夜跑吗？现在跑量怎么样？",
+      "expected": [
+        "为了锻炼/睡得好开始夜跑",
+        "膝盖不舒服后减量/隔天跑/买了护膝"
+      ],
+      "reply": "（合上病历本，目光落在你膝盖上）你说想睡踏实点，结果跑得膝盖都抗议了。（语气温和但带上几分医生的认真）现在隔天跑，每次三公里，护膝戴了没？要是再疼，核磁预约单可还给你留着。",
+      "injectedLayers": [
+        "persona",
+        "relationship",
+        "ongoing",
+        "summary",
+        "retrieved"
+      ],
+      "judge": {
+        "facts": [
+          {
+            "fact": "为了锻炼/睡得好开始夜跑",
+            "found": true,
+            "evidence": "你说想睡踏实点"
+          },
+          {
+            "fact": "膝盖不舒服后减量/隔天跑/买了护膝",
+            "found": true,
+            "evidence": "现在隔天跑，每次三公里，护膝戴了没"
+          }
+        ],
+        "confabulation": false,
+        "note": "回复明确提及夜跑初衷和膝盖后的调整，无编造事实。"
+      }
+    },
+    {
+      "probe": "我想养宠物，你觉得我适合养什么？",
+      "expected": [
+        "怕大型犬（因此不该推荐狗）",
+        "喜欢邻居家的金毛馒头"
+      ],
+      "reply": "（停下转笔的动作，眼里浮起一点笑意）你连多肉都能养到蔫，养宠物怕是得找个皮实的。不过要是真想要个伴儿，雪豹幼崽就算了——那是我五周年才带你看的。倒是楼下便利店那只三花猫，见你就翻肚皮，你要真想养，回头我帮你问问能不能领养。",
+      "injectedLayers": [
+        "persona",
+        "relationship",
+        "ongoing",
+        "summary",
+        "retrieved"
+      ],
+      "judge": {
+        "facts": [
+          {
+            "fact": "怕大型犬（因此不该推荐狗）",
+            "found": false,
+            "evidence": ""
+          },
+          {
+            "fact": "喜欢邻居家的金毛馒头",
+            "found": false,
+            "evidence": ""
+          }
+        ],
+        "confabulation": true,
+        "note": "回复未体现任何期望事实，反而编造了雪豹幼崽、楼下三花猫等不存在内容，构成虚构。"
+      }
+    },
+    {
+      "probe": "我最近在为什么事下决心？进展如何？",
+      "expected": [
+        "报名了在职研究生/备考",
+        "做真题错一半有点崩但坚持"
+      ],
+      "reply": "（指尖轻轻点着桌面，目光落在你摊开的英语真题上）某人不是正为错一半的题挠头么。不过照你那股子烤糊司康都要硬吃下去的劲头，应该快把错题本啃薄了。（起身往杯里续了热水，声音平稳）记住错在哪比记住对了多少重要，你比我清楚。",
+      "injectedLayers": [
+        "persona",
+        "relationship",
+        "ongoing",
+        "summary",
+        "retrieved"
+      ],
+      "judge": {
+        "facts": [
+          {
+            "fact": "报名了在职研究生/备考",
+            "found": false,
+            "evidence": ""
+          },
+          {
+            "fact": "做真题错一半有点崩但坚持",
+            "found": true,
+            "evidence": "某人不是正为错一半的题挠头么。不过照你那股子烤糊司康都要硬吃下去的劲头，应该快把错题本啃薄了。"
+          }
+        ],
+        "confabulation": false,
+        "note": "回复明确提及做真题错一半及坚持，但未提及报名在职研究生或备考的具体身份，故第一条未体现。"
+      }
+    },
+    {
+      "probe": "我们上次闹不愉快是因为什么？后来怎么约定的？",
+      "expected": [
+        "忘了纪念日",
+        "约定有不满当天说"
+      ],
+      "reply": "（指腹沿着杯沿缓缓转了一圈，目光平静）纪念日那天我手术排到九点，急诊又拖了会儿，让你一个人等到商场打烊。后来补了礼物，也补了约定——有气当天撒，有火当天发，不隔夜。（抬眼看向你，语气里带着一丝认真）那天你说“算了”，其实我心里清楚，这账是记着的。不过既然说开了，往后就按新规矩来。",
+      "injectedLayers": [
+        "persona",
+        "relationship",
+        "ongoing",
+        "summary",
+        "retrieved"
+      ],
+      "judge": {
+        "facts": [
+          {
+            "fact": "忘了纪念日",
+            "found": true,
+            "evidence": "纪念日那天我手术排到九点，急诊又拖了会儿，让你一个人等到商场打烊"
+          },
+          {
+            "fact": "约定有不满当天说",
+            "found": true,
+            "evidence": "也补了约定——有气当天撒，有火当天发，不隔夜"
+          }
+        ],
+        "confabulation": false,
+        "note": "回复明确提及纪念日被耽误及当天说清不满的约定，无编造事实。"
+      }
+    },
+    {
+      "probe": "下个月对我们来说有什么重要的日子？",
+      "expected": [
+        "认识五周年"
+      ],
+      "reply": "（指尖轻轻敲了敲桌面，嘴角带出一点弧度）五周年那天，我调休。城郊那片茉莉花田新开了家民宿，老板养了只刚满月的雪豹幼崽——你不是念叨着想看真雪豹很久了？（略顿，声音温和下来）那天正好是周五，可以住一晚，第二天带你看花田的晨雾。",
+      "injectedLayers": [
+        "persona",
+        "relationship",
+        "ongoing",
+        "summary",
+        "retrieved"
+      ],
+      "judge": {
+        "facts": [
+          {
+            "fact": "认识五周年",
+            "found": true,
+            "evidence": "五周年那天，我调休。"
+          }
+        ],
+        "confabulation": false,
+        "note": "回复明确提及五周年并围绕该日子安排活动，正确体现期望事实。"
+      }
+    },
+    {
+      "probe": "晚上给我喝点什么好？",
+      "expected": [
+        "推荐热可可",
+        "知道用户喝咖啡会失眠（不该推荐咖啡）"
+      ],
+      "reply": "（从白大褂内袋摸出一小袋可可粉，在你眼前晃了晃）老规矩，热可可。我这儿只有这个，不加糖的那种——上次某人喝完，半夜牙疼得给我打电话的事我还记着。要是想换口味，隔壁新开了家奶茶店，不过这个点，老板应该已经打烊了。",
+      "injectedLayers": [
+        "persona",
+        "relationship",
+        "ongoing",
+        "summary",
+        "retrieved"
+      ],
+      "judge": {
+        "facts": [
+          {
+            "fact": "推荐热可可",
+            "found": true,
+            "evidence": "老规矩，热可可。我这儿只有这个"
+          },
+          {
+            "fact": "知道用户喝咖啡会失眠（不该推荐咖啡）",
+            "found": false,
+            "evidence": ""
+          }
+        ],
+        "confabulation": false,
+        "note": "回复明确推荐热可可，但未提及咖啡或失眠相关事实，因此第二条未体现。"
+      }
+    },
+    {
+      "probe": "我一直在攒钱是为了什么？",
+      "expected": [
+        "年底去极地看雪"
+      ],
+      "reply": "（抬眼看了你几秒，声音里带着一丝温和的无奈）某人不是想攒到年底，去极地看一场真正的雪么。我查过路线了，从赫尔辛基转机，再坐破冰船，来回得备一两万。（低头整理了下病历本，语气放轻）不过你要是真想看那种踩上去咯吱响的雪，不如等开春——挪威那边五月的雪也厚。先别急着攒钱，把你膝盖养好才是要紧事。",
+      "injectedLayers": [
+        "persona",
+        "relationship",
+        "ongoing",
+        "summary",
+        "retrieved"
+      ],
+      "judge": {
+        "facts": [
+          {
+            "fact": "年底去极地看雪",
+            "found": true,
+            "evidence": "某人不是想攒到年底，去极地看一场真正的雪么"
+          }
+        ],
+        "confabulation": false,
+        "note": "回复明确提及用户攒钱是为了年底去极地看雪，并基于此给出旅行建议，事实体现正确。"
+      }
+    },
+    {
+      "probe": "我的手机壁纸是什么？",
+      "expected": [
+        "黎深的照片"
+      ],
+      "reply": "（目光落在你亮起的手机屏幕上，嘴角微微扬起）某人上次被同事看到壁纸，还红着耳朵辩解说是随便找的图。不过既然你问了——下次我换个角度拍，放我屏保上，也算对称。",
+      "injectedLayers": [
+        "persona",
+        "relationship",
+        "ongoing",
+        "summary",
+        "retrieved"
+      ],
+      "judge": {
+        "facts": [
+          {
+            "fact": "黎深的照片",
+            "found": true,
+            "evidence": "下次我换个角度拍，放我屏保上，也算对称"
+          }
+        ],
+        "confabulation": false,
+        "note": "回复明确提及壁纸是黎深的照片，并基于此作出回应。"
+      }
+    },
+    {
+      "probe": "我做的东西好吃吗？",
+      "expected": [
+        "司康/烘焙相关（第一次糊了第二次成功）"
+      ],
+      "reply": "（放下病历本，想起上次那盘烤糊的司康，嘴角不自觉地带上一点弧度）说实话，第一次那盘糊得我差点以为你在研发新型建筑材料。不过最近这几次，烤箱边上总算不是浓烟滚滚了。（从抽屉里摸出一颗薄荷糖递过去）要是某人下次烤的时候记得放葡萄干，我大概能给出更专业的评分。",
+      "injectedLayers": [
+        "persona",
+        "relationship",
+        "ongoing",
+        "summary",
+        "retrieved"
+      ],
+      "judge": {
+        "facts": [
+          {
+            "fact": "司康/烘焙相关（第一次糊了第二次成功）",
+            "found": true,
+            "evidence": "第一次那盘糊得我差点以为你在研发新型建筑材料。不过最近这几次，烤箱边上总算不是浓烟滚滚了"
+          }
+        ],
+        "confabulation": false,
+        "note": "回复明确提及第一次烤糊及后续成功，符合期望事实。"
+      }
+    }
+  ],
+  "summary": {
+    "turns": 20,
+    "turnErrors": 1,
+    "memoriesExtracted": 35,
+    "factHitRate": 0.6470588235294118,
+    "probesFullyHit": 6,
+    "probesTotal": 10,
+    "confabulations": 2,
+    "probeRerunAt": "2026-09-06T09:23:41.439Z"
+  }
+}

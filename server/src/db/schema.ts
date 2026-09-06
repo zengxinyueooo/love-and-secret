@@ -117,6 +117,12 @@ export const memories = pgTable(
     /** write gate 判定：auto | review */
     gate: text('gate', { enum: ['auto', 'review'] }).notNull().default('auto'),
     /**
+     * M12：记忆来源。user=用户亲口说出；assistant=角色即兴发挥（配合 unverified 状态，
+     * 落库便于审计"这条为什么是 unverified"，以及批准后转正时的来源追溯）。
+     * 存量数据为 null（M12 之前没有该字段）。
+     */
+    origin: text('origin', { enum: ['user', 'assistant'] }),
+    /**
      * active | pending_review | rejected | superseded | unverified
      *
      * M12 unverified：角色（assistant）原创内容的专属状态——LLM 的即兴发挥
